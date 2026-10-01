@@ -36,7 +36,7 @@ export CPS_PREFIX=/opt/cps CPS_SHARED=${CPS_SHARED:-/srv/cps}
 
 "$STEPS/00-packages.sh"
 "$STEPS/10-ga.sh"
-"$STEPS/20-gridpack.sh"
+"$STEPS/20-gridpack.sh" "$REPO/gridpack/patches"
 "$STEPS/30-helics.sh"
 "$STEPS/40-ns3.sh"
 "$STEPS/50-python.sh" "$REPO/requirements.txt"

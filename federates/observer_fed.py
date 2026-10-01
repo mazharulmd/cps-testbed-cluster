@@ -45,6 +45,9 @@ def main(cfg_path):
     commands = {}         # id -> issued / delivered / applied
     events = []
     max_true = []
+    freq = []             # dynamic mode: (t, f centre of inertia, f min, f max) per grid step
+    spread = []           # dynamic mode: (t, rotor angle spread) per grid step
+    gens_last = []
     live_path = os.path.join(out, "live.json")
     watch_path = os.path.join(out, "watch.json")
     last_write, t = 0.0, 0.0
@@ -59,14 +62,17 @@ def main(cfg_path):
             bus = default_bus
         i = idx[bus]
         step = max(1, len(sets) // 600)     # keep the per-set series light
+        gstep = max(1, len(truth) // 900)   # and the per-grid-step ones (dynamic: 30 per second)
         write_atomic(live_path, {
             "run_id": os.path.basename(out), "name": a["name"], "grid": meta["grid_name"], "t": t, "duration": T,
             "done": done, "bus": bus, "vmax": a["vmax"], "vmin": a["vmin"], "attack": a["attack"],
             "attack_window": [a["attack_start"], a["attack_end"]] if a["attack"] != "none" else None,
             "event": a["event"], "mpi_np": a.get("mpi_np"), "cluster": meta.get("cluster"),
-            "truth": [[tt, v[i]] for tt, v in truth],
-            "estimate": [[tt, v[i]] for tt, v in est],
-            "truth_max": max_true,
+            "mode": a.get("mode", "qss"),
+            "truth": [[tt, v[i]] for tt, v in truth[::gstep]],
+            "estimate": [[tt, v[i]] for tt, v in est[::gstep]],
+            "truth_max": max_true[::gstep],
+            "freq": freq[::gstep], "angle_spread": spread[::gstep], "gens": gens_last,
             "est_max": [[s["t"], s["max_v"]] for s in sets[::step]],
             "chi2": [[s["t"], s["J"], s["thr"], s["alarm"]] for s in sets[::step]],
             "completeness": [[s["t"], s["complete"]] for s in sets[::step]],
@@ -84,6 +90,10 @@ def main(cfg_path):
             truth.append((g["t"], g["vm"]))
             m = max(range(len(g["vm"])), key=g["vm"].__getitem__)
             max_true.append([g["t"], g["vm"][m], bus_ids[m]])
+            if "freq_coi" in g:
+                freq.append([g["t"], g["freq_coi"], g["freq_min"], g["freq_max"]])
+                spread.append([g["t"], g["angle_spread"]])
+                gens_last = g.get("gens", [])
             for c in g.get("applied", []):
                 if c.get("reason", "").startswith("event"):
                     events.append(dict(c, applied_t=g["t"]))

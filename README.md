@@ -4,8 +4,9 @@ A remotely accessible cyber-physical system testbed for synchrophasor (PMU) moni
 control of a power grid, built for the NSU–PGCB project *Remotely Accessible Cyber-Physical
 System Testbed and Open Architecture Synchrophasor Systems* (EPRC/58-2018-007-01).
 
-The power grid (**GridPACK**, running in parallel with **MPI**), the communication network
-(**NS-3**) and the control center are co-simulated under **HELICS**. They can run on one
+The power grid (**GridPACK**, running in parallel with **MPI**, as a power flow or as a full
+dynamic simulation of the generators), the communication network (**NS-3**) and the control
+center are co-simulated under **HELICS**. They can run on one
 server or spread over a cluster. Users work in a **Node-RED** dashboard: they upload grid
 models and scenario files, follow running experiments live and study the results.
 
@@ -19,7 +20,7 @@ models and scenario files, follow running experiments live and study the results
 
 | Part | Role | Code |
 |---|---|---|
-| **Grid** | GridPACK power flow every grid step as a persistent MPI job (`pf_server`) partitioned over N ranks; load variation, events, control commands; publishes the true phasors each PMU measures | `gridpack/pf_server/`, `federates/grid_fed.py` |
+| **Grid** | GridPACK as a persistent MPI job partitioned over N ranks: a power flow every grid step (`pf_server`, quasi-steady state) or a dynamic simulation of generators, exciters and governors advanced every PMU frame (`dsf_server`); events, control commands; publishes the true phasors each PMU measures | `gridpack/`, `federates/grid_fed.py` |
 | **Network** | NS-3: PMUs at the optimal buses send 30–60 frames/s over their own links (latency, jitter, loss) to a PDC with a wait window; attacks; commands travel back to the generators | `ns3-scratch/helicstest/` |
 | **Control center** | PMU state estimation, chi-square bad data detection with removal of suspicious PMUs, voltage limit checks, generator setpoint control | `federates/cc_fed.py` |
 | **Observer** | Listens to the federation without slowing it and feeds the live view | `federates/observer_fed.py` |
@@ -84,6 +85,7 @@ A scenario file:
 
 ```yaml
 name: gen-fault-fdi
+mode: qss                # qss (power flow every grid step) or dynamic
 grid: ieee118            # ieee14 ... ieee300 or the id of an uploaded grid
 duration: 10
 mpi_np: 4                # GridPACK MPI ranks
@@ -91,6 +93,15 @@ network: {latency_ms: 20, loss: 0.02}
 event:   {type: avr_fault, bus: 49, vset: 1.12, t: 4}
 attack:  {type: fdi-stealthy, target: 49, start: 4, end: 9}
 control: {bdd: true, voltage_control: true}
+```
+
+A dynamic simulation, with the published machine data of the IEEE 39-bus system:
+
+```yaml
+name: fault-39
+grid: ieee39
+mode: dynamic            # GridPACK integrates the machines every 4.8 ms, PMUs report every 1/30 s
+event: {type: bus_fault, bus: 16, duration: 0.1, t: 3}     # or line_trip, gen_trip, avr_fault
 ```
 
 All fields: [`webapp/scenario_template.yaml`](webapp/scenario_template.yaml). The same is
@@ -104,6 +115,12 @@ API documentation at `/docs`) and from the command line (`sudo -u cps cps-run --
   to the 10 000-bus ACTIVSg10k). Sparse network model, state estimation and PMU placement.
 - **GridPACK on MPI:** one MPI job per experiment, the network read and partitioned once;
   agrees with the testbed's Newton-Raphson solver to 5×10⁻¹⁰ pu (IEEE 118, ACTIVSg2000).
+- **Two grid modes:** quasi-steady state (a power flow every grid step) and **dynamic
+  simulation** (GridPACK's full-Y dynamic simulation: GENROU/GENSAL/GENCLS machines, IEEET1,
+  SEXS, ESST1A, EXDC1 exciters, TGOV1 and other governors). PMUs then see the electromechanical
+  transients, and the dashboard shows frequency and rotor angles. IEEE 39 uses its published
+  machine data; other grids use typical data, or their own PSS/E `.dyr` file
+  (`dynamics.dyr` in the grid directory).
 - **Optimal PMU placement** (integer linear program): minimum for full observability, or
   redundant (every bus seen by two PMUs).
 - **Network:** per-link latency with spread, jitter, packet loss, PDC wait window, reporting rate.
@@ -111,7 +128,8 @@ API documentation at `/docs`) and from the command line (`sudo -u cps cps-run --
   bus), packet delay and drop.
 - **Defenses:** chi-square bad data detection with largest-normalized-residual PMU removal;
   control held while bad data cannot be cleaned; redundant placement.
-- **Grid events:** generator AVR setpoint fault, load step.
+- **Grid events:** generator AVR setpoint fault, load step (quasi-steady state); three-phase
+  bus fault, line trip, generator trip, AVR setpoint fault (dynamic).
 - **Cluster:** federates on any node, MPI ranks over a hostfile, parallel experiments on their
   own HELICS ports, queue that waits for free MPI slots.
 
@@ -130,6 +148,20 @@ With minimum placement some buses are observed through a single *critical measur
 falsifying it is invisible to bad data detection (e.g. IEEE 14 bus 8). Redundant placement
 removes that blind spot. Measured cluster results and MPI timings: [documentation/cluster.md](documentation/cluster.md).
 
+### Dynamic simulation (IEEE 39-bus, 15 s, published machine data)
+
+| Event at t = 3 s | Lowest frequency | Violation time | What happened |
+|---|---|---|---|
+| Three-phase fault at bus 16, cleared after 0.1 s | 59.70 Hz | 3.6 s | Voltages fall to 0.56 pu, the machines swing (angle spread 66° → 125°) and settle; exciter overshoot to 1.16 pu brings control commands |
+| Generator 32 trip (650 MW) | 59.42 Hz at 9.4 s | 12 s | Governors arrest the decline; under-voltage near bus 32 remains |
+| Line 16–17 trip | 59.96 Hz | 0 s | Small swing, no violation |
+| AVR fault at generator 30 (setpoint 1.12), control off | 59.86 Hz | 11 s | Exciter raises the voltage over 2 s and it stays high |
+| Same, control on | 59.92 Hz | 2.0 s | The control center lowers the setpoint; the exciter brings the voltage back |
+
+GridPACK needs 6.6 ms per PMU frame for IEEE 39 on one rank and 152 ms (one rank) or 118 ms
+(two ranks) for the 2000-bus ACTIVSg2000 grid; details in
+[documentation/cluster.md](documentation/cluster.md).
+
 ## Repository layout
 
 ```
@@ -137,7 +169,8 @@ cases/           IEEE 14–300 bus inputs, topology and reference solutions
 federates/       grid_fed.py, cc_fed.py, observer_fed.py, run_experiment.py
   cpslib/        network model, PMU placement, state estimation, attacks, GridPACK client,
                  uploaded grids, cluster placement
-gridpack/        pf_server: persistent MPI GridPACK power-flow server
+gridpack/        persistent MPI GridPACK servers: pf_server (power flow), dsf_server (dynamic
+                 simulation); patches applied to GridPACK 3.5 when it is built
 ns3-scratch/     NS-3 network federate (multi-PMU mode and the legacy single-PMU mode)
 webapp/          experiment API (FastAPI): queue, uploads, results, live state; scenario template
 node-red/        dashboard flows and settings
@@ -157,7 +190,9 @@ documentation/   complete guide (DOCX/PDF), install and cluster guides, earlier 
 
 ## Limitations
 
-- The grid is quasi-steady-state (a power flow every grid step), not a dynamic simulation.
+- Dynamic mode: loads are constant impedances (no load steps or load variation); machines
+  without their own data use typical parameters; bus faults are bolted three-phase faults.
+  GridPACK's EMT simulation is not used.
 - PMU frames are JSON over the simulated network, not IEEE C37.118; no real PMU devices yet.
 - PSS/E `.raw` files are not read directly; convert them with MATPOWER's `psse2mpc`.
 - Tested on a virtual cluster (containers on one machine); not yet on separate machines.

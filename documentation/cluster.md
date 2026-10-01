@@ -27,8 +27,9 @@ in the Node-RED dashboard from their browser.
 
 | Part | Code | Notes |
 |---|---|---|
+| MPI dynamic simulation | `gridpack/dsf_server/dsf_server.cpp`, `gridpack/patches/` | Used with `mode: dynamic`. Started once per experiment like `pf_server`; GridPACK solves the initial power flow, initialises the machines from the `.dyr` data and integrates in steps of about 5 ms. Every PMU frame the grid federate sends the exciter reference changes (`DVREF`) and the time to reach (`STEP`); bus voltages and frequencies and every machine's speed, rotor angle, P and Q are gathered to rank 0. Faults, line and generator trips are scheduled in GridPACK's input file. The patch adds exciter reference changes at run time, access to the network for the gathering, and fixes a line trip crash on more than one rank. |
 | MPI power flow | `gridpack/pf_server/pf_server.cpp` | Started once per experiment with `mpirun -np N`. GridPACK reads and partitions the network once; every grid step only the changed loads and generator setpoints are sent to rank 0, broadcast, applied and solved. Voltages are gathered back to rank 0. |
-| Grid federate | `federates/grid_fed.py`, `cpslib/gridpack.py` (`GridPackMPISolver`) | Drives `pf_server` over its stdin/stdout. Logs the whole step time and the MPI solve time of every step (`grid_steps.csv`). |
+| Grid federate | `federates/grid_fed.py`, `cpslib/gridpack.py` (`GridPackMPISolver`, `GridPackDynamicSolver`), `cpslib/dynamics.py` (machine data) | Drives `pf_server` or `dsf_server` over its stdin/stdout. Logs the whole step time and the MPI solve time of every step (`grid_steps.csv`). |
 | Placement of federates | `federates/cpslib/cluster.py`, `run_experiment.py` | Reads `/srv/cps/cluster.json` (written by `install/configure.py`); starts the broker and each federate on its node over ssh; each experiment gets its own HELICS port so several can run at once. |
 | Scheduling | `webapp/app.py` | Up to `CPS_MAX_JOBS` experiments at once, but a run starts only when its GridPACK ranks fit in the free MPI slots; the others wait in the queue ("waiting for N MPI slots"). MPI ranks busy-wait, so oversubscribing the slots made two parallel 4-rank runs about ten times slower (150 s instead of 13 s each). |
 | Uploads | `federates/cpslib/grids.py`, `webapp/scenario.py` | MATPOWER `.m` (or testbed `topology.json`) grid models; YAML/JSON scenario files (`webapp/scenario_template.yaml`). |
@@ -113,6 +114,30 @@ On the virtual cluster (head + 2 nodes, all three containers on one 4-core machi
 | Legacy IEEE 14 console script | 13/14 delivered, bus 8 over-voltage detected, as before |
 | Live page during a 30 s IEEE 118 run (fault at 8 s, FDI 8-20 s) | Updated every second while running; showed the command issued at 8.067 s, delivered at 8.107 s and applied at 8.5 s as they happened. With the observer the 10 s IEEE 118 run took 12.3 and 13.7 s (12.2 s without) |
 
+Dynamic simulation (`mode: dynamic`, IEEE 39 with its published GENROU/IEEET1/TGOV1 data, 15 s):
+
+| Experiment | Result |
+|---|---|
+| Three-phase fault at bus 16 (t = 3 s, cleared after 0.1 s), from a scenario file on the dashboard | Voltages down to 0.56 pu during the fault, frequency 59.70–60.6 Hz, rotor angle spread 66° → 125° and back; the exciters overshoot to 1.16 pu and the control center sends 24 setpoint commands; final 60.04 Hz. 100% frames delivered |
+| Generator 32 trip (650 MW), run at the same time as the fault | Frequency falls to 59.42 Hz at 9.4 s and recovers under governor control (59.54 Hz at 15 s) |
+| Line 16–17 trip | Lowest frequency 59.96 Hz, no voltage violation |
+| AVR fault at generator 30 (setpoint 1.12 at 3 s), control off / on | Violation 11.0 s / 2.0 s; with control the center lowers the setpoint 3 times and the exciter brings the voltage back |
+| Same fault on 1, 2 and 4 ranks | Identical voltages, frequencies and angles |
+| ACTIVSg2000 (typical machine data, 432 machines), trip of the largest generator | Lowest frequency 59.81 Hz; 1 and 2 ranks identical |
+
+GridPACK time per PMU frame (1/30 s, seven integration steps of 4.76 ms):
+
+| Grid | 1 rank | 2 ranks (one node) | 4 ranks (node1 + node2) |
+|---|---|---|---|
+| IEEE 39 | 6.6 ms | 12.9 ms | 274 ms |
+| ACTIVSg2000 | 152 ms | 118 ms | |
+
+A small grid runs faster than real time on one rank (15 s simulated in about 7 s). The
+dynamic simulation exchanges many small messages per integration step, so ranks on two
+containers of the 4-core test machine, which also run NS-3, the control center and the
+services, wait on each other; on separate machines with their own cores this cost is far
+lower. Large grids gain from more ranks.
+
 `pf_server` against the testbed's Newton-Raphson solver (four operating points with load and
 setpoint changes): IEEE 118 and ACTIVSg2000 agree to 5×10⁻¹⁰ pu, ACTIVSg10k to 6×10⁻⁵ pu.
 MPI solve time per grid step:
@@ -132,9 +157,10 @@ GridPACK's times rise because MPI ranks, NS-3 and the control center compete for
 
 ## Limits
 
-- The grid model is quasi-steady-state (power flow every grid step), as in the rest of the
-  testbed. Small grids (IEEE 14 to 300) solve in milliseconds, so more MPI ranks do not make
-  them faster; the cluster pays off for large grids, long or many experiments.
+- Small grids (IEEE 14 to 300) solve in milliseconds, so more MPI ranks do not make them
+  faster; the cluster pays off for large grids, long or many experiments.
+- Dynamic mode: constant-impedance loads, typical machine data where a grid has no `.dyr`
+  file, bolted three-phase faults.
 - Uploaded grids: MATPOWER `.m` and testbed `topology.json`. PSS/E is read through MATPOWER's
   converter.
 - The SSH key of the virtual cluster is created at first start and shared through `/srv/cps`;

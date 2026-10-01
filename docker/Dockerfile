@@ -4,7 +4,7 @@
 #   docker build -f docker/Dockerfile -t cps-testbed-cluster .
 #
 # OpenMPI 4.1, PETSc 3.19 (Ubuntu, MUMPS), ParMETIS, Global Arrays 5.9, GridPACK 3.5 + the
-# testbed's MPI power-flow server, HELICS 3.6.1, NS-3.48 + the network federate, Python
+# testbed's MPI power-flow and dynamic simulation servers, HELICS 3.6.1, NS-3.48 + the network federate, Python
 # federates and API, Node-RED 4.1 + Dashboard 2, OpenSSH.
 ARG BASE=ubuntu:24.04
 FROM ${BASE}
@@ -17,7 +17,8 @@ RUN /tmp/steps/00-packages.sh && rm -rf /var/lib/apt/lists/*
 COPY install/steps/10-ga.sh /tmp/steps/
 RUN /tmp/steps/10-ga.sh
 COPY install/steps/20-gridpack.sh /tmp/steps/
-RUN /tmp/steps/20-gridpack.sh
+COPY gridpack/patches /tmp/steps/gridpack-patches/
+RUN /tmp/steps/20-gridpack.sh /tmp/steps/gridpack-patches
 COPY install/steps/30-helics.sh /tmp/steps/
 RUN /tmp/steps/30-helics.sh
 COPY install/steps/40-ns3.sh /tmp/steps/
@@ -44,7 +45,7 @@ RUN /tmp/repo/install/steps/70-testbed.sh /tmp/repo && rm -rf /tmp/repo /tmp/ste
 
 ENV PATH=/opt/cps/venv/bin:/opt/cps/helics/bin:${PATH} \
     CPS_RESULTS=/srv/cps/runs CPS_GRIDS=/srv/cps/grids CPS_CLUSTER_CONFIG=/srv/cps/cluster.json \
-    CPS_PF_SERVER=/opt/cps/gridpack/bin/pf_server CPS_NS3_BIN=/opt/cps/ns-3/helicstest \
+    CPS_PF_SERVER=/opt/cps/gridpack/bin/pf_server CPS_DSF_SERVER=/opt/cps/gridpack/bin/dsf_server CPS_NS3_BIN=/opt/cps/ns-3/helicstest \
     CPS_HELICS_BROKER=/opt/cps/helics/bin/helics_broker
 EXPOSE 1880 8080 22
 ENTRYPOINT ["/opt/cps/testbed/docker/entrypoint.sh"]

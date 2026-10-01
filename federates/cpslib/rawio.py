@@ -1,8 +1,9 @@
 """Write a PSS/E v23 network file (the layout GridPACK reads) from topology.json data,
-optionally with modified loads and generator voltage setpoints."""
+optionally with modified loads and generator voltage setpoints, and with the machine bases
+and source reactances a dynamic simulation needs (cpslib.dynamics)."""
 
 
-def write_raw(path, topo, pd=None, qd=None, vset=None, title="CPS testbed case"):
+def write_raw(path, topo, pd=None, qd=None, vset=None, title="CPS testbed case", machines=None):
     base = topo["baseMVA"]
     L = [f"0  {base:.3f}", f" {title}", " written by cpslib.rawio"]
     for i, b in enumerate(topo["buses"]):
@@ -16,8 +17,10 @@ def write_raw(path, topo, pd=None, qd=None, vset=None, title="CPS testbed case")
     for g in topo["gens"]:
         i = g["bus"]; count[i] = count.get(i, 0) + 1
         vs = vset.get(i, g["vg"]) if vset else g["vg"]
+        m = (machines or {}).get((i, str(count[i])), {})
         L.append(f"{i:7d},'{count[i]:<2d}',{g['pg']:10.3f},     0.000,{g['qmax']:10.3f},{g['qmin']:10.3f},"
-                 f"{vs:8.5f},     0,{base:10.3f},   0.00000,   1.00000,   0.00000,   0.00000,   1.00000,"
+                 f"{vs:8.5f},     0,{m.get('mbase', base):10.3f},   0.00000,{m.get('xsource', 1.0):10.5f},"
+                 f"   0.00000,   0.00000,   1.00000,"
                  f"{g['status']},  100.0,  9999.000, -9999.000")
     L.append("0 / END OF GENERATOR DATA, BEGIN BRANCH DATA")
     ckt = {}

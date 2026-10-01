@@ -32,7 +32,12 @@ def parse_args(argv=None):
     a.add_argument("--helics-port", type=int, default=None, help="HELICS broker port (default: first free)")
     a.add_argument("--name", default="run")
     a.add_argument("--duration", type=float, default=10.0, help="simulated seconds")
-    a.add_argument("--grid-step", type=float, default=0.5, help="power flow interval (s)")
+    a.add_argument("--mode", default="qss", choices=["qss", "dynamic"],
+                   help="qss = a power flow every grid step; dynamic = GridPACK dynamic simulation "
+                        "(generators, exciters, governors) advanced every PMU frame")
+    a.add_argument("--grid-step", type=float, default=None,
+                   help="grid federate step (s); default 0.5 (qss) or one PMU frame (dynamic)")
+    a.add_argument("--dyn-step", type=float, default=0.005, help="largest integration step of the dynamic simulation (s)")
     a.add_argument("--rate", type=float, default=30.0, help="PMU reporting rate (frames/s)")
     a.add_argument("--solver", default="gridpack", choices=["gridpack", "builtin"])
     a.add_argument("--placement", type=int, default=1, choices=[1, 2],
@@ -53,10 +58,32 @@ def parse_args(argv=None):
     a.add_argument("--vmin", type=float, default=0.94)
     a.add_argument("--vmax", type=float, default=1.08)
     a.add_argument("--event", default="none",
-                   help="none | avr:<gen bus>:<vset>:<t> | load:<bus>:<percent>:<t>")
+                   help="none | avr:<gen bus>:<vset>:<t> | load:<bus>:<percent>:<t> (qss) | "
+                        "fault:<bus>:<duration s>:<t> | line:<from>:<to>:<t> | gen:<bus>:<t> (dynamic)")
     a.add_argument("--seed", type=int, default=1)
     a.add_argument("--out", default=os.environ.get("CPS_RESULTS", os.path.join(HERE, "..", "results", "runs")))
     return a.parse_args(argv)
+
+
+def parse_event(text):
+    """--event value -> event dict (see --help)."""
+    if text in (None, "", "none"):
+        return {"type": "none"}
+    f = text.split(":")
+    try:
+        if f[0] == "avr":
+            return {"type": "avr_fault", "bus": int(f[1]), "vset": float(f[2]), "t": float(f[3])}
+        if f[0] == "load":
+            return {"type": "load_step", "bus": int(f[1]), "pct": float(f[2]), "t": float(f[3])}
+        if f[0] == "fault":
+            return {"type": "bus_fault", "bus": int(f[1]), "duration": float(f[2]), "t": float(f[3])}
+        if f[0] == "line":
+            return {"type": "line_trip", "from": int(f[1]), "to": int(f[2]), "t": float(f[3])}
+        if f[0] == "gen":
+            return {"type": "gen_trip", "bus": int(f[1]), "t": float(f[2])}
+    except (IndexError, ValueError):
+        pass
+    raise SystemExit(f"bad --event '{text}' (see --help)")
 
 
 def case_dir(args):
@@ -86,11 +113,7 @@ def build_configs(args, run_dir, cl, port):
     layout = PmuLayout(net, pmu_buses)
     V0, _, _ = net.solve_pf()
 
-    event = {"type": "none"}
-    if args.event != "none":
-        kind, bus, val, t = args.event.split(":")
-        event = ({"type": "avr_fault", "bus": int(bus), "vset": float(val), "t": float(t)} if kind == "avr" else
-                 {"type": "load_step", "bus": int(bus), "pct": float(val), "t": float(t)})
+    event = parse_event(args.event)
 
     # the attacker plans against the operating point it will face (including the event)
     V_plan = V0
@@ -126,8 +149,9 @@ def build_configs(args, run_dir, cl, port):
                     for pm in layout.pmus],
            "gens": [{"bus": g, "delay_ms": link_delay()} for g in gens],
            "helics_core_init": cluster.core_init(cl, cl["placement"].get("ns3", cl["head"]), port)}
-    run = {"outdir": run_dir, "topology": topo_path, "case": args.case, "duration": args.duration,
-           "grid_step": args.grid_step, "seed": args.seed, "solver": args.solver, "pmu_buses": pmu_buses,
+    run = {"outdir": run_dir, "topology": topo_path, "grid_dir": case_dir(args), "case": args.case,
+           "duration": args.duration, "mode": args.mode, "dyn_step": args.dyn_step, "grid_step": args.grid_step,
+           "seed": args.seed, "solver": args.solver, "pmu_buses": pmu_buses,
            "load": {"amplitude": 0.02, "period": 20.0, "walk": 0.002}, "event": event,
            "se_sigma": 0.002, "bdd_alpha": 0.01, "bdd": args.bdd == "on",
            "control": {"enabled": args.control == "on", "vmin": args.vmin, "vmax": args.vmax, "step": 0.01,
@@ -135,6 +159,10 @@ def build_configs(args, run_dir, cl, port):
            "mpi": {"np": args.mpi_np, "hostfile": cl["mpi"].get("hostfile") if cl["nodes"] else None},
            "helics_port": port, "helics_core_init": cluster.core_init(cl, cl["placement"].get("grid", cl["head"]), port),
            "cc_core_init": cluster.core_init(cl, cl["placement"].get("cc", cl["head"]), port)}
+    if args.mode == "dynamic" and event["type"] == "load_step":
+        raise SystemExit("load steps are available in the quasi-steady-state mode only")
+    if args.mode == "qss" and event["type"] in ("bus_fault", "line_trip", "gen_trip"):
+        raise SystemExit(f"{event['type'].replace('_', ' ')} events need --mode dynamic")
     meta = {"args": vars(args), "target_bus": target, "attack_plan": plan, "grid_name": grid_name(args, topo),
             "cluster": {"placement": {r: cl["placement"].get(r, cl["head"]) for r in ("broker", "grid", "ns3", "cc")},
                         "mpi_np": args.mpi_np, "mpi_hosts": [n["host"] for n in cl["nodes"]], "helics_port": port},
@@ -229,6 +257,22 @@ def analyze(run_dir, meta, codes, wall):
                  "commands_applied": len([r for r in applied if not r["reason"].startswith("event")])}
     gp = [float(r["gridpack_solve_ms"]) for r in steps if r.get("gridpack_solve_ms")]
     sv = [float(r["solve_ms"]) for r in steps if r.get("solve_ms")]
+    dyn_path = os.path.join(run_dir, "grid_dynamics.csv")
+    if os.path.exists(dyn_path):
+        dyn = read_csv(dyn_path)
+        info = json.load(open(os.path.join(run_dir, "dynamics.json"))) if os.path.exists(os.path.join(run_dir, "dynamics.json")) else {}
+        fmin = min(dyn, key=lambda r: float(r["f_min_hz"])) if dyn else None
+        fmax = max(dyn, key=lambda r: float(r["f_max_hz"])) if dyn else None
+        s["dynamics"] = {
+            "machine_data": info.get("source"), "machines": info.get("machines"),
+            "integration_step_ms": round(1000 * info["dt"], 4) if info.get("dt") else None,
+            "f_min_hz": round(float(fmin["f_min_hz"]), 4) if fmin else None,
+            "f_min_t": float(fmin["t"]) if fmin else None, "f_min_gen": fmin["f_min_gen"] if fmin else None,
+            "f_max_hz": round(float(fmax["f_max_hz"]), 4) if fmax else None,
+            "f_final_hz": round(float(dyn[-1]["f_coi_hz"]), 4) if dyn else None,
+            "angle_spread_initial_deg": round(float(dyn[0]["angle_spread_deg"]), 2) if dyn else None,
+            "angle_spread_max_deg": round(max(float(r["angle_spread_deg"]) for r in dyn), 2) if dyn else None,
+            "angle_spread_final_deg": round(float(dyn[-1]["angle_spread_deg"]), 2) if dyn else None}
     s["gridpack"] = {"mpi_ranks": args.get("mpi_np"),
                      "solve_ms_mean": round(float(np.mean(gp)), 2) if gp else None,
                      "solve_ms_max": round(float(np.max(gp)), 2) if gp else None,
@@ -282,16 +326,25 @@ def main(argv=None):
     cl = cluster.load()
     if args.mpi_np is None:
         args.mpi_np = int(cl["mpi"].get("default_np", 1))
+    if args.grid_step is None:
+        args.grid_step = 1.0 / args.rate if args.mode == "dynamic" else 0.5
     port = args.helics_port or free_port(cl["helics_port_base"])
     run_id = time.strftime("%Y%m%d_%H%M%S") + f"_{args.name}"
     run_dir = os.path.abspath(os.path.join(args.out, run_id))
     os.makedirs(run_dir, exist_ok=True)
     meta = build_configs(args, run_dir, cl, port)
-    print(f"[RUN] {run_id}: {meta['grid_name']}, {len(meta['pmus'])} PMUs, attack={args.attack}, "
+    print(f"[RUN] {run_id}: {meta['grid_name']}, {args.mode}, {len(meta['pmus'])} PMUs, attack={args.attack}, "
           f"GridPACK MPI ranks={args.mpi_np}, HELICS port {port}", flush=True)
     codes, wall = run_federation(run_dir, cl, port)
     if any(c != 0 for c in codes.values()):
         print(f"[RUN] federate exit codes: {codes} (see *.log in {run_dir})", flush=True)
+        # the federate that failed first says why; the others were stopped because of it
+        for n, c in codes.items():
+            if c not in (0, "killed", "timeout"):
+                tail = open(os.path.join(run_dir, f"{n}.log")).read().strip().splitlines()[-6:]
+                print(f"[RUN] {n} failed:\n  " + "\n  ".join(tail), flush=True)
+        if not os.path.exists(os.path.join(run_dir, "ns3_summary.json")):
+            raise SystemExit(f"[RUN] {run_id} did not finish; no results")
     s = analyze(run_dir, meta, codes, wall)
     print(json.dumps(s, indent=2))
     return run_dir

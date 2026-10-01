@@ -27,17 +27,24 @@ class NetworkCfg(Strict):
     pdc_wait_ms: float = Field(20, ge=1, le=2000)
 
 
+DYNAMIC_EVENTS = ("bus_fault", "line_trip", "gen_trip")
+
+
 class Event(Strict):
-    type: Literal["none", "avr_fault", "load_step"] = "none"
-    bus: Optional[int] = None
-    vset: float = Field(1.12, ge=0.8, le=1.3)
-    pct: float = Field(20, ge=-90, le=500)
+    type: Literal["none", "avr_fault", "load_step", "bus_fault", "line_trip", "gen_trip"] = "none"
+    bus: Optional[int] = None                         # generator, load or fault bus; "from" bus of a line
+    to: Optional[int] = None                          # line_trip: "to" bus
+    vset: float = Field(1.12, ge=0.8, le=1.3)         # avr_fault
+    pct: float = Field(20, ge=-90, le=500)            # load_step
+    duration: float = Field(0.1, gt=0, le=5)          # bus_fault: seconds until it is cleared
     t: float = Field(4, ge=0)
 
     @model_validator(mode="after")
     def _bus(self):
         if self.type != "none" and self.bus is None:
             raise ValueError(f"event '{self.type}' needs a bus")
+        if self.type == "line_trip" and self.to is None:
+            raise ValueError("event 'line_trip' needs bus and to (the two ends of the line)")
         return self
 
 
@@ -67,7 +74,8 @@ class Scenario(Strict):
     name: str = Field("scenario", pattern=r"^[A-Za-z0-9_-]{1,40}$")
     grid: str = Field("ieee14", pattern=r"^[A-Za-z0-9_-]{1,48}$")
     duration: float = Field(10, ge=1, le=120)
-    grid_step: float = Field(0.5, ge=0.1, le=5)
+    mode: Literal["qss", "dynamic"] = "qss"
+    grid_step: Optional[float] = Field(None, ge=0.005, le=5)
     solver: Literal["gridpack", "builtin"] = "gridpack"
     mpi_np: int = Field(1, ge=1, le=256)
     seed: int = Field(1, ge=1, le=10 ** 6)
@@ -77,6 +85,16 @@ class Scenario(Strict):
     attack: Attack = Attack()
     control: Control = Control()
 
+    @model_validator(mode="after")
+    def _mode(self):
+        if self.mode == "qss" and self.event.type in DYNAMIC_EVENTS:
+            raise ValueError(f"event '{self.event.type}' needs mode: dynamic")
+        if self.mode == "dynamic" and self.event.type == "load_step":
+            raise ValueError("event 'load_step' is available with mode: qss only")
+        if self.mode == "dynamic" and self.solver != "gridpack":
+            raise ValueError("mode: dynamic needs solver: gridpack")
+        return self
+
     def run_args(self):
         """Fields of the experiment API's RunRequest."""
         ev = "none"
@@ -84,8 +102,15 @@ class Scenario(Strict):
             ev = f"avr:{self.event.bus}:{self.event.vset}:{self.event.t}"
         elif self.event.type == "load_step":
             ev = f"load:{self.event.bus}:{self.event.pct}:{self.event.t}"
+        elif self.event.type == "bus_fault":
+            ev = f"fault:{self.event.bus}:{self.event.duration}:{self.event.t}"
+        elif self.event.type == "line_trip":
+            ev = f"line:{self.event.bus}:{self.event.to}:{self.event.t}"
+        elif self.event.type == "gen_trip":
+            ev = f"gen:{self.event.bus}:{self.event.t}"
         return {
-            "case": self.grid, "name": self.name, "duration": self.duration, "grid_step": self.grid_step,
+            "case": self.grid, "name": self.name, "duration": self.duration, "mode": self.mode,
+            "grid_step": self.grid_step,
             "rate": self.pmu.rate, "solver": self.solver, "mpi_np": self.mpi_np,
             "placement": 1 if self.pmu.placement == "minimum" else 2,
             "latency": self.network.latency_ms, "latency_spread": self.network.latency_spread,

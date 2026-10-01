@@ -52,7 +52,8 @@ class RunRequest(BaseModel):
     case: str = Field("14", pattern=r"^[A-Za-z0-9_-]{1,48}$")   # 14..300, ieee14..ieee300 or an uploaded grid id
     name: str = Field("web", pattern=r"^[A-Za-z0-9_-]{1,40}$")
     duration: float = Field(10, ge=1, le=120)
-    grid_step: float = Field(0.5, ge=0.1, le=5)
+    mode: str = Field("qss", pattern=r"^(qss|dynamic)$")
+    grid_step: Optional[float] = Field(None, ge=0.005, le=5)    # default 0.5 s (qss) or one PMU frame (dynamic)
     rate: float = Field(30, ge=1, le=120)
     solver: str = Field("gridpack", pattern=r"^(gridpack|builtin)$")
     placement: int = Field(1, ge=1, le=2)
@@ -71,7 +72,8 @@ class RunRequest(BaseModel):
     control: str = Field("on", pattern=r"^(on|off)$")
     vmin: float = Field(0.94, ge=0.5, le=1.0)
     vmax: float = Field(1.08, ge=1.0, le=1.5)
-    event: str = Field("none", pattern=r"^(none|avr:\d+:[0-9.]+:[0-9.]+|load:\d+:-?[0-9.]+:[0-9.]+)$")
+    event: str = Field("none", pattern=r"^(none|avr:\d+:[0-9.]+:[0-9.]+|load:\d+:-?[0-9.]+:[0-9.]+|"
+                                      r"fault:\d+:[0-9.]+:[0-9.]+|line:\d+:\d+:[0-9.]+|gen:\d+:[0-9.]+)$")
     seed: int = Field(1, ge=1, le=10**6)
     mpi_np: int = Field(1, ge=1, le=256)
 
@@ -353,6 +355,7 @@ def list_runs(_=Depends(auth)):
         meta = json.load(open(os.path.join(RESULTS, d, "meta.json")))
         a = meta["args"]
         runs.append({"id": d, "name": s["name"], "case": a["case"], "grid": s.get("case"), "attack": a["attack"],
+                     "mode": a.get("mode", "qss"),
                      "loss": a["loss"], "mpi_np": a.get("mpi_np"),
                      "gridpack_ms": (s.get("gridpack") or {}).get("solve_ms_mean"),
                      "wall_s": s.get("wall_time_s"),
@@ -411,6 +414,7 @@ def series(run_id: str, bus: Optional[int] = None, _=Depends(auth)):
     d = run_dir(run_id)
     meta = json.load(open(os.path.join(d, "meta.json")))
     truth = read_csv(os.path.join(d, "grid_truth.csv"))
+    truth = [truth[i] for i in thin(len(truth))]
     est = read_csv(os.path.join(d, "cc_estimates.csv"))
     cc = read_csv(os.path.join(d, "cc_log.csv"))
     frames = read_csv(os.path.join(d, "frames.csv"))
@@ -418,7 +422,7 @@ def series(run_id: str, bus: Optional[int] = None, _=Depends(auth)):
     col = f"v{bus}"
     if truth and col not in truth[0]:
         raise HTTPException(404, "bus not in this case")
-    out = {"bus": bus, "vmax": meta["args"]["vmax"], "vmin": meta["args"]["vmin"],
+    out = {"bus": bus, "mode": meta["args"].get("mode", "qss"), "vmax": meta["args"]["vmax"], "vmin": meta["args"]["vmin"],
            "attack_window": [meta["args"]["attack_start"], meta["args"]["attack_end"]] if meta["args"]["attack"] != "none" else None,
            "truth": [[float(r["t"]), float(r[col])] for r in truth],
            "truth_max": [[float(r["t"]), max(float(v) for k, v in r.items() if k != "t")] for r in truth]}
@@ -447,4 +451,12 @@ def series(run_id: str, bus: Optional[int] = None, _=Depends(auth)):
     out["gridpack"] = [[float(r["t"]), float(r["solve_ms"]) if r.get("solve_ms") else None,
                         float(r["gridpack_solve_ms"]) if r.get("gridpack_solve_ms") else None, r.get("solver")]
                        for r in read_csv(os.path.join(d, "grid_steps.csv"))]
+    # dynamic simulation: system frequency and rotor angle spread per grid step
+    dyn_path = os.path.join(d, "grid_dynamics.csv")
+    if os.path.exists(dyn_path):
+        dyn = read_csv(dyn_path)
+        idx = thin(len(dyn))
+        out["freq"] = [[float(dyn[i]["t"]), float(dyn[i]["f_coi_hz"]), float(dyn[i]["f_min_hz"]),
+                        float(dyn[i]["f_max_hz"])] for i in idx]
+        out["angle_spread"] = [[float(dyn[i]["t"]), float(dyn[i]["angle_spread_deg"])] for i in idx]
     return out

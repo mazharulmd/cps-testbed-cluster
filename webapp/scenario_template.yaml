@@ -5,8 +5,11 @@
 name: gen-fault-fdi          # example; letters, digits, _ and -, up to 40 characters
 grid: ieee118                # ieee14, ieee30, ieee39, ieee57, ieee118, ieee300, or the id of an uploaded grid
 duration: 10                 # simulated seconds (1-120)
-grid_step: 0.5               # GridPACK re-solves the power flow every grid_step seconds
-solver: gridpack             # gridpack (MPI on the cluster) or builtin (Python Newton-Raphson)
+mode: qss                    # qss = GridPACK power flow every grid_step (quasi-steady state);
+                             # dynamic = GridPACK dynamic simulation: generators, exciters and governors
+                             # integrated every few ms, faults and trips, frequency (needs solver: gridpack)
+grid_step: 0.5               # qss: power flow interval (s); dynamic: default one PMU frame (1/rate)
+solver: gridpack             # gridpack (MPI on the cluster) or builtin (Python Newton-Raphson, qss only)
 mpi_np: 4                    # example; number of MPI ranks GridPACK runs on (1-256)
 seed: 1                      # random seed for link delays, noise and losses
 
@@ -22,10 +25,14 @@ network:                     # every PMU has its own link to the PDC
   pdc_wait_ms: 20            # how long the PDC waits for late frames of a time stamp
 
 event:                       # a disturbance in the grid
-  type: avr_fault            # example; none | avr_fault | load_step
-  bus: 49                    # example; generator bus (avr_fault) or load bus (load_step)
+  type: avr_fault            # example; none | avr_fault | load_step (qss only)
+                             #   | bus_fault | line_trip | gen_trip (dynamic only)
+  bus: 49                    # example; generator bus (avr_fault, gen_trip), load bus (load_step),
+                             # faulted bus (bus_fault) or one end of the line (line_trip)
+  to: 50                     # example; line_trip: the other end of the line
   vset: 1.12                 # avr_fault: faulty voltage setpoint (pu)
   pct: 20                    # load_step: load change in percent
+  duration: 0.1              # bus_fault: three-phase fault cleared after this many seconds
   t: 4                       # when it happens (s)
 
 attack:
@@ -50,3 +57,8 @@ control:
 #     attack: {type: fdi-stealthy}
 #   - name: mpi-8
 #     mpi_np: 8
+#   - name: fault-dynamic          # IEEE 39-bus with its published machine data
+#     grid: ieee39
+#     mode: dynamic
+#     event: {type: bus_fault, bus: 16, duration: 0.1, t: 2}
+#     attack: {type: none}

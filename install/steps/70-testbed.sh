@@ -26,11 +26,13 @@ $PREFIX/ns-3/build/lib
 LIBS
 ldconfig
 
-# GridPACK MPI power-flow server
-tmp=$(mktemp -d)
-cmake -S "$src/gridpack/pf_server" -B "$tmp" -D GRIDPACK_DIR="$PREFIX/gridpack" -D CMAKE_INSTALL_PREFIX="$PREFIX/gridpack"
-cmake --build "$tmp" -j "$JOBS" && cmake --install "$tmp"
-rm -rf "$tmp"
+# GridPACK MPI servers: power flow (pf_server) and dynamic simulation (dsf_server)
+for server in pf_server dsf_server; do
+  tmp=$(mktemp -d)
+  cmake -S "$src/gridpack/$server" -B "$tmp" -D GRIDPACK_DIR="$PREFIX/gridpack" -D CMAKE_INSTALL_PREFIX="$PREFIX/gridpack"
+  cmake --build "$tmp" -j "$JOBS" && cmake --install "$tmp"
+  rm -rf "$tmp"
+done
 
 # Node-RED flows and settings (an existing flows.json is kept as a backup)
 if [ -f "$PREFIX/node-red/flows.json" ] && ! cmp -s "$src/node-red/flows.json" "$PREFIX/node-red/flows.json"; then

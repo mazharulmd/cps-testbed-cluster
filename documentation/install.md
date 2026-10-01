@@ -6,7 +6,7 @@ the same software in the same places.
 
 | Where | What |
 |---|---|
-| `/opt/cps/` | Global Arrays, GridPACK (+ `pf_server`), HELICS, NS-3 (+ the network federate), Python environment `venv`, Node-RED user directory `node-red`, the testbed code `testbed` |
+| `/opt/cps/` | Global Arrays, GridPACK (+ `pf_server`, `dsf_server`), HELICS, NS-3 (+ the network federate), Python environment `venv`, Node-RED user directory `node-red`, the testbed code `testbed` |
 | `/srv/cps/` | data: `runs/` (one directory per experiment), `grids/` (uploaded grids), `legacy/`, `cluster.json`, `hostfile` |
 | `/etc/cps/cps.env` | settings read by the services |
 | `cps-api`, `cps-nodered` | systemd services on the head (single server): experiment API on port 8080, Node-RED on 1880 |
@@ -93,9 +93,11 @@ cd cps-testbed-cluster && git pull
 sudo ./install/install.sh
 ```
 
-The libraries that are already built are kept; the testbed code, the NS-3 federate and
-`pf_server` are rebuilt, and the services restart. A Node-RED `flows.json` that was changed in
-the editor is saved as `flows.json.bak-<date>` before the new one is installed.
+The libraries that are already built are kept (GridPACK is rebuilt only when its patches in
+`gridpack/patches` changed, which takes most of an hour); the testbed code, the NS-3 federate,
+`pf_server` and `dsf_server` are rebuilt, and the services restart. A Node-RED `flows.json`
+that was changed in the editor is saved as `flows.json.bak-<date>` before the new one is
+installed.
 
 ## Cluster
 

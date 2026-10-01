@@ -1,0 +1,130 @@
+diff --git a/src/applications/modules/dynamic_simulation_full_y/dsf_app_module.hpp b/src/applications/modules/dynamic_simulation_full_y/dsf_app_module.hpp
+index 69f686a..48806c4 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/dsf_app_module.hpp
++++ b/src/applications/modules/dynamic_simulation_full_y/dsf_app_module.hpp
+@@ -642,6 +642,12 @@ class DSFullApp
+     */
+     double getCurrentTime();
+ 
++    /**
++     * The dynamic simulation network, for applications that read bus and
++     * generator states directly
++     */
++    boost::shared_ptr<DSFullNetwork> getNetwork() { return p_network; }
++
+   /**
+    * Transfer data from power flow to dynamic simulation
+    * @param pf_network power flow network
+diff --git a/src/applications/modules/dynamic_simulation_full_y/dsf_app_module2.cpp b/src/applications/modules/dynamic_simulation_full_y/dsf_app_module2.cpp
+index aa305c3..0ec89cc 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/dsf_app_module2.cpp
++++ b/src/applications/modules/dynamic_simulation_full_y/dsf_app_module2.cpp
+@@ -364,6 +364,8 @@ void gridpack::dynamic_simulation::DSFullApp::setLineStatus(int from_idx, int to
+   int ibr, nbr;
+   gridpack::dynamic_simulation::DSFullBranch *pbranch;	
+   nbr = vec_branchintidx.size();
++  /* the line may be on another process */
++  if (nbr == 0) return;
+   pbranch = dynamic_cast<gridpack::dynamic_simulation::DSFullBranch*>
+     (p_network->getBranch(vec_branchintidx[0]).get());
+   if(pbranch) {
+diff --git a/src/applications/modules/dynamic_simulation_full_y/model_classes/esst1a.cpp b/src/applications/modules/dynamic_simulation_full_y/model_classes/esst1a.cpp
+index c7e452a..b81eb73 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/model_classes/esst1a.cpp
++++ b/src/applications/modules/dynamic_simulation_full_y/model_classes/esst1a.cpp
+@@ -399,6 +399,10 @@ void gridpack::dynamic_simulation::Esst1aModel::setVoel(double vtmp)
+ bool gridpack::dynamic_simulation::Esst1aModel::setState(std::string name,
+     double value)
+ {
++  if (name == "VREF") {
++    Vref = value;
++    return true;
++  }
+   return false;
+ }
+ 
+@@ -411,5 +415,9 @@ bool gridpack::dynamic_simulation::Esst1aModel::setState(std::string name,
+ bool gridpack::dynamic_simulation::Esst1aModel::getState(std::string name,
+     double *value)
+ {
++  if (name == "VREF") {
++    *value = Vref;
++    return true;
++  }
+   return false;
+ }
+diff --git a/src/applications/modules/dynamic_simulation_full_y/model_classes/exdc1.cpp b/src/applications/modules/dynamic_simulation_full_y/model_classes/exdc1.cpp
+index e6c177c..8ab7609 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/model_classes/exdc1.cpp
++++ b/src/applications/modules/dynamic_simulation_full_y/model_classes/exdc1.cpp
+@@ -289,6 +289,10 @@ void gridpack::dynamic_simulation::Exdc1Model::setExtGenId(std::string ExtGenId)
+ bool gridpack::dynamic_simulation::Exdc1Model::setState(std::string name,
+     double value)
+ {
++  if (name == "VREF") {
++    Vref = value;
++    return true;
++  }
+   return false;
+ }
+ 
+@@ -301,5 +305,9 @@ bool gridpack::dynamic_simulation::Exdc1Model::setState(std::string name,
+ bool gridpack::dynamic_simulation::Exdc1Model::getState(std::string name,
+     double *value)
+ {
++  if (name == "VREF") {
++    *value = Vref;
++    return true;
++  }
+   return false;
+ }
+diff --git a/src/applications/modules/dynamic_simulation_full_y/model_classes/ieeet1.cpp b/src/applications/modules/dynamic_simulation_full_y/model_classes/ieeet1.cpp
+index 6aeeebf..e4a4f92 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/model_classes/ieeet1.cpp
++++ b/src/applications/modules/dynamic_simulation_full_y/model_classes/ieeet1.cpp
+@@ -268,6 +268,10 @@ void gridpack::dynamic_simulation::Ieeet1Model::setExtGenId(std::string ExtGenId
+ bool gridpack::dynamic_simulation::Ieeet1Model::setState(std::string name,
+     double value)
+ {
++  if (name == "VREF") {
++    Vref = value;
++    return true;
++  }
+   return false;
+ }
+ 
+@@ -280,5 +284,9 @@ bool gridpack::dynamic_simulation::Ieeet1Model::setState(std::string name,
+ bool gridpack::dynamic_simulation::Ieeet1Model::getState(std::string name,
+     double *value)
+ {
++  if (name == "VREF") {
++    *value = Vref;
++    return true;
++  }
+   return false;
+ }
+diff --git a/src/applications/modules/dynamic_simulation_full_y/model_classes/sexs.cpp b/src/applications/modules/dynamic_simulation_full_y/model_classes/sexs.cpp
+index 90e634f..5a8ad19 100644
+--- a/src/applications/modules/dynamic_simulation_full_y/model_classes/sexs.cpp
++++ b/src/applications/modules/dynamic_simulation_full_y/model_classes/sexs.cpp
+@@ -219,6 +219,10 @@ void gridpack::dynamic_simulation::SexsModel::setExtGenId(std::string ExtGenId)
+ bool gridpack::dynamic_simulation::SexsModel::setState(std::string name,
+     double value)
+ {
++  if (name == "VREF") {
++    Vref = value;
++    return true;
++  }
+   return false;
+ }
+ 
+@@ -231,5 +235,9 @@ bool gridpack::dynamic_simulation::SexsModel::setState(std::string name,
+ bool gridpack::dynamic_simulation::SexsModel::getState(std::string name,
+     double *value)
+ {
++  if (name == "VREF") {
++    *value = Vref;
++    return true;
++  }
+   return false;
+ }

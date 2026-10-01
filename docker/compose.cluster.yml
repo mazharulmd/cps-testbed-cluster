@@ -1,0 +1,51 @@
+# A virtual CPS testbed cluster on one machine: a head node and two compute nodes.
+#
+#   docker build -f docker/Dockerfile -t cps-testbed-cluster .       (from the repository root)
+#   docker compose -f docker/compose.cluster.yml up -d
+#
+# Dashboard: http://localhost:1880/dashboard   API: http://localhost:8080
+# The same image and variables run on real machines (see documentation/cluster.md).
+name: cps-cluster
+
+x-node: &node
+  image: ${CPS_IMAGE:-cps-testbed-cluster}
+  environment:
+    CPS_ROLE: node
+  volumes:
+    - shared:/srv/cps
+  shm_size: 1g
+  restart: unless-stopped
+
+services:
+  head:
+    image: ${CPS_IMAGE:-cps-testbed-cluster}
+    hostname: head
+    environment:
+      CPS_ROLE: head
+      CPS_NODES: node1:2,node2:2        # GridPACK MPI ranks go to these hosts
+      CPS_PLACE_GRID: head              # grid federate (launches mpirun)
+      CPS_PLACE_NS3: node1              # NS-3 network federate
+      CPS_PLACE_CC: node2               # control-center federate
+      CPS_MPI_NP: 4                     # default ranks per experiment
+      CPS_MAX_JOBS: 2                   # experiments running at the same time
+      CPS_WEB_PASSWORD: ${CPS_WEB_PASSWORD:-}
+      NODERED_ADMIN_HASH: ${NODERED_ADMIN_HASH:-}
+    ports:
+      - "1880:1880"
+      - "8080:8080"
+    volumes:
+      - shared:/srv/cps
+    shm_size: 1g
+    depends_on: [node1, node2]
+    restart: unless-stopped
+
+  node1:
+    <<: *node
+    hostname: node1
+
+  node2:
+    <<: *node
+    hostname: node2
+
+volumes:
+  shared:

@@ -1,0 +1,30 @@
+# The CPS testbed on one machine (single server): GridPACK, HELICS, NS-3, the control
+# center, the experiment API and Node-RED in one container.
+#
+#   docker build -f docker/Dockerfile -t cps-testbed-cluster .       (from the repository root)
+#   docker compose -f docker/compose.yml up -d
+#
+# Dashboard: http://localhost:1880/dashboard/experiments   API: http://localhost:8080/docs
+# For a head + compute nodes setup see compose.cluster.yml.
+name: cps-testbed
+
+services:
+  testbed:
+    image: ${CPS_IMAGE:-cps-testbed-cluster}
+    hostname: testbed
+    environment:
+      CPS_ROLE: head
+      CPS_MPI_NP: 2                    # default GridPACK MPI ranks (at most the container's cores)
+      CPS_MAX_JOBS: 1
+      CPS_WEB_PASSWORD: ${CPS_WEB_PASSWORD:-}
+      NODERED_ADMIN_HASH: ${NODERED_ADMIN_HASH:-}
+    ports:
+      - "1880:1880"
+      - "8080:8080"
+    volumes:
+      - data:/srv/cps
+    shm_size: 1g
+    restart: unless-stopped
+
+volumes:
+  data:

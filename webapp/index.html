@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPS Testbed – NSU · PGCB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+:root {
+  --bg: #f3f6fb; --panel: #ffffff; --panel-2: #f7f9fc; --text: #0f1b2d; --muted: #5b6b80; --border: #e2e8f0;
+  --brand: #0b2a4a; --brand-2: #14477a; --accent: #1f6feb; --accent-weak: #e8f0fe; --ring: rgba(31,111,235,.25);
+  --ok: #16803c; --ok-weak: #e6f4ea; --warn: #b45309; --warn-weak: #fdf3e2; --bad: #c62828; --bad-weak: #fdecea;
+  --true: #1565c0; --est: #e53935; --limit: #b7791f;
+  --shadow: 0 1px 2px rgba(15,27,45,.06), 0 4px 16px rgba(15,27,45,.05);
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1119; --panel: #121a25; --panel-2: #172231; --text: #e4ebf3; --muted: #93a3b8; --border: #243245;
+    --accent: #4c8dff; --accent-weak: #16263e; --ring: rgba(76,141,255,.3);
+    --ok: #3fb950; --ok-weak: #13281b; --warn: #d9a33a; --warn-weak: #2b2210; --bad: #f47067; --bad-weak: #33191a;
+    --true: #58a6ff; --est: #ff7b72; --limit: #d9a33a; --shadow: 0 1px 2px rgba(0,0,0,.4);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 Inter, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+code, pre, .mono { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; }
+
+/* ---------- header ---------- */
+.hero { position: relative; color: #fff; background: linear-gradient(120deg, var(--brand) 0%, var(--brand-2) 60%, #1b5c96 100%); overflow: hidden; }
+.hero::after { content: ""; position: absolute; inset: 0; opacity: .12; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' viewBox='0 0 120 60'%3E%3Cpath d='M0 30 Q15 5 30 30 T60 30 T90 30 T120 30' fill='none' stroke='white' stroke-width='1.2'/%3E%3C/svg%3E"); }
+.hero-inner { position: relative; z-index: 1; max-width: 1560px; margin: 0 auto; padding: 22px 24px 20px; display: flex; gap: 20px; align-items: flex-start; }
+.logo { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); display: grid; place-items: center; }
+.hero-text { flex: 1; min-width: 0; }
+.overline { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .8; font-weight: 600; }
+.hero h1 { margin: 2px 0 4px; font-size: 26px; line-height: 1.2; font-weight: 700; letter-spacing: -.01em; }
+.hero .full { margin: 0 0 12px; font-size: 14px; opacity: .88; max-width: 980px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12.5px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); white-space: nowrap; }
+.pill b { font-weight: 600; }
+.status { flex: 0 0 auto; align-self: center; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); font-weight: 600; font-size: 13px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #7ee2a8; box-shadow: 0 0 0 4px rgba(126,226,168,.25); }
+.status.busy .dot { background: #ffd166; box-shadow: 0 0 0 4px rgba(255,209,102,.3); animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(255,209,102,.05); } }
+.stack-bar { position: relative; z-index: 1; border-top: 1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.12); }
+.stack-bar div { max-width: 1560px; margin: 0 auto; padding: 8px 24px; display: flex; flex-wrap: wrap; gap: 18px; font-size: 12.5px; opacity: .9; }
+.stack-bar span::before { content: "●"; margin-right: 6px; font-size: 9px; vertical-align: 1px; color: #7fb7ff; }
+
+/* ---------- layout ---------- */
+main { max-width: 1560px; margin: 0 auto; padding: 20px 24px 8px; display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 20px; align-items: start; }
+.side { min-width: 0; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; scrollbar-width: thin; }
+@media (max-width: 1050px) { main { grid-template-columns: minmax(0, 1fr); padding: 16px; } .side { position: static; max-height: none; } .hero-inner { flex-wrap: wrap; } .status { align-self: flex-start; } }
+@media (max-width: 640px) {
+  .hero-inner { flex-direction: column; gap: 12px; padding: 18px 16px; }
+  .hero h1 { font-size: 21px; } .hero .full { font-size: 13px; }
+  .pill { white-space: normal; } .stack-bar div { padding: 8px 16px; gap: 6px 14px; }
+  main { padding: 12px; gap: 14px; } .presets { grid-template-columns: 1fr 1fr; }
+  .panel-h, .panel-b { padding-left: 14px; padding-right: 14px; }
+  main .kpis { grid-template-columns: 1fr 1fr; gap: 10px; } main .kpi .v { font-size: 18px; }
+  footer { padding: 16px; }
+}
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.panel-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.panel-h h2 { margin: 0; font-size: 15px; font-weight: 600; }
+.panel-b { padding: 16px 18px; }
+.stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; min-width: 0; }
+.panel, .card { min-width: 0; }
+.muted { color: var(--muted); }
+.count { font-size: 12px; color: var(--muted); background: var(--panel-2); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+
+/* ---------- form ---------- */
+.presets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.presets button { text-align: left; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font: 500 12.5px Inter, sans-serif; cursor: pointer; transition: .15s; }
+.presets button:hover { border-color: var(--accent); background: var(--accent-weak); }
+.presets button small { display: block; color: var(--muted); font-weight: 400; font-size: 11px; }
+.step { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px 14px; margin: 0 0 12px; background: var(--panel); }
+.step-h { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; font-weight: 600; font-size: 13.5px; }
+.num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; background: var(--accent); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+label { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin: 10px 0 4px; }
+input, select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel-2); color: var(--text); font: 14px Inter, sans-serif; transition: border-color .15s, box-shadow .15s; }
+input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring); background: var(--panel); }
+.hint { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.4; }
+.run-btn { width: 100%; padding: 12px; border: 0; border-radius: 10px; font: 600 15px Inter, sans-serif; color: #fff; cursor: pointer; background: linear-gradient(135deg, var(--accent), #1552c0); box-shadow: 0 6px 16px rgba(31,111,235,.25); transition: transform .1s, box-shadow .15s; }
+.run-btn:hover { box-shadow: 0 8px 22px rgba(31,111,235,.35); }
+.run-btn:active { transform: translateY(1px); }
+#submitmsg { min-height: 18px; }
+#submitmsg.err { color: var(--bad); }
+#submitmsg.ok { color: var(--ok); }
+
+/* ---------- queue, tables ---------- */
+.job { padding: 10px 0; border-bottom: 1px dashed var(--border); }
+.job:last-child { border-bottom: 0; }
+.job-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badge { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid transparent; }
+.badge.ok { color: var(--ok); background: var(--ok-weak); } .badge.bad { color: var(--bad); background: var(--bad-weak); }
+.badge.warn { color: var(--warn); background: var(--warn-weak); } .badge.neutral { color: var(--muted); background: var(--panel-2); border-color: var(--border); }
+pre { background: #0d1520; color: #cfe0f5; border-radius: 8px; padding: 10px 12px; max-height: 180px; overflow: auto; font-size: 12px; white-space: pre-wrap; margin: 8px 0 0; }
+.scroll { overflow: auto; max-height: 340px; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+th { position: sticky; top: 0; z-index: 1; background: var(--panel-2); color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+#runs tr { cursor: pointer; transition: background .1s; }
+#runs tr:hover { background: var(--accent-weak); }
+#runs tr.sel { background: var(--accent-weak); box-shadow: inset 3px 0 0 var(--accent); }
+.sub { font-size: 11.5px; color: var(--muted); }
+.empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+.empty svg { opacity: .5; margin-bottom: 8px; }
+
+/* ---------- run details ---------- */
+.detail-h { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.detail-h h2 { margin: 0; font-size: 18px; }
+#dsub { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+#dsub span { font-size: 12px; padding: 3px 9px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--border); color: var(--muted); }
+.busbox { display: flex; align-items: center; gap: 8px; }
+.busbox input { width: 90px; }
+.btn { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font: 500 13px Inter, sans-serif; cursor: pointer; }
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin: 18px 0; }
+.kpi { position: relative; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px 12px 16px; background: var(--panel); overflow: hidden; }
+.kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--border); }
+.kpi.good::before { background: var(--ok); } .kpi.warn::before { background: var(--warn); } .kpi.bad::before { background: var(--bad); }
+.kpi .v { font-size: 21px; font-weight: 700; letter-spacing: -.01em; line-height: 1.2; }
+.kpi.good .v { color: var(--ok); } .kpi.bad .v { color: var(--bad); } .kpi.warn .v { color: var(--warn); }
+.kpi .l { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.section-t { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 6px 0 10px; }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 1250px) { .charts { grid-template-columns: 1fr; } }
+.card { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+.card-h { padding: 10px 14px 0; font-weight: 600; font-size: 13.5px; }
+.card-h small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.chart { height: 270px; }
+
+/* ---------- footer ---------- */
+footer { max-width: 1560px; margin: 0 auto; padding: 20px 24px 32px; color: var(--muted); font-size: 12.5px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="logo" aria-hidden="true">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M2 16c3-9 6-9 9 0s6 9 9 0 6-9 10 0" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#7fb7ff"/></svg>
+    </div>
+    <div class="hero-text">
+      <div class="overline">North South University · Power Grid Company of Bangladesh</div>
+      <h1>CPS Testbed &amp; Synchrophasor Systems</h1>
+      <p class="full">Remotely Accessible Cyber-Physical System Testbed and Open Architecture Synchrophasor Systems for Bangladesh's National Power Grid's Cyber Security and Reliability</p>
+      <div class="meta">
+        <span class="pill"><span>Principal Investigator: <b>Dr. Hafiz Abdur Rahman</b>, Professor, ECE, North South University</span></span>
+        <span class="pill"><span>Funded by Bangladesh Energy and Power Research Council (EPRC) · Grant <b>EPRC/58-2018-007-01</b></span></span>
+      </div>
+    </div>
+    <div class="status" id="hdrstatus"><span class="dot"></span><span id="hdrtext">Idle</span></div>
+  </div>
+  <div class="stack-bar"><div>
+    <span>GridPACK power flow</span><span>NS-3 PMU network</span><span>HELICS co-simulation</span><span>State estimation &amp; bad data detection</span><span>IEEE 14–300 bus systems</span>
+  </div></div>
+</header>
+
+<main>
+  <aside class="side panel">
+    <div class="panel-h"><h2>New experiment</h2><span class="count">Configure &amp; run</span></div>
+    <div class="panel-b">
+      <div class="presets">
+        <button type="button" data-preset="baseline">Baseline<small>Normal operation</small></button>
+        <button type="button" data-preset="fault">Generator fault<small>AVR setpoint → 1.12 pu</small></button>
+        <button type="button" data-preset="simple">Fault + simple FDI<small>1 falsified channel</small></button>
+        <button type="button" data-preset="stealthy">Fault + stealthy FDI<small>Evades bad data test</small></button>
+        <button type="button" data-preset="delay">Fault + delay attack<small>PMU frames +100 ms</small></button>
+        <button type="button" data-preset="loss">5% packet loss<small>Every PMU link</small></button>
+      </div>
+      <form id="f">
+        <fieldset class="step"><div class="step-h"><span class="num">1</span>Power system</div>
+          <label>Bus system</label><select name="case"></select>
+          <div class="hint" id="caseinfo"></div>
+          <div class="row">
+            <div><label>Duration (s)</label><input name="duration" type="number" value="10" min="1" max="60" step="1"></div>
+            <div><label>Grid step (s)</label><input name="grid_step" type="number" value="0.5" min="0.1" max="5" step="0.1"></div>
+          </div>
+          <div class="row">
+            <div><label>Solver</label><select name="solver"><option value="gridpack">GridPACK</option><option value="builtin">Built-in NR</option></select></div>
+            <div><label>Event</label><select name="event_type"><option value="none">None</option><option value="avr">Generator AVR fault</option><option value="load">Load step</option></select></div>
+          </div>
+          <div class="row" id="eventrow">
+            <div><label id="evbuslabel">Event bus</label><input name="event_bus" type="number" min="1"></div>
+            <div><label id="evvallabel">Setpoint (pu)</label><input name="event_val" type="number" step="0.01"></div>
+            <div><label>Event time (s)</label><input name="event_t" type="number" value="4" step="0.5" min="0"></div>
+          </div>
+        </fieldset>
+        <fieldset class="step"><div class="step-h"><span class="num">2</span>PMUs and network</div>
+          <div class="row">
+            <div><label>PMU placement</label><select name="placement"><option value="1">Minimum</option><option value="2">Redundant (×2)</option></select></div>
+            <div><label>Reporting rate (fps)</label><input name="rate" type="number" value="30" min="1" max="120"></div>
+          </div>
+          <div class="row">
+            <div><label>Link latency (ms)</label><input name="latency" type="number" value="10" min="0.1" step="0.1"></div>
+            <div><label>Latency spread (±)</label><input name="latency_spread" type="number" value="0.5" min="0" max="0.95" step="0.05"></div>
+          </div>
+          <div class="row">
+            <div><label>Jitter (ms)</label><input name="jitter" type="number" value="2" min="0" step="0.5"></div>
+            <div><label>Packet loss (0–1)</label><input name="loss" type="number" value="0" min="0" max="0.9" step="0.01"></div>
+          </div>
+          <label>PDC wait window (ms)</label><input name="pdc_wait" type="number" value="20" min="1">
+        </fieldset>
+        <fieldset class="step"><div class="step-h"><span class="num">3</span>Attack</div>
+          <div class="row">
+            <div><label>Type</label><select name="attack">
+              <option value="none">None</option><option value="fdi-simple">FDI – simple</option>
+              <option value="fdi-stealthy">FDI – stealthy</option><option value="delay">Delay</option><option value="drop">Drop</option></select></div>
+            <div><label>Target bus</label><input name="target" type="number" min="1" placeholder="auto"></div>
+          </div>
+          <div class="row">
+            <div><label>Fake voltage (pu)</label><input name="fake" type="number" step="0.01" placeholder="auto"></div>
+            <div><label>Extra delay (ms)</label><input name="attack_delay" type="number" value="100" min="0"></div>
+          </div>
+          <div class="row">
+            <div><label>Start (s)</label><input name="attack_start" type="number" value="4" step="0.5" min="0"></div>
+            <div><label>End (s)</label><input name="attack_end" type="number" value="9" step="0.5" min="0"></div>
+          </div>
+        </fieldset>
+        <fieldset class="step"><div class="step-h"><span class="num">4</span>Control center</div>
+          <div class="row">
+            <div><label>Bad data detection</label><select name="bdd"><option value="on">On</option><option value="off">Off</option></select></div>
+            <div><label>Voltage control</label><select name="control"><option value="on">On</option><option value="off">Off</option></select></div>
+          </div>
+          <div class="row">
+            <div><label>V min (pu)</label><input name="vmin" type="number" value="0.94" step="0.01"></div>
+            <div><label>V max (pu)</label><input name="vmax" type="number" value="1.08" step="0.01"></div>
+          </div>
+          <div class="row">
+            <div><label>Run name</label><input name="name" value="web" pattern="[A-Za-z0-9_-]{1,40}"></div>
+            <div><label>Random seed</label><input name="seed" type="number" value="1" min="1"></div>
+          </div>
+        </fieldset>
+        <button class="run-btn" type="submit">▶ Run experiment</button>
+        <div class="hint" id="submitmsg"></div>
+      </form>
+    </div>
+  </aside>
+
+  <div class="stack">
+    <section class="panel">
+      <div class="panel-h"><h2>Queue</h2><span class="count" id="queueinfo">idle</span></div>
+      <div class="panel-b" id="jobs"></div>
+    </section>
+    <section class="panel">
+      <div class="panel-h"><h2>Runs</h2><span class="count" id="runcount">0 runs</span></div>
+      <div class="scroll"><table>
+        <thead><tr><th>Run</th><th>System</th><th>Attack</th><th>Loss</th><th>BDD</th><th>Control</th><th>Violation (s)</th><th>Detection</th><th>Delivery</th></tr></thead>
+        <tbody id="runs"></tbody>
+      </table></div>
+    </section>
+    <section class="panel" id="empty">
+      <div class="empty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+        <div>No run selected. Start an experiment or pick one from the list.</div>
+      </div>
+    </section>
+    <section class="panel" id="detail" hidden>
+      <div class="panel-b">
+        <div class="detail-h">
+          <div><h2 id="dtitle"></h2><div id="dsub"></div></div>
+          <div class="busbox"><label style="margin:0">Plot bus</label><input id="busin" type="number"><button class="btn" id="busbtn">Show</button></div>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="section-t">Charts</div>
+        <div class="charts">
+          <div class="card"><div class="card-h" id="t_v">Voltage at bus<small>True (GridPACK) vs estimated by the control center</small></div><div class="chart" id="c_v"></div></div>
+          <div class="card"><div class="card-h">Highest bus voltage<small>Any violation anywhere in the grid</small></div><div class="chart" id="c_max"></div></div>
+          <div class="card"><div class="card-h">Bad data test (chi-square)<small>Alarm when J exceeds the threshold</small></div><div class="chart" id="c_j"></div></div>
+          <div class="card"><div class="card-h">PMU → PDC latency<small>Delivered frames</small></div><div class="chart" id="c_lat"></div></div>
+          <div class="card"><div class="card-h">Delivery per PMU<small>Attacked PMUs in red</small></div><div class="chart" id="c_pmu"></div></div>
+          <div class="card"><div class="card-h">PDC set completeness<small>Share of PMUs in each measurement set</small></div><div class="chart" id="c_comp"></div></div>
+        </div>
+        <div class="section-t" style="margin-top:20px">Commands and events</div>
+        <div class="card scroll"><table><thead><tr><th>Applied (s)</th><th>Generator</th><th>Setpoint</th><th>Issued (s)</th><th>Delivered (s)</th><th>Reason</th></tr></thead><tbody id="cmds"></tbody></table></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div>
+    <b>Research team:</b> Dr. Hafiz Abdur Rahman (PI, North South University) · Dr. Jahangir Hossain (Co-PI, University of British Columbia) ·
+    Dr. Athula Kulatunga (Co-PI, Purdue University Northwest) · Dr. Shohana Rahman Deeba · Ms. Rummana Rahman (North South University)
+  </div>
+  <div><a href="https://github.com/mazharulmd/cps-testbed" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="https://github.com/mazharulmd/cps-testbed/blob/main/documentation/CPS_Testbed_User_Guide.pdf" target="_blank" rel="noopener">User guide</a> ·
+    <a href="https://github.com/mazharulmd/cps-testbed/blob/main/documentation/CPS_Testbed_Technical_Report.pdf" target="_blank" rel="noopener">Technical report</a></div>
+</footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const f = $("#f");
+let CASES = {}, current = null, charts = {};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const api = (p, o) => fetch(p, o).then(async r => { if (!r.ok) throw new Error((await r.text()) || r.status); return r.json(); });
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function caseInfo() {
+  const c = CASES[f.case.value]; if (!c) return;
+  $("#caseinfo").textContent = `${c.buses} buses · ${c.branches} branches · ${c.gens.length} generators · ${c.pmus_min} PMUs (minimum placement). Highest base-case voltage: bus ${c.max_v_bus} (${c.max_v} pu).`;
+}
+function eventRow() {
+  const t = f.event_type.value;
+  $("#eventrow").style.display = t === "none" ? "none" : "grid";
+  $("#eventrow").style.gridTemplateColumns = "1fr 1fr 1fr";
+  $("#evbuslabel").textContent = t === "avr" ? "Generator bus" : "Load bus";
+  $("#evvallabel").textContent = t === "avr" ? "Setpoint (pu)" : "Change (%)";
+}
+function faultGen() { const g = CASES[f.case.value].gens; return g[Math.floor(g.length / 2)]; }
+// bus numbers differ between systems: when the system changes, move event and
+// attack buses that do not exist in it to the default generator of the new system
+function fixBuses() {
+  const c = CASES[f.case.value]; if (!c) return;
+  const g = faultGen();
+  if (f.event_type.value === "avr" && !c.gens.includes(Number(f.event_bus.value))) f.event_bus.value = g;
+  if (f.event_type.value === "load" && !c.bus_ids.includes(Number(f.event_bus.value))) f.event_bus.value = c.max_v_bus;
+  if (f.target.value !== "" && !c.bus_ids.includes(Number(f.target.value)))
+    f.target.value = f.event_type.value === "avr" ? f.event_bus.value : "";
+}
+
+const PRESETS = {
+  baseline: {event_type: "none", attack: "none", loss: 0, bdd: "on", control: "on", name: "baseline"},
+  fault: {event_type: "avr", attack: "none", loss: 0, name: "fault"},
+  simple: {event_type: "avr", attack: "fdi-simple", loss: 0, name: "fault_fdi_simple"},
+  stealthy: {event_type: "avr", attack: "fdi-stealthy", loss: 0, name: "fault_fdi_stealthy"},
+  delay: {event_type: "avr", attack: "delay", attack_delay: 100, loss: 0, name: "fault_delay"},
+  loss: {event_type: "none", attack: "none", loss: 0.05, name: "loss5"},
+};
+document.querySelectorAll("[data-preset]").forEach(b => b.onclick = () => {
+  const p = PRESETS[b.dataset.preset];
+  for (const [k, v] of Object.entries(p)) f[k].value = v;
+  if (p.event_type === "avr") {
+    const g = faultGen();
+    f.event_bus.value = g; f.event_val.value = 1.12; f.event_t.value = 4;
+    f.attack_start.value = 4; f.attack_end.value = 9;
+    f.target.value = p.attack === "none" ? "" : g; f.fake.value = p.attack.startsWith("fdi") ? 1.02 : "";
+  } else { f.target.value = ""; f.fake.value = ""; }
+  eventRow();
+});
+
+f.case.onchange = () => { caseInfo(); fixBuses(); };
+f.event_type.onchange = () => { eventRow(); fixBuses(); };
+function note(text, kind) { const m = $("#submitmsg"); m.textContent = text; m.className = "hint " + (kind || ""); }
+f.onsubmit = async e => {
+  e.preventDefault();
+  const num = n => f[n].value === "" ? null : Number(f[n].value);
+  const body = {case: f.case.value, name: f.name.value, duration: num("duration"), grid_step: num("grid_step"),
+    rate: num("rate"), solver: f.solver.value, placement: Number(f.placement.value), latency: num("latency"),
+    latency_spread: num("latency_spread"), jitter: num("jitter"), loss: num("loss"), pdc_wait: num("pdc_wait"),
+    attack: f.attack.value, target: num("target"), fake: num("fake"), attack_start: num("attack_start"),
+    attack_end: num("attack_end"), attack_delay: num("attack_delay"), bdd: f.bdd.value, control: f.control.value,
+    vmin: num("vmin"), vmax: num("vmax"), seed: num("seed"),
+    event: f.event_type.value === "none" ? "none" : `${f.event_type.value}:${f.event_bus.value}:${f.event_val.value}:${f.event_t.value}`};
+  try { const j = await api("/api/runs", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+    note(`✓ Queued “${body.name}” (job ${j.id}). Results open automatically when it finishes.`, "ok"); refreshJobs(); }
+  catch (err) {
+    let msg = err.message;
+    try { const d = JSON.parse(msg).detail; msg = typeof d === "string" ? d : d.map(x => `${x.loc.slice(-1)[0]}: ${x.msg}`).join("; "); } catch (_) {}
+    note("Could not start: " + msg, "err"); }
+};
+
+const statusBadge = s => `<span class="badge ${s === "done" ? "ok" : s === "failed" ? "bad" : "warn"}">${s === "running" ? "● " : ""}${esc(s)}</span>`;
+let lastDone = new Set(), jobsSeen = false;
+async function refreshJobs() {
+  const jobs = await api("/api/jobs");
+  const active = jobs.filter(j => j.status === "queued" || j.status === "running").length;
+  $("#queueinfo").textContent = active ? `${active} active` : "idle";
+  $("#hdrstatus").classList.toggle("busy", active > 0);
+  $("#hdrtext").textContent = active ? `Running · ${active} in queue` : "Idle · ready";
+  $("#jobs").innerHTML = jobs.length ? jobs.slice(0, 5).map(j => `
+    <div class="job"><div class="job-top">${statusBadge(j.status)}
+    <b>${esc(j.request.name)}</b> <span class="muted">${esc(j.grid || "IEEE " + j.request.case)} · attack ${esc(j.request.attack)}${j.run_id ? " · " + esc(j.run_id) : ""}</span></div>
+    ${j.status === "running" || j.status === "failed" ? `<pre>${esc(j.log_tail || "starting…")}</pre>` : ""}</div>`).join("") : '<div class="muted">No jobs yet. Choose a preset or set parameters, then run.</div>';
+  // open a run that finished while this page was open (not ones that were already done when it loaded)
+  const done = jobs.filter(j => j.status === "done").map(j => j.run_id);
+  const fresh = done.filter(id => !lastDone.has(id));
+  if (fresh.length) { await refreshRuns(); if (jobsSeen) openRun(fresh[0]); }
+  lastDone = new Set(done); jobsSeen = true;
+}
+
+async function refreshRuns() {
+  const runs = await api("/api/runs");
+  $("#runcount").textContent = `${runs.length} run${runs.length === 1 ? "" : "s"}`;
+  const onoff = v => `<span class="badge ${v === "on" ? "neutral" : "warn"}">${esc(v)}</span>`;
+  $("#runs").innerHTML = runs.length ? runs.map(r => `<tr data-id="${esc(r.id)}" class="${r.id === current ? "sel" : ""}">
+    <td><b>${esc(r.name)}</b><div class="sub">${esc(r.id.slice(0, 8))} ${esc(r.id.slice(9, 15).replace(/(..)(..)(..)/, "$1:$2:$3"))}</div></td>
+    <td>${esc(r.grid || "IEEE " + r.case)}</td><td>${r.attack === "none" ? '<span class="muted">none</span>' : `<span class="badge warn">${esc(r.attack)}</span>`}</td>
+    <td>${r.loss}</td><td>${onoff(r.bdd)}</td><td>${onoff(r.control)}</td>
+    <td>${r.violation_s > 1 ? `<span class="badge bad">${r.violation_s}</span>` : `<span class="badge ok">${r.violation_s}</span>`}</td>
+    <td>${r.detection == null ? '<span class="muted">–</span>' : r.detection + "%"}</td><td>${(100 * r.delivery).toFixed(1)}%</td></tr>`).join("")
+    : '<tr><td colspan="9" class="muted" style="text-align:center;padding:24px">No runs yet</td></tr>';
+  document.querySelectorAll("#runs tr[data-id]").forEach(tr => tr.onclick = () => openRun(tr.dataset.id));
+}
+
+function chart(id) { charts[id] ||= echarts.init(document.getElementById(id)); return charts[id]; }
+const base = () => ({
+  grid: {left: 58, right: 18, top: 36, bottom: 40}, tooltip: {trigger: "axis"},
+  legend: {top: 4, right: 10, textStyle: {color: css("--muted")}},
+  textStyle: {color: css("--muted"), fontFamily: "Inter, sans-serif"}});
+const axis = (name, extra = {}) => ({type: "value", name, nameLocation: "middle", nameGap: 40, scale: true,
+  axisLine: {lineStyle: {color: css("--border")}}, splitLine: {lineStyle: {color: css("--border")}}, ...extra});
+
+// colour a summary figure: good (green), warn (amber), bad (red) or neutral
+function tone(label, S) {
+  const n = S.network, cc = S.control_center, g = S.grid, at = S.attack;
+  switch (label) {
+    case "Frames delivered": return n.delivery_ratio >= 0.99 ? "good" : n.delivery_ratio >= 0.9 ? "warn" : "bad";
+    case "Complete PDC sets": return cc.complete_sets_pct >= 95 ? "good" : cc.complete_sets_pct >= 70 ? "warn" : "bad";
+    case "SE error (clean)": return cc.se_mean_abs_err_pu == null ? "" : cc.se_mean_abs_err_pu < 0.002 ? "good" : "warn";
+    case "True violation time": return g.true_violation_time_s <= 1 ? "good" : g.true_violation_time_s <= 3 ? "warn" : "bad";
+    case "False alarms": return cc.false_alarm_rate_pct <= 1 ? "good" : cc.false_alarm_rate_pct <= 5 ? "warn" : "bad";
+    case "Attack detected": case "Time to detect": return at.time_to_detect_s == null ? "bad" : "good";
+    case "Target V true / seen": return Math.abs(at.target_true_v_mean - at.target_seen_v_mean) > 0.01 ? "bad" : "good";
+    default: return "";
+  }
+}
+
+async function openRun(id, bus) {
+  current = id; document.querySelectorAll("#runs tr").forEach(tr => tr.classList.toggle("sel", tr.dataset.id === id));
+  const [r, s] = await Promise.all([api(`/api/runs/${id}`), api(`/api/runs/${id}/series` + (bus ? `?bus=${bus}` : ""))]);
+  const S = r.summary, a = r.meta.args;
+  $("#detail").hidden = false; $("#empty").hidden = true;
+  $("#dtitle").textContent = `${S.name} · ${S.case}`;
+  const tags = [`${r.meta.pmus.length} PMUs`, `${a.rate} fps`, `latency ${a.latency} ms ±${Math.round(a.latency_spread * 100)}%`, `loss ${a.loss}`,
+    a.attack === "none" ? "no attack" : `${a.attack} on bus ${r.meta.target_bus} (${a.attack_start}–${a.attack_end} s)`,
+    a.event === "none" ? "no event" : `event ${a.event}`, `BDD ${a.bdd}`, `control ${a.control}`];
+  $("#dsub").innerHTML = tags.map(t => `<span>${esc(t)}</span>`).join("");
+  $("#busin").value = s.bus;
+  $("#t_v").firstChild.textContent = `Voltage at bus ${s.bus}`;
+  const at = S.attack, cc = S.control_center, n = S.network, g = S.grid;
+  const k = [
+    ["Frames delivered", (100 * n.delivery_ratio).toFixed(1) + "%"],
+    ["Latency p95", n.latency_ms.p95.toFixed(1) + " ms"],
+    ["Complete PDC sets", cc.complete_sets_pct + "%"],
+    ["SE error (clean)", cc.se_mean_abs_err_pu == null ? "–" : cc.se_mean_abs_err_pu.toFixed(4) + " pu"],
+    ["True violation time", g.true_violation_time_s + " s"],
+    ["Control commands", g.commands_applied],
+    ["False alarms", cc.false_alarm_rate_pct + "%"]];
+  if (at.type !== "none") k.push(["Attack detected", at.detection_rate_pct + "% of sets"],
+    ["Time to detect", at.time_to_detect_s == null ? "never" : at.time_to_detect_s + " s"],
+    ["Compromised PMUs", (at.compromised_pmus || []).join(", ")],
+    ["Target V true / seen", `${at.target_true_v_mean} / ${at.target_seen_v_mean}`]);
+  $("#kpis").innerHTML = k.map(([l, v]) => `<div class="kpi ${tone(l, S)}"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join("");
+
+  const win = s.attack_window ? {silent: true, itemStyle: {color: "rgba(229,57,53,0.08)"}, data: [[{xAxis: s.attack_window[0]}, {xAxis: s.attack_window[1]}]]} : undefined;
+  const limit = {silent: true, symbol: "none", lineStyle: {color: css("--limit"), type: "dashed"}, label: {formatter: "V max", position: "insideEndTop", color: css("--limit")}, data: [{yAxis: s.vmax}]};
+  chart("c_v").setOption({...base(), xAxis: axis("time (s)", {scale: false}), yAxis: axis("pu"),
+    series: [
+      {name: "True (GridPACK)", type: "line", step: "end", data: s.truth, symbol: "none", lineStyle: {width: 2, color: css("--true")}, itemStyle: {color: css("--true")}, markArea: win, markLine: limit},
+      {name: "Estimated", type: "line", data: s.estimate, symbol: "none", lineStyle: {width: 1.5, color: css("--est")}, itemStyle: {color: css("--est")}}]}, true);
+  chart("c_max").setOption({...base(), xAxis: axis("time (s)", {scale: false}), yAxis: axis("pu"),
+    series: [
+      {name: "True", type: "line", step: "end", data: s.truth_max, symbol: "none", lineStyle: {width: 2, color: css("--true")}, itemStyle: {color: css("--true")}, markArea: win, markLine: limit},
+      {name: "Estimated", type: "line", data: s.est_max, symbol: "none", lineStyle: {width: 1.5, color: css("--est")}, itemStyle: {color: css("--est")}}]}, true);
+  chart("c_j").setOption({...base(), xAxis: axis("time (s)", {scale: false}), yAxis: axis("J", {type: "log", scale: false}),
+    series: [
+      {name: "J", type: "line", data: s.chi2.map(x => [x[0], Math.max(x[1], 1e-3)]), symbol: "none", lineStyle: {width: 1.5, color: css("--accent")}, itemStyle: {color: css("--accent")}, markArea: win},
+      {name: "Threshold", type: "line", data: s.chi2.map(x => [x[0], x[2]]), symbol: "none", lineStyle: {type: "dashed", color: css("--limit")}, itemStyle: {color: css("--limit")}}]}, true);
+  chart("c_lat").setOption({...base(), tooltip: {trigger: "axis"},
+    xAxis: {type: "category", name: "ms", nameLocation: "middle", nameGap: 26, data: (s.latency_hist || []).map(x => x[0])},
+    yAxis: axis("frames", {scale: false}), series: [{name: "Frames", type: "bar", data: (s.latency_hist || []).map(x => x[1]), itemStyle: {color: css("--accent"), borderRadius: [3, 3, 0, 0]}}]}, true);
+  chart("c_pmu").setOption({...base(), xAxis: {type: "category", name: "PMU bus", nameLocation: "middle", nameGap: 26, data: s.pmus.map(p => p.bus)},
+    yAxis: axis("delivered", {min: 0, max: 1, scale: false}),
+    series: [{name: "Delivery", type: "bar", data: s.pmus.map(p => ({value: p.delivery, itemStyle: {color: p.attacked_frames ? css("--est") : css("--accent"), borderRadius: [3, 3, 0, 0]}}))}]}, true);
+  chart("c_comp").setOption({...base(), xAxis: axis("time (s)", {scale: false}), yAxis: axis("fraction of PMUs", {min: 0, max: 1, scale: false}),
+    series: [{name: "Complete", type: "line", step: "end", data: s.completeness, symbol: "none", areaStyle: {opacity: 0.15}, lineStyle: {color: css("--accent")}, itemStyle: {color: css("--accent")}, markArea: win}]}, true);
+  $("#cmds").innerHTML = r.commands.length ? r.commands.map(c => `<tr><td>${esc(c.t_applied)}</td><td>${esc(c.gen_bus)}</td><td>${esc(c.vset)}</td>
+    <td>${esc(c.issued_t)}</td><td>${esc(c.delivered_t)}</td><td>${String(c.reason).startsWith("event") ? `<span class="badge warn">${esc(c.reason)}</span>` : esc(c.reason)}</td></tr>`).join("")
+    : '<tr><td colspan="6" class="muted">No commands</td></tr>';
+}
+$("#busbtn").onclick = () => current && openRun(current, $("#busin").value);
+$("#busin").addEventListener("keydown", e => { if (e.key === "Enter") $("#busbtn").click(); });
+window.addEventListener("resize", () => Object.values(charts).forEach(c => c.resize()));
+
+(async () => {
+  const cs = await api("/api/cases");
+  cs.forEach(c => CASES[c.case] = c);
+  f.case.innerHTML = cs.map(c => `<option value="${c.case}" ${c.case === "118" ? "selected" : ""}>IEEE ${c.case}-bus</option>`).join("");
+  caseInfo(); eventRow();
+  await refreshRuns();
+  const runs = await api("/api/runs"); if (runs.length) openRun(runs[0].id);
+  refreshJobs(); setInterval(refreshJobs, 2500);
+})();
+</script>
+</body>
+</html>

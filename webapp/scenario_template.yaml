@@ -1,0 +1,52 @@
+# CPS testbed scenario file. Upload it on the "Experiments" page of the dashboard.
+# Every field is optional; the value shown is the default unless marked "example".
+# Several experiments can go in one file under `scenarios:` (see the end of this file).
+
+name: gen-fault-fdi          # example; letters, digits, _ and -, up to 40 characters
+grid: ieee118                # ieee14, ieee30, ieee39, ieee57, ieee118, ieee300, or the id of an uploaded grid
+duration: 10                 # simulated seconds (1-120)
+grid_step: 0.5               # GridPACK re-solves the power flow every grid_step seconds
+solver: gridpack             # gridpack (MPI on the cluster) or builtin (Python Newton-Raphson)
+mpi_np: 4                    # example; number of MPI ranks GridPACK runs on (1-256)
+seed: 1                      # random seed for link delays, noise and losses
+
+pmu:
+  placement: minimum         # minimum = fewest PMUs for full observability; redundant = every bus seen twice
+  rate: 30                   # frames per second per PMU
+
+network:                     # every PMU has its own link to the PDC
+  latency_ms: 10             # mean one-way delay
+  latency_spread: 0.5        # each link's delay is drawn within +/- this fraction of the mean
+  jitter_ms: 2               # extra random delay per frame, 0..jitter_ms
+  loss: 0.0                  # probability that a frame is lost (0-0.9)
+  pdc_wait_ms: 20            # how long the PDC waits for late frames of a time stamp
+
+event:                       # a disturbance in the grid
+  type: avr_fault            # example; none | avr_fault | load_step
+  bus: 49                    # example; generator bus (avr_fault) or load bus (load_step)
+  vset: 1.12                 # avr_fault: faulty voltage setpoint (pu)
+  pct: 20                    # load_step: load change in percent
+  t: 4                       # when it happens (s)
+
+attack:
+  type: fdi-simple           # example; none | fdi-simple | fdi-stealthy | delay | drop
+  target: 49                 # example; bus to hide (empty = highest-voltage bus)
+  fake: 1.02                 # example; voltage the attacker wants the control center to see (pu)
+  start: 4                   # attack window (s)
+  end: 9
+  delay_ms: 100              # delay attack only
+
+control:
+  bdd: true                  # chi-square bad data detection with removal of suspicious PMUs
+  voltage_control: true      # send generator setpoint commands on voltage violations
+  vmin: 0.94
+  vmax: 1.08
+
+# Several experiments in one file: the fields above are shared, each entry overrides them.
+# scenarios:
+#   - name: no-attack
+#     attack: {type: none}
+#   - name: stealthy
+#     attack: {type: fdi-stealthy}
+#   - name: mpi-8
+#     mpi_np: 8

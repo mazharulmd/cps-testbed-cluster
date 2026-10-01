@@ -1,0 +1,22 @@
+[Unit]
+Description=CPS testbed experiment API (queue, uploads, results)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cps
+Group=cps
+EnvironmentFile=/etc/cps/cps.env
+Environment=PATH=/opt/cps/venv/bin:/opt/cps/helics/bin:/usr/local/bin:/usr/bin:/bin
+ExecStartPre=/opt/cps/venv/bin/python /opt/cps/testbed/install/configure.py
+WorkingDirectory=/opt/cps/testbed/webapp
+ExecStart=/opt/cps/venv/bin/uvicorn app:app --host 0.0.0.0 --port 8080
+Restart=on-failure
+RestartSec=5
+# experiments are child processes of the API; stop them with it
+KillMode=control-group
+TimeoutStartSec=180
+
+[Install]
+WantedBy=multi-user.target

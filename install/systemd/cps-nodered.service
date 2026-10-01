@@ -1,0 +1,17 @@
+[Unit]
+Description=CPS testbed dashboard (Node-RED)
+After=network-online.target cps-api.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cps
+Group=cps
+EnvironmentFile=/etc/cps/cps.env
+Environment=PATH=/opt/cps/venv/bin:/opt/cps/helics/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/local/bin/node-red -u /opt/cps/node-red
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

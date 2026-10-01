@@ -1,0 +1,2265 @@
+[
+    {
+        "id": "b1091fdc876e5a4e",
+        "type": "tab",
+        "label": "CPS Testbed Console",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6df6ef18cc2df6cb",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "c6aa76fb390a9bd1",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "e316922ddf2f0666",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "6df6ef18cc2df6cb",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "c6aa76fb390a9bd1",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 5,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "ui_theme",
+        "type": "ui-theme",
+        "name": "CPS Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0d47a1",
+            "bgPage": "#eceff1",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cfd8dc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "6px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "ui_page",
+        "type": "ui-page",
+        "name": "IEEE 14 Console (legacy)",
+        "ui": "6df6ef18cc2df6cb",
+        "path": "/console",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "ui_theme",
+        "order": 4,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "grp_header",
+        "type": "ui-group",
+        "name": "Scenario Status",
+        "page": "ui_page",
+        "width": "12",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "grp_charts",
+        "type": "ui-group",
+        "name": "Grid Voltage & Network Delay",
+        "page": "ui_page",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "grp_metrics",
+        "type": "ui-group",
+        "name": "Network Performance",
+        "page": "ui_page",
+        "width": "6",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "grp_table",
+        "type": "ui-group",
+        "name": "Per-Bus Measurement Table",
+        "page": "ui_page",
+        "width": "6",
+        "height": "1",
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "30ae9a8f193c2055",
+        "type": "inject",
+        "z": "b1091fdc876e5a4e",
+        "name": "Load Latest Scenario",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "30ae9a8f193c2055_link"
+            ]
+        ]
+    },
+    {
+        "id": "56a83253ec73e3d4",
+        "type": "file in",
+        "z": "b1091fdc876e5a4e",
+        "name": "read last_compare.csv",
+        "filename": "/srv/cps/legacy/last_compare.csv",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 400,
+        "y": 260,
+        "wires": [
+            [
+                "422539c5447e636e"
+            ]
+        ]
+    },
+    {
+        "id": "422539c5447e636e",
+        "type": "csv",
+        "z": "b1091fdc876e5a4e",
+        "name": "",
+        "sep": ",",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": false,
+        "include_null_values": false,
+        "x": 610,
+        "y": 260,
+        "wires": [
+            [
+                "d0dc46b6b654992a",
+                "43f7199fc04e2d7f",
+                "9bab0be9e99cce9e",
+                "96fbfd24f2fdcadb"
+            ]
+        ]
+    },
+    {
+        "id": "d0dc46b6b654992a",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "voltage series",
+        "func": "const rows = msg.payload;\nfor (const r of rows) {\n  const bus = Number(r.bus);\n  node.send({ topic: 'True (GridPACK)', payload: Number(r.sent_v), x: bus, y: Number(r.sent_v) });\n  if (r.delivered == 1 && r.recv_v !== '') {\n    node.send({ topic: 'Delivered (NS-3)', payload: Number(r.recv_v), x: bus, y: Number(r.recv_v) });\n  }\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 120,
+        "wires": [
+            [
+                "3c895ee64950ada7"
+            ]
+        ]
+    },
+    {
+        "id": "43f7199fc04e2d7f",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "delay series",
+        "func": "const rows = msg.payload;\nfor (const r of rows) {\n    const bus = Number(r.bus);\n    if (r.delivered == 1 && r.delay_ms !== '' && r.delay_ms != null) {\n        // delivered: Normal or Problem bus\n        const isProblem = (Number(r.sent_v) > 1.08) || (r.attacked == 1);\n        node.send({\n            topic: isProblem ? 'Problem bus' : 'Normal',\n            payload: Number(r.delay_ms),\n            x: bus,\n            y: Number(r.delay_ms)\n        });\n    } else {\n        // lost: show a small marker so the gap is visible and labeled\n        node.send({\n            topic: 'Lost',\n            payload: 0,\n            x: bus,\n            y: 1   // small fixed height so it's visible but clearly not a real delay\n        });\n    }\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 200,
+        "wires": [
+            [
+                "28bd03089bd8c0cb"
+            ]
+        ]
+    },
+    {
+        "id": "9bab0be9e99cce9e",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "build table",
+        "func": "const rows = msg.payload;\nlet html = `<div style=\"display:flex;justify-content:center;width:100%\"><table style=\"border-collapse:collapse;font-size:14px;margin:0 auto\">\n<tr style=\"background:#0d47a1;color:#fff\">\n<th style=\"padding:6px;border:1px solid #ccc\">Bus</th>\n<th style=\"padding:6px;border:1px solid #ccc\">True V</th>\n<th style=\"padding:6px;border:1px solid #ccc\">Recv V</th>\n<th style=\"padding:6px;border:1px solid #ccc\">Delay ms</th>\n<th style=\"padding:6px;border:1px solid #ccc\">Status</th></tr>`;\nfor (const r of rows) {\n  const lost = (r.delivered != 1);\n  const atk = (r.attacked == 1);\n  let bg = '', status = 'OK', scolor = '#2e7d32';\n  if (lost) { bg = 'background:#ffcdd2'; status = 'LOST'; scolor = '#c62828'; }\n  else if (atk) { bg = 'background:#fff3cd'; status = '\u26a0 TAMPERED'; scolor = '#e65100'; }\n  html += `<tr style=\"${bg}\">\n<td style=\"padding:5px;border:1px solid #ccc;text-align:center\">${r.bus}</td>\n<td style=\"padding:5px;border:1px solid #ccc;text-align:center\">${Number(r.sent_v).toFixed(4)}</td>\n<td style=\"padding:5px;border:1px solid #ccc;text-align:center\">${lost ? '\u2014' : Number(r.recv_v).toFixed(4)}</td>\n<td style=\"padding:5px;border:1px solid #ccc;text-align:center\">${lost ? '\u2014' : Number(r.delay_ms).toFixed(2)}</td>\n<td style=\"padding:5px;border:1px solid #ccc;text-align:center;font-weight:bold;color:${scolor}\">${status}</td></tr>`;\n}\nhtml += `</table></div>`;\nmsg.payload = html;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 260,
+        "wires": [
+            [
+                "ece9c0b6cd5c3b47"
+            ]
+        ]
+    },
+    {
+        "id": "9615debd04964375",
+        "type": "file in",
+        "z": "b1091fdc876e5a4e",
+        "name": "read last_summary.json",
+        "filename": "/srv/cps/legacy/last_summary.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 410,
+        "y": 380,
+        "wires": [
+            [
+                "280f37eb3d43bccc"
+            ]
+        ]
+    },
+    {
+        "id": "280f37eb3d43bccc",
+        "type": "json",
+        "z": "b1091fdc876e5a4e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 610,
+        "y": 380,
+        "wires": [
+            [
+                "47f3d72c8437e7d6",
+                "a377f157fe27140d",
+                "ad4f66814f984a29"
+            ]
+        ]
+    },
+    {
+        "id": "f0dca9d92b1ba51d",
+        "type": "ui-text",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_header",
+        "order": 1,
+        "width": "11",
+        "height": "1",
+        "name": "header",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": false,
+        "font": "",
+        "fontSize": 14,
+        "color": "#0d47a1",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1040,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "28bd03089bd8c0cb",
+        "type": "ui-chart",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_charts",
+        "name": "Delay",
+        "label": "End-to-End Network Delay per Bus",
+        "order": 2,
+        "chartType": "bar",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "Bus Number",
+        "xAxisProperty": "x",
+        "xAxisPropertyType": "msg",
+        "xAxisType": "category",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Delay (ms)",
+        "yAxisProperty": "y",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "",
+        "bins": "",
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "1",
+        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "colors": [
+            "#5b5bd2",
+            "#fa0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "6",
+        "className": "",
+        "interpolation": "linear",
+        "x": 1030,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b6d27a642ab57b38",
+        "type": "ui-text",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_metrics",
+        "order": 1,
+        "width": "6",
+        "height": "4",
+        "name": "metrics",
+        "label": "",
+        "format": "<pre style=\"font-size:15px;line-height:1.6;margin:0\">{{msg.payload}}</pre>",
+        "layout": "row-center",
+        "style": false,
+        "font": "",
+        "fontSize": 15,
+        "color": "#263238",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1040,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "47f3d72c8437e7d6",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "delivery gauge",
+        "func": "const s = msg.payload;\nconst rate = (s.delivered / s.total_buses) * 100;\nmsg.payload = Math.round(rate * 10) / 10;   \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 540,
+        "wires": [
+            [
+                "f211f86170e2e773"
+            ]
+        ]
+    },
+    {
+        "id": "f211f86170e2e773",
+        "type": "ui-gauge",
+        "z": "b1091fdc876e5a4e",
+        "name": "",
+        "group": "grp_metrics",
+        "order": 0,
+        "value": "payload",
+        "valueType": "msg",
+        "width": "0",
+        "height": "0",
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "Delivery Rate",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ff0000",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "85",
+                "color": "#58ee71",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "100",
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 1060,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad4f66814f984a29",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "metrics text",
+        "func": "const s = msg.payload;\nconst attackLine = (s.attack && s.attack !== 'none')\n    ? `\u26a0 ATTACK: ${s.attack} \u2014 MISSED violations: ${s.missed_violations}`\n    : `Security: no attack detected`;\nconst line1 = `Delivered: ${s.delivered}/${s.total_buses} &nbsp; | &nbsp; Lost: ${s.lost} (${Number(s.loss_actual_pct).toFixed(1)}%) &nbsp; | &nbsp; Violations seen: ${s.violations_seen_by_pdc} &nbsp; | &nbsp; Avg delay: ${Number(s.avg_delay_ms).toFixed(2)} ms`;\nmsg.payload = `<div style=\"font-size:14px;line-height:1.6\">${line1}<br><span style=\"color:#c62828;font-weight:bold\">${attackLine}</span></div>`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 460,
+        "wires": [
+            [
+                "b6d27a642ab57b38"
+            ]
+        ]
+    },
+    {
+        "id": "a377f157fe27140d",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "header text",
+        "func": "const s = msg.payload;\nconst sec = (s.attack && s.attack !== 'none') ? '\ud83d\udd34 UNDER ATTACK' : '\ud83d\udfe2 SECURE';\nmsg.payload = `Scenario: ${s.scenario}  |  Latency: ${s.latency_ms} ms  |  ${sec}  |  HELICS: ${s.helics_status}`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 380,
+        "wires": [
+            [
+                "f0dca9d92b1ba51d"
+            ]
+        ]
+    },
+    {
+        "id": "ece9c0b6cd5c3b47",
+        "type": "ui-text",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_table",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "name": "Table",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-center",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1030,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "96fbfd24f2fdcadb",
+        "type": "ui-template",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_charts",
+        "page": "",
+        "ui": "",
+        "name": "",
+        "order": 0,
+        "width": "6",
+        "height": "6",
+        "head": "",
+        "format": "<template>\n  <div ref=\"chart\" style=\"width:100%;height:340px\"></div>\n</template>\n\n<script>\nexport default {\n  data() { return { chart: null }; },\n  mounted() {\n    const load = () => {\n      if (!window.echarts) {\n        const s = document.createElement('script');\n        s.src = 'https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js';\n        s.onload = () => this.init();\n        document.head.appendChild(s);\n      } else { this.init(); }\n    };\n    load();\n  },\n  methods: {\n    init() {\n      this.chart = window.echarts.init(this.$refs.chart);\n      this.render(this.lastRows || []);\n    },\n    render(rows) {\n      if (!this.chart || !rows.length) return;\n      const buses = rows.map(r => Number(r.bus));\n      const trueV = rows.map(r => Number(r.sent_v));\n      const recvV = rows.map(r => (r.delivered == 1 && r.recv_v !== '') ? Number(r.recv_v) : null);\n      this.chart.setOption({\n        tooltip: { trigger: 'axis' },\n        legend: { data: ['True (GridPACK)', 'Delivered (NS-3)'], top: 0 },\n        grid: { left: 50, right: 20, top: 40, bottom: 40 },\n        xAxis: { type: 'category', data: buses, name: 'Bus Number', nameLocation: 'middle', nameGap: 25 },\n        yAxis: { type: 'value', name: 'Voltage (pu)', min: 1.0, max: 1.1 },\n        series: [\n          {\n            name: 'True (GridPACK)', type: 'line', data: trueV,\n            color: '#1565C0', symbol: 'circle', symbolSize: 7,\n            label: { show: true, position: 'top', formatter: (p) => 'B' + buses[p.dataIndex], fontSize: 10, color: '#1565C0' }\n          },\n          {\n            name: 'Delivered (NS-3)', type: 'line', data: recvV,\n            color: '#E53935', symbol: 'rect', symbolSize: 7, step: 'middle', connectNulls: false\n          }\n        ]\n      });\n    }\n  },\n  watch: {\n    msg: function(m) {\n      if (m && m.payload && Array.isArray(m.payload)) {\n        this.lastRows = m.payload;\n        this.render(m.payload);\n      }\n    }\n  }\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1040,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3c895ee64950ada7",
+        "type": "debug",
+        "z": "b1091fdc876e5a4e",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "grp_run",
+        "type": "ui-group",
+        "name": "Run Scenario",
+        "page": "ui_page",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "run_panel",
+        "type": "ui-template",
+        "z": "b1091fdc876e5a4e",
+        "group": "grp_run",
+        "page": "",
+        "ui": "",
+        "name": "run panel",
+        "order": 1,
+        "width": "12",
+        "height": "1",
+        "head": "",
+        "format": "<template>\n  <div style=\"display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end\">\n    <v-text-field v-model=\"name\" label=\"Scenario name\" density=\"compact\" hide-details style=\"max-width:170px\"></v-text-field>\n    <v-text-field v-model.number=\"latency\" type=\"number\" label=\"Latency (ms)\" density=\"compact\" hide-details style=\"max-width:120px\"></v-text-field>\n    <v-text-field v-model.number=\"loss\" type=\"number\" step=\"0.05\" label=\"Loss (0-1)\" density=\"compact\" hide-details style=\"max-width:110px\"></v-text-field>\n    <v-text-field v-model.number=\"droppmu\" type=\"number\" label=\"Drop bus (0=none)\" density=\"compact\" hide-details style=\"max-width:140px\"></v-text-field>\n    <v-switch v-model=\"attack\" label=\"FDI attack\" color=\"red\" density=\"compact\" hide-details></v-switch>\n    <v-btn color=\"primary\" :loading=\"running\" :disabled=\"running\" @click=\"run\">Run scenario</v-btn>\n  </div>\n  <div style=\"margin-top:8px;font-size:14px\" :style=\"{color: error ? '#c62828' : '#0d47a1'}\">{{ status }}</div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return { name: 'web', latency: 20, loss: 0.2, droppmu: 0, attack: false,\n             running: false, error: false, status: 'Ready.' };\n  },\n  methods: {\n    run() {\n      this.send({ payload: { name: this.name, latency: this.latency, loss: this.loss,\n                             droppmu: this.droppmu, attack: this.attack } });\n    }\n  },\n  watch: {\n    msg(m) {\n      if (!m || !m.status) return;\n      this.running = !!m.status.running;\n      this.error = !!m.status.error;\n      this.status = m.status.text;\n    }\n  }\n}\n</script>",
+        "storeOutMessages": false,
+        "passthru": false,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "run_build"
+            ]
+        ]
+    },
+    {
+        "id": "run_build",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "build command",
+        "func": "// validate dashboard input and build the run_scenario_docker.sh arguments\nif (flow.get('running')) {\n    return [null, { status: { running: true, text: 'A scenario is already running\u2026' } }];\n}\nconst p = msg.payload || {};\nconst name = String(p.name || 'web').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40) || 'web';\nconst latency = Number(p.latency), loss = Number(p.loss), drop = Math.trunc(Number(p.droppmu) || 0);\nif (!(latency >= 0 && latency <= 5000)) return [null, { status: { error: true, text: 'Latency must be 0\u20135000 ms.' } }];\nif (!(loss >= 0 && loss <= 1)) return [null, { status: { error: true, text: 'Loss must be between 0 and 1.' } }];\nif (!(drop >= 0 && drop <= 14)) return [null, { status: { error: true, text: 'Drop bus must be 0\u201314.' } }];\n\nlet args = `--latency=${latency} --loss=${loss} --name=${name}`;\nif (p.attack) args += ' --attack=1';\nif (drop > 0) args += ` --droppmu=${drop}`;\n\nflow.set('running', true);\nreturn [{ payload: args },\n        { status: { running: true, text: `Running \"${name}\" (latency ${latency} ms, loss ${loss}${p.attack ? ', FDI attack' : ''}${drop ? ', drop bus ' + drop : ''})\u2026` } }];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "flow.set(\"running\", false);",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 480,
+        "wires": [
+            [
+                "run_exec"
+            ],
+            [
+                "run_panel"
+            ]
+        ]
+    },
+    {
+        "id": "run_exec",
+        "type": "exec",
+        "z": "b1091fdc876e5a4e",
+        "command": "/opt/cps/testbed/legacy/run_scenario.sh",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "240",
+        "winHide": false,
+        "oldrc": false,
+        "name": "run_scenario_docker.sh",
+        "x": 590,
+        "y": 480,
+        "wires": [
+            [
+                "run_log"
+            ],
+            [
+                "run_log"
+            ],
+            [
+                "run_done"
+            ]
+        ]
+    },
+    {
+        "id": "run_done",
+        "type": "function",
+        "z": "b1091fdc876e5a4e",
+        "name": "finished",
+        "func": "// exec finished: release the lock, report, and reload the dashboard data\nflow.set('running', false);\nconst code = msg.payload && msg.payload.code;\nif (code === 0) {\n    return [{ status: { text: 'Scenario complete \u2014 dashboard updated at ' + new Date().toLocaleTimeString() + '.' } }, { payload: Date.now() }];\n}\nreturn [{ status: { error: true, text: 'Scenario failed (exit code ' + code + '). Check the Node-RED debug panel.' } }, null];",
+        "outputs": 2,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 500,
+        "wires": [
+            [
+                "run_panel"
+            ],
+            [
+                "30ae9a8f193c2055_link"
+            ]
+        ]
+    },
+    {
+        "id": "run_log",
+        "type": "debug",
+        "z": "b1091fdc876e5a4e",
+        "name": "scenario output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 820,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "30ae9a8f193c2055_link",
+        "type": "change",
+        "z": "b1091fdc876e5a4e",
+        "name": "reload results",
+        "rules": [],
+        "x": 360,
+        "y": 380,
+        "wires": [
+            [
+                "clear_delay",
+                "56a83253ec73e3d4",
+                "9615debd04964375"
+            ]
+        ]
+    },
+    {
+        "id": "clear_delay",
+        "type": "change",
+        "z": "b1091fdc876e5a4e",
+        "name": "clear chart",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "x": 560,
+        "y": 380,
+        "wires": [
+            [
+                "28bd03089bd8c0cb"
+            ]
+        ]
+    },
+    {
+        "id": "cps_tab",
+        "type": "tab",
+        "label": "CPS Cluster",
+        "disabled": false,
+        "info": "Experiments and Results pages of the cluster testbed. Talks to the experiment API (CPS_API, default http://127.0.0.1:8080)."
+    },
+    {
+        "id": "cps_page_exp",
+        "type": "ui-page",
+        "name": "Experiments",
+        "ui": "6df6ef18cc2df6cb",
+        "path": "/experiments",
+        "icon": "flask-outline",
+        "layout": "grid",
+        "theme": "ui_theme",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "cps_page_live",
+        "type": "ui-page",
+        "name": "Live",
+        "ui": "6df6ef18cc2df6cb",
+        "path": "/live",
+        "icon": "pulse",
+        "layout": "grid",
+        "theme": "ui_theme",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 2,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "cps_page_res",
+        "type": "ui-page",
+        "name": "Results",
+        "ui": "6df6ef18cc2df6cb",
+        "path": "/results",
+        "icon": "chart-line",
+        "layout": "grid",
+        "theme": "ui_theme",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 3,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "cps_g_cluster",
+        "type": "ui-group",
+        "name": "Cluster",
+        "page": "cps_page_exp",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_upload",
+        "type": "ui-group",
+        "name": "Upload",
+        "page": "cps_page_exp",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_grids",
+        "type": "ui-group",
+        "name": "Grid models",
+        "page": "cps_page_exp",
+        "width": "6",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_queue",
+        "type": "ui-group",
+        "name": "Experiment queue",
+        "page": "cps_page_exp",
+        "width": "12",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_live",
+        "type": "ui-group",
+        "name": "Running experiment",
+        "page": "cps_page_live",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_live_charts",
+        "type": "ui-group",
+        "name": "Live charts",
+        "page": "cps_page_live",
+        "width": "12",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_live_cmds",
+        "type": "ui-group",
+        "name": "Commands so far",
+        "page": "cps_page_live",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_runs",
+        "type": "ui-group",
+        "name": "Runs",
+        "page": "cps_page_res",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_summary",
+        "type": "ui-group",
+        "name": "Run summary",
+        "page": "cps_page_res",
+        "width": "12",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_charts",
+        "type": "ui-group",
+        "name": "Charts",
+        "page": "cps_page_res",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_g_cmds",
+        "type": "ui-group",
+        "name": "Commands and events",
+        "page": "cps_page_res",
+        "width": "12",
+        "height": "1",
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "cps_style",
+        "type": "ui-template",
+        "group": "",
+        "page": "",
+        "ui": "6df6ef18cc2df6cb",
+        "name": "cluster page styles",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": ".cps { font-size: 14px; color: #263238; width: 100%; }\n.cps .sub, .cps-line.sub { color: #78909c; font-size: 12px; font-weight: normal; }\n.cps-scroll { overflow-x: auto; width: 100%; }\n.cps-tbl { border-collapse: collapse; width: 100%; font-size: 13px; }\n.cps-tbl th { text-align: left; font-weight: 600; color: #546e7a; border-bottom: 2px solid #cfd8dc; padding: 6px 8px; white-space: nowrap; }\n.cps-tbl td { border-bottom: 1px solid #eceff1; padding: 6px 8px; vertical-align: top; }\n.cps-tbl .r { text-align: right; font-variant-numeric: tabular-nums; }\n.cps-tbl td.bad { color: #c62828; font-weight: 600; }\n.cps-click tbody tr { cursor: pointer; }\n.cps-click tbody tr:hover { background: #f5f9ff; }\n.cps-click tbody tr.sel { background: #e3f2fd; }\n.cps-empty { color: #90a4ae; padding: 12px 4px; }\n.cps-err { color: #b71c1c; background: #ffebee; border-radius: 4px; padding: 8px 10px; }\n.cps-ok { color: #1b5e20; background: #e8f5e9; border-radius: 4px; padding: 8px 10px; }\n.cps-chip { display: inline-block; border-radius: 10px; padding: 1px 8px; font-size: 12px; background: #eceff1; color: #37474f; white-space: nowrap; }\n.cps-chip.q { background: #fff8e1; color: #8d6e00; }\n.cps-chip.run { background: #e3f2fd; color: #0d47a1; }\n.cps-chip.ok { background: #e8f5e9; color: #1b5e20; }\n.cps-chip.bad { background: #ffebee; color: #b71c1c; }\n.cps-chip.role { background: #ede7f6; color: #4527a0; }\n.cps-chip.tag { background: #eceff1; }\n.cps-log { margin: 0; font-size: 11px; max-width: 420px; white-space: pre-wrap; word-break: break-all; color: #546e7a; }\n.cps-nodes { display: flex; flex-wrap: wrap; gap: 10px; }\n.cps-node { border: 1px solid #cfd8dc; border-radius: 6px; padding: 8px 12px; min-width: 170px; }\n.cps-node .h { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 6px; }\n.cps-node .dot { width: 9px; height: 9px; border-radius: 50%; background: #2e7d32; display: inline-block; }\n.cps-node.down .dot { background: #c62828; }\n.cps-node .roles { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; }\n.cps-line { margin-top: 10px; }\n.cps-help p { margin: 0 0 8px; line-height: 1.45; }\n.cps-help code, .cps code { background: #eceff1; border-radius: 3px; padding: 0 4px; font-size: 12px; }\n.cps-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }\n.cps-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }\n.cps-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }\n.cps-kpi { border-radius: 6px; padding: 8px 10px; background: #f5f7f8; border-left: 4px solid #b0bec5; }\n.cps-kpi .v { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }\n.cps-kpi .l { font-size: 12px; color: #607d8b; }\n.cps-kpi.good { border-left-color: #2e7d32; background: #f1f8f2; }\n.cps-kpi.warn { border-left-color: #f9a825; background: #fffbea; }\n.cps-kpi.bad { border-left-color: #c62828; background: #fdf0f0; }\n.cps-charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }\n.cps-chart svg { width: 100%; height: auto; display: block; }\n.cps-ctitle { font-weight: 600; font-size: 13px; color: #37474f; margin-bottom: 2px; }\n.cps-chart .cps-grid { stroke: #eceff1; stroke-width: 1; }\n.cps-chart .cps-axis { stroke: #90a4ae; stroke-width: 1; }\n.cps-chart .cps-tick { font-size: 15px; fill: #78909c; }\n.cps-chart .cps-lbl { font-size: 15px; fill: #546e7a; }\n.cps-chart .cps-band { fill: #ffcdd2; opacity: 0.45; }\n.cps-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #546e7a; margin-top: 2px; }\n.cps-key { display: inline-flex; align-items: center; gap: 5px; }\n.cps-key i { width: 14px; height: 3px; display: inline-block; }\n.cps-key i.dash { height: 0; border-top: 2px dashed; }\n.cps-key i.band { height: 10px; background: #ffcdd2; }\n.cps-progress { height: 6px; background: #eceff1; border-radius: 3px; overflow: hidden; margin: 2px 0 10px; }\n.cps-progress div { height: 100%; background: #1565c0; transition: width 0.4s; }\n.cps-runbtn { border: 1px solid #cfd8dc; border-radius: 12px; padding: 2px 10px; font-size: 12px; background: #fff; cursor: pointer; }\n.cps-runbtn.sel { background: #e3f2fd; border-color: #1565c0; }\n",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "site:style",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 40
+    },
+    {
+        "id": "cps_init",
+        "type": "inject",
+        "name": "start-up",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "wires": [
+            [
+                "cps_helpers",
+                "cps_grids_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 100
+    },
+    {
+        "id": "cps_helpers",
+        "type": "function",
+        "name": "helpers -> global cps",
+        "func": "// Shared helpers for the cluster pages, stored in global context as \"cps\":\n// API requests, HTML escaping, number formatting, tables and inline SVG charts.\n// Everything rendered from API data goes through esc(), because grid and run names\n// come from uploaded files.\nconst esc = (s) => String(s === null || s === undefined ? '' : s)\n    .replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', \"'\": '&#39;' }[c]));\n\nconst num = (v, d = 2) => (v === null || v === undefined || Number.isNaN(Number(v)))\n    ? '\u2013' : String(Number(Number(v).toFixed(d)));\n\nconst api = (msg, method, path, body) => {\n    const base = env.get('CPS_API') || 'http://127.0.0.1:8080';\n    msg.method = method;\n    msg.url = base + path;\n    msg.headers = { 'Content-Type': 'application/json' };\n    const pw = env.get('CPS_WEB_PASSWORD');\n    if (pw) {\n        const user = env.get('CPS_WEB_USER') || 'admin';\n        msg.headers.Authorization = 'Basic ' + Buffer.from(user + ':' + pw).toString('base64');\n    }\n    msg.payload = body === undefined ? '' : body;\n    return msg;\n};\n\nconst table = (cols, rows, empty) => {\n    if (!rows.length) return `<div class=\"cps-empty\">${esc(empty || 'Nothing yet')}</div>`;\n    const head = cols.map((c) => `<th${c.right ? ' class=\"r\"' : ''}>${esc(c.label)}</th>`).join('');\n    const body = rows.map((r) => '<tr>' + cols.map((c) => {\n        const v = c.html ? c.html(r) : esc(c.get ? c.get(r) : r[c.key]);\n        return `<td${c.right ? ' class=\"r\"' : ''}>${v}</td>`;\n    }).join('') + '</tr>').join('');\n    return `<div class=\"cps-scroll\"><table class=\"cps-tbl\"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;\n};\n\nconst chip = (text, kind) => `<span class=\"cps-chip ${esc(kind)}\">${esc(text)}</span>`;\n\n// \"nice\" axis ticks\nconst ticks = (lo, hi, n) => {\n    const span = hi - lo || 1;\n    const step0 = span / n;\n    const mag = Math.pow(10, Math.floor(Math.log10(step0)));\n    const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => span / s <= n) || 10 * mag;\n    const out = [];\n    for (let v = Math.ceil(lo / step) * step; v <= hi + step * 1e-9; v += step) out.push(Number(v.toFixed(10)));\n    return out;\n};\n\nconst minmax = (arr) => {\n    let lo = Infinity, hi = -Infinity;\n    for (const v of arr) { if (v < lo) lo = v; if (v > hi) hi = v; }\n    return [lo, hi];\n};\n\n// o: {title, xlabel, ylabel, series: [{name, color, points: [[x, y]], dash, width}],\n//     band: [x0, x1], hlines: [{y, color, label}], height, bars: true}\nconst chart = (o) => {\n    const W = 640, H = o.height || 270, L = 66, R = 14, T = 24, B = 46;\n    const series = o.series.map((s) => ({ ...s, points: (s.points || []).filter((p) => p[1] !== null && p[1] !== undefined && !Number.isNaN(p[1])) }));\n    const pts = series.flatMap((s) => s.points);\n    if (!pts.length) return `<div class=\"cps-chart\"><div class=\"cps-ctitle\">${esc(o.title)}</div><div class=\"cps-empty\">No data</div></div>`;\n    let [x0, x1] = minmax(pts.map((p) => p[0]));\n    if (o.xmin !== undefined) x0 = o.xmin;\n    if (o.xmax !== undefined) x1 = o.xmax;\n    let [y0, y1] = minmax(pts.map((p) => p[1]).concat((o.hlines || []).map((h) => h.y)));\n    if (o.ymin !== undefined) y0 = Math.min(y0, o.ymin);\n    if (o.bars) { const w = (x1 - x0) / Math.max(pts.length - 1, 1); x0 -= w / 2; x1 += w / 2; }\n    if (x1 === x0) { x0 -= 1; x1 += 1; }\n    if (y1 === y0) { y0 -= Math.abs(y0) * 0.01 || 0.5; y1 += Math.abs(y1) * 0.01 || 0.5; }\n    const pad = (y1 - y0) * 0.08;\n    if (o.ymin === undefined) y0 -= pad;\n    y1 += pad;\n    const X = (x) => L + (x - x0) / (x1 - x0) * (W - L - R);\n    const Y = (y) => T + (1 - (y - y0) / (y1 - y0)) * (H - T - B);\n    let g = '';\n    if (o.band) {\n        const a = X(Math.max(o.band[0], x0)), b = X(Math.min(o.band[1], x1));\n        if (b > a) g += `<rect x=\"${a}\" y=\"${T}\" width=\"${b - a}\" height=\"${H - T - B}\" class=\"cps-band\"/>`;\n    }\n    for (const v of ticks(y0, y1, 5)) {\n        g += `<line x1=\"${L}\" x2=\"${W - R}\" y1=\"${Y(v)}\" y2=\"${Y(v)}\" class=\"cps-grid\"/>` +\n             `<text x=\"${L - 6}\" y=\"${Y(v) + 4}\" text-anchor=\"end\" class=\"cps-tick\">${esc(String(v))}</text>`;\n    }\n    for (const v of ticks(x0, x1, 6)) {\n        g += `<text x=\"${X(v)}\" y=\"${H - B + 19}\" text-anchor=\"middle\" class=\"cps-tick\">${esc(String(v))}</text>`;\n    }\n    for (const h of o.hlines || []) {\n        g += `<line x1=\"${L}\" x2=\"${W - R}\" y1=\"${Y(h.y)}\" y2=\"${Y(h.y)}\" stroke=\"${h.color || '#666'}\" stroke-dasharray=\"5 4\" stroke-width=\"1.2\"/>`;\n    }\n    if (o.bars) {\n        const n = Math.max(...series.map((s) => s.points.length));\n        const bw = Math.max(1, (W - L - R) / Math.max(n, 1) * 0.8);\n        for (const s of series) {\n            for (const p of s.points) {\n                const y = Y(Math.max(p[1], y0)), base = Y(Math.max(y0, 0));\n                g += `<rect x=\"${X(p[0]) - bw / 2}\" y=\"${Math.min(y, base)}\" width=\"${bw}\" height=\"${Math.abs(base - y)}\" fill=\"${p[2] || s.color}\"/>`;\n            }\n        }\n    } else {\n        for (const s of series) {\n            if (!s.points.length) continue;\n            const d = s.points.map((p, i) => `${i ? 'L' : 'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('');\n            g += `<path d=\"${d}\" fill=\"none\" stroke=\"${s.color}\" stroke-width=\"${s.width || 1.8}\"${s.dash ? ' stroke-dasharray=\"5 4\"' : ''}/>`;\n        }\n    }\n    g += `<line x1=\"${L}\" x2=\"${L}\" y1=\"${T}\" y2=\"${H - B}\" class=\"cps-axis\"/><line x1=\"${L}\" x2=\"${W - R}\" y1=\"${H - B}\" y2=\"${H - B}\" class=\"cps-axis\"/>`;\n    if (o.xlabel) g += `<text x=\"${(L + W - R) / 2}\" y=\"${H - 6}\" text-anchor=\"middle\" class=\"cps-lbl\">${esc(o.xlabel)}</text>`;\n    if (o.ylabel) g += `<text x=\"16\" y=\"${(T + H - B) / 2}\" text-anchor=\"middle\" class=\"cps-lbl\" transform=\"rotate(-90 16 ${(T + H - B) / 2})\">${esc(o.ylabel)}</text>`;\n    const legend = series.filter((s) => s.name).map((s) =>\n        `<span class=\"cps-key\"><i style=\"background:${s.color}\"></i>${esc(s.name)}</span>`).join('') +\n        (o.hlines || []).filter((h) => h.label).map((h) => `<span class=\"cps-key\"><i class=\"dash\" style=\"border-color:${h.color || '#666'}\"></i>${esc(h.label)}</span>`).join('') +\n        (o.band ? '<span class=\"cps-key\"><i class=\"band\"></i>attack window</span>' : '');\n    return `<div class=\"cps-chart\"><div class=\"cps-ctitle\">${esc(o.title)}</div>` +\n           `<svg viewBox=\"0 0 ${W} ${H}\" preserveAspectRatio=\"xMidYMid meet\" role=\"img\" aria-label=\"${esc(o.title)}\">${g}</svg>` +\n           `<div class=\"cps-legend\">${legend}</div></div>`;\n};\n\nconst kpi = (label, value, kind, hint) =>\n    `<div class=\"cps-kpi ${kind || ''}\"${hint ? ` title=\"${esc(hint)}\"` : ''}><div class=\"v\">${value}</div><div class=\"l\">${esc(label)}</div></div>`;\n\nconst when = (ts) => {\n    if (!ts) return '';\n    const d = new Date(ts * 1000);\n    return d.toLocaleString('en-GB', { hour12: false });\n};\n\nglobal.set('cps', { esc, num, api, table, chip, chart, kpi, when });\nreturn null;\n",
+        "outputs": 0,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 100
+    },
+    {
+        "id": "cps_http",
+        "type": "http request",
+        "name": "experiment API",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "wires": [
+            [
+                "cps_route"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 640,
+        "y": 180
+    },
+    {
+        "id": "cps_route",
+        "type": "switch",
+        "name": "route by msg.cps",
+        "property": "cps",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "cluster",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "jobs",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "grids",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "grid_upload",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "scen_upload",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "runs",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "run",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "series",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "live",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 9,
+        "wires": [
+            [
+                "cps_h_cluster"
+            ],
+            [
+                "cps_h_jobs"
+            ],
+            [
+                "cps_h_grids"
+            ],
+            [
+                "cps_h_grid_upload"
+            ],
+            [
+                "cps_h_scen_upload"
+            ],
+            [
+                "cps_h_runs"
+            ],
+            [
+                "cps_h_run"
+            ],
+            [
+                "cps_h_series"
+            ],
+            [
+                "cps_h_live"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 840,
+        "y": 180
+    },
+    {
+        "id": "cps_poll",
+        "type": "inject",
+        "name": "every 3 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "wires": [
+            [
+                "cps_poll_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 380
+    },
+    {
+        "id": "cps_poll_req",
+        "type": "function",
+        "name": "GET cluster + jobs",
+        "func": "\nconst cps = global.get('cps'); if (!cps) return null;\nreturn [[cps.api({cps: 'cluster'}, 'GET', '/api/cluster'), cps.api({cps: 'jobs'}, 'GET', '/api/jobs')]];\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 330,
+        "y": 380
+    },
+    {
+        "id": "cps_h_cluster",
+        "type": "function",
+        "name": "render cluster",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) { msg.payload = `<div class=\"cps-err\">Experiment API not reachable (${cps.esc(msg.statusCode || msg.error || '')})</div>`; return msg; }\nconst c = msg.payload;\nconst cards = c.nodes.map(n => `<div class=\"cps-node ${n.up ? 'up' : 'down'}\">\n  <div class=\"h\"><span class=\"dot\"></span>${cps.esc(n.host)}</div>\n  <div>${n.up ? cps.esc(n.cores) + ' cores' : 'not reachable'}${n.mpi_slots ? ' \u00b7 ' + cps.esc(n.mpi_slots) + ' MPI slots' : ''}</div>\n  <div class=\"roles\">${(n.roles || []).map(r => cps.chip(r === 'mpi' ? 'GridPACK MPI' : r === 'cc' ? 'control center' : r === 'ns3' ? 'NS-3' : r === 'grid' ? 'grid federate' : r === 'broker' ? 'HELICS broker' : r, 'role')).join(' ')}</div>\n</div>`).join('');\nmsg.payload = `<div class=\"cps-nodes\">${cards}</div>\n<div class=\"cps-line\">MPI slots in use <b>${cps.esc(c.mpi_slots_used || 0)} / ${cps.esc(c.mpi_slots)}</b> \u00b7 default GridPACK ranks <b>${cps.esc(c.default_np)}</b> \u00b7\nparallel experiments <b>${cps.esc(c.max_parallel_jobs)}</b> \u00b7 running <b>${cps.esc(c.running)}</b> \u00b7 queued <b>${cps.esc(c.queued)}</b></div>`;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_cluster_view"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 440
+    },
+    {
+        "id": "cps_cluster_view",
+        "type": "ui-template",
+        "group": "cps_g_cluster",
+        "page": "",
+        "ui": "",
+        "name": "cluster view",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 440
+    },
+    {
+        "id": "cps_h_jobs",
+        "type": "function",
+        "name": "render queue",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) return null;\nconst jobs = msg.payload;\n// tell the user when a job finishes\nconst seen = flow.get('jobstate') || {};\nconst notes = [];\nfor (const j of jobs) {\n  if (seen[j.id] && seen[j.id] !== j.status && (j.status === 'done' || j.status === 'failed'))\n    notes.push({payload: j.status === 'done' ? `Experiment \"${j.request.name}\" finished` : `Experiment \"${j.request.name}\" failed`});\n  seen[j.id] = j.status;\n}\nflow.set('jobstate', seen);\nconst kind = {queued: 'q', running: 'run', done: 'ok', failed: 'bad'};\nconst dur = j => j.finished ? (j.finished - j.started).toFixed(0) + ' s' : j.started ? (Date.now() / 1000 - j.started).toFixed(0) + ' s' : '';\nconst html = cps.table([\n  {label: 'Experiment', html: j => `<b>${cps.esc(j.request.name)}</b><div class=\"sub\">${cps.esc(j.source || 'form')} \u00b7 ${cps.esc(cps.when(j.submitted))}</div>`},\n  {label: 'Grid', get: j => j.grid},\n  {label: 'Attack', get: j => j.request.attack},\n  {label: 'MPI ranks', get: j => j.request.solver === 'gridpack' ? j.request.mpi_np : 'builtin', right: true},\n  {label: 'Status', html: j => cps.chip(j.status, kind[j.status] || '') + (j.waiting ? `<div class=\"sub\">waiting ${cps.esc(j.waiting)}</div>` : '')},\n  {label: 'Time', get: dur, right: true},\n  {label: 'Log', html: j => j.status === 'running' || j.status === 'failed'\n      ? `<pre class=\"cps-log\">${cps.esc((j.log_tail || '').trim().split('\\n').slice(-4).join('\\n'))}</pre>` : cps.esc(j.run_id || '')},\n], jobs, 'No experiments yet: upload a scenario file above.');\nreturn [{payload: html}, notes];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_queue_view"
+            ],
+            [
+                "cps_notify"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 500
+    },
+    {
+        "id": "cps_queue_view",
+        "type": "ui-template",
+        "group": "cps_g_queue",
+        "page": "",
+        "ui": "",
+        "name": "queue view",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 500
+    },
+    {
+        "id": "cps_notify",
+        "type": "ui-notification",
+        "ui": "6df6ef18cc2df6cb",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "5",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "notify",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 1320,
+        "y": 560
+    },
+    {
+        "id": "cps_grids_poll",
+        "type": "inject",
+        "name": "every 15 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "15",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "wires": [
+            [
+                "cps_grids_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 640
+    },
+    {
+        "id": "cps_grids_req",
+        "type": "function",
+        "name": "GET grids",
+        "func": "\nconst cps = global.get('cps'); if (!cps) return null;\nreturn cps.api({cps: 'grids'}, 'GET', '/api/grids');\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 640
+    },
+    {
+        "id": "cps_h_grids",
+        "type": "function",
+        "name": "render grids",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) return null;\nmsg.payload = cps.table([\n  {label: 'Grid id (use in scenario files)', html: g => `<code>${cps.esc(g.id)}</code><div class=\"sub\">${cps.esc(g.builtin ? 'built-in' : (g.source || '') + ' \u00b7 ' + (g.uploaded || ''))}</div>`},\n  {label: 'Buses', get: g => g.buses, right: true},\n  {label: 'Branches', get: g => g.branches, right: true},\n  {label: 'Generators', get: g => g.n_gens, right: true},\n  {label: 'PMUs (min)', get: g => g.pmus_min, right: true},\n  {label: 'Load MW', get: g => cps.num(g.load_mw, 0), right: true},\n], msg.payload, 'No grids');\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_grids_view"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 640
+    },
+    {
+        "id": "cps_grids_view",
+        "type": "ui-template",
+        "group": "cps_g_grids",
+        "page": "",
+        "ui": "",
+        "name": "grids view",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 640
+    },
+    {
+        "id": "cps_upload_help",
+        "type": "ui-template",
+        "group": "cps_g_upload",
+        "page": "",
+        "ui": "",
+        "name": "upload help",
+        "order": 1,
+        "width": "6",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps cps-help\">\n<p><b>1. Grid model</b> (optional): a MATPOWER case file <code>.m</code> or a testbed <code>topology.json</code>.\nThe power flow is checked and the PMUs needed are computed; the grid then appears under <i>Grid models</i>\nwith an id to use in scenario files. PSS/E <code>.raw</code>: convert it with MATPOWER's <code>psse2mpc</code> first.</p>\n<p><b>2. Scenario</b>: a YAML or JSON file describing one experiment, or several under <code>scenarios:</code>.\nStart from the <a href=\"/cps/scenario-template.yaml\" download=\"scenario.yaml\">scenario template</a>.\nEach experiment is queued and runs on the cluster; results appear on the <a href=\"/dashboard/results\">Results</a> page.</p>\n</div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 720
+    },
+    {
+        "id": "cps_fi_grid",
+        "type": "ui-file-input",
+        "group": "cps_g_upload",
+        "name": "grid file",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "label": "Upload grid model (.m / .json)",
+        "icon": "transmission-tower",
+        "allowMultiple": false,
+        "accept": ".m,.json",
+        "className": "",
+        "wires": [
+            [
+                "cps_grid_up"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 720
+    },
+    {
+        "id": "cps_grid_up",
+        "type": "function",
+        "name": "POST grid",
+        "func": "\nconst cps = global.get('cps');\nconst name = (msg.file && msg.file.name) || 'grid.m';\nconst data = Buffer.isBuffer(msg.payload) ? msg.payload : Buffer.from(msg.payload);\nreturn cps.api({cps: 'grid_upload'}, 'POST', '/api/grids', {filename: name, content: data.toString('base64'), encoding: 'base64'});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 720
+    },
+    {
+        "id": "cps_fi_scen",
+        "type": "ui-file-input",
+        "group": "cps_g_upload",
+        "name": "scenario file",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "label": "Upload scenario (.yaml / .json)",
+        "icon": "file-cog-outline",
+        "allowMultiple": false,
+        "accept": ".yaml,.yml,.json",
+        "className": "",
+        "wires": [
+            [
+                "cps_scen_up"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 780
+    },
+    {
+        "id": "cps_scen_up",
+        "type": "function",
+        "name": "POST scenario",
+        "func": "\nconst cps = global.get('cps');\nconst name = (msg.file && msg.file.name) || 'scenario.yaml';\nconst data = Buffer.isBuffer(msg.payload) ? msg.payload : Buffer.from(msg.payload);\nreturn cps.api({cps: 'scen_upload'}, 'POST', '/api/scenarios', {filename: name, content: data.toString('base64'), encoding: 'base64'});\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 780
+    },
+    {
+        "id": "cps_upload_status",
+        "type": "ui-template",
+        "group": "cps_g_upload",
+        "page": "",
+        "ui": "",
+        "name": "upload result",
+        "order": 4,
+        "width": "6",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 780
+    },
+    {
+        "id": "cps_h_grid_upload",
+        "type": "function",
+        "name": "grid uploaded",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) {\n  const d = (msg.payload && msg.payload.detail) || msg.payload;\n  return [{payload: `<div class=\"cps-err\">${cps.esc(typeof d === 'string' ? d : JSON.stringify(d))}</div>`}, {payload: 'Grid upload failed'}, null];\n}\nconst g = msg.payload;\nreturn [{payload: `<div class=\"cps-ok\">Grid <code>${cps.esc(g.id)}</code> registered: ${cps.esc(g.buses)} buses, ${cps.esc(g.branches)} branches,\n  ${cps.esc(g.gens.length)} generator buses, ${cps.esc(g.pmus_min)} PMUs for full observability\n  (power flow converged in ${cps.esc(g.nr_iterations)} iterations). Use <code>grid: ${cps.esc(g.id)}</code> in a scenario file.</div>`},\n  {payload: `Grid ${g.id} registered`}, {}];\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_upload_status"
+            ],
+            [
+                "cps_notify"
+            ],
+            [
+                "cps_grids_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 840
+    },
+    {
+        "id": "cps_h_scen_upload",
+        "type": "function",
+        "name": "scenario queued",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) {\n  const d = (msg.payload && msg.payload.detail) || msg.payload;\n  return [{payload: `<div class=\"cps-err\">${cps.esc(typeof d === 'string' ? d : JSON.stringify(d))}</div>`}, {payload: 'Scenario rejected'}];\n}\nconst jobs = msg.payload;\nreturn [{payload: `<div class=\"cps-ok\">Queued ${jobs.length} experiment${jobs.length > 1 ? 's' : ''}: ${jobs.map(j => '<b>' + cps.esc(j.request.name) + '</b> on ' + cps.esc(j.grid) + (j.request.solver === 'gridpack' ? ' (' + cps.esc(j.request.mpi_np) + ' MPI ranks)' : '')).join(', ')}.</div>`},\n  {payload: `Queued ${jobs.length} experiment(s)`}];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_upload_status"
+            ],
+            [
+                "cps_notify"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 840
+    },
+    {
+        "id": "cps_tmpl_in",
+        "type": "http in",
+        "name": "",
+        "url": "/cps/scenario-template.yaml",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "wires": [
+            [
+                "cps_tmpl_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 150,
+        "y": 940
+    },
+    {
+        "id": "cps_tmpl_req",
+        "type": "function",
+        "name": "GET template",
+        "func": "\nconst cps = global.get('cps');\nreturn cps.api(msg, 'GET', '/api/scenario-template');\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http_txt"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 940
+    },
+    {
+        "id": "cps_http_txt",
+        "type": "http request",
+        "name": "experiment API (text)",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "wires": [
+            [
+                "cps_h_template"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 640,
+        "y": 940
+    },
+    {
+        "id": "cps_h_template",
+        "type": "function",
+        "name": "as download",
+        "func": "\nmsg.headers = {'Content-Type': 'text/yaml; charset=utf-8', 'Content-Disposition': 'attachment; filename=\"scenario.yaml\"'};\nif (typeof msg.payload !== 'string') msg.payload = String(msg.payload);\nmsg.statusCode = 200;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_tmpl_out"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 940
+    },
+    {
+        "id": "cps_tmpl_out",
+        "type": "http response",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "wires": [],
+        "z": "cps_tab",
+        "x": 1300,
+        "y": 940
+    },
+    {
+        "id": "cps_runs_poll",
+        "type": "inject",
+        "name": "every 5 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "wires": [
+            [
+                "cps_runs_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 1040
+    },
+    {
+        "id": "cps_runs_req",
+        "type": "function",
+        "name": "GET runs",
+        "func": "\nconst cps = global.get('cps'); if (!cps) return null;\nreturn cps.api({cps: 'runs'}, 'GET', '/api/runs');\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 1040
+    },
+    {
+        "id": "cps_h_runs",
+        "type": "function",
+        "name": "run list",
+        "func": "\nif (msg.statusCode !== 200) return null;\nconst runs = msg.payload;\nconst sig = runs.map(r => r.id).join(',');\nlet sel = flow.get('run');\nconst out = [null, null];\n// open the newest run when nothing is selected yet, or when a new run has finished\nconst newest = runs.length ? runs[0].id : null;\nconst prev = flow.get('newest');\nflow.set('newest', newest);\nif (newest && (!sel || (prev && prev !== newest))) { sel = newest; out[1] = {payload: newest}; }\nif (sig !== flow.get('runsig') || out[1]) {\n  flow.set('runsig', sig);\n  out[0] = {payload: runs, selected: sel};\n}\nreturn out;\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_runs_view"
+            ],
+            [
+                "cps_select"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 1040
+    },
+    {
+        "id": "cps_runs_view",
+        "type": "ui-template",
+        "group": "cps_g_runs",
+        "page": "",
+        "ui": "",
+        "name": "run list",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template>\n  <div class=\"cps cps-scroll\">\n    <table class=\"cps-tbl cps-click\" v-if=\"msg.payload && msg.payload.length\">\n      <thead><tr><th>Run</th><th>Grid</th><th>Attack</th><th class=\"r\">MPI ranks</th><th class=\"r\">GridPACK ms/step</th>\n        <th class=\"r\">Violation (s)</th><th class=\"r\">Detection</th><th class=\"r\">Delivery</th><th class=\"r\">Wall (s)</th></tr></thead>\n      <tbody>\n        <tr v-for=\"r in msg.payload\" :key=\"r.id\" @click=\"pick(r.id)\" :class=\"{sel: r.id === selected}\">\n          <td><b>{{ r.name }}</b><div class=\"sub\">{{ r.id.slice(0, 15).replace('_', ' ') }}</div></td>\n          <td>{{ r.grid || r.case }}</td>\n          <td>{{ r.attack }}</td>\n          <td class=\"r\">{{ r.mpi_np || '' }}</td>\n          <td class=\"r\">{{ r.gridpack_ms != null ? r.gridpack_ms : '' }}</td>\n          <td class=\"r\" :class=\"{bad: r.violation_s > 1}\">{{ r.violation_s }}</td>\n          <td class=\"r\">{{ r.detection == null ? '\u2013' : r.detection + '%' }}</td>\n          <td class=\"r\">{{ (100 * r.delivery).toFixed(1) }}%</td>\n          <td class=\"r\">{{ r.wall_s }}</td>\n        </tr>\n      </tbody>\n    </table>\n    <div class=\"cps-empty\" v-else>No finished runs yet.</div>\n  </div>\n</template>\n<script>\nexport default {\n  data() { return { selected: null } },\n  watch: { msg: { handler(m) { if (m && m.selected) this.selected = m.selected }, immediate: true } },\n  methods: { pick(id) { this.selected = id; this.send({ payload: id }) } }\n}\n</script>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            [
+                "cps_select"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1040
+    },
+    {
+        "id": "cps_select",
+        "type": "function",
+        "name": "select run",
+        "func": "\nconst cps = global.get('cps');\nconst id = msg.payload;\nflow.set('run', id);\nflow.set('bus', null);\nreturn [[cps.api({cps: 'run'}, 'GET', '/api/runs/' + encodeURIComponent(id)),\n         cps.api({cps: 'series'}, 'GET', '/api/runs/' + encodeURIComponent(id) + '/series')]];\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 1100
+    },
+    {
+        "id": "cps_bus_in",
+        "type": "ui-text-input",
+        "group": "cps_g_charts",
+        "name": "plot bus",
+        "label": "Plot bus (Enter)",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "number",
+        "delay": 300,
+        "passthru": false,
+        "sendOnDelay": false,
+        "sendOnBlur": false,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "wires": [
+            [
+                "cps_bus_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 1160
+    },
+    {
+        "id": "cps_bus_req",
+        "type": "function",
+        "name": "series for bus",
+        "func": "\nconst cps = global.get('cps');\nconst id = flow.get('run'); const bus = parseInt(msg.payload, 10);\nif (!id || !bus) return null;\nflow.set('bus', bus);\nreturn cps.api({cps: 'series'}, 'GET', '/api/runs/' + encodeURIComponent(id) + '/series?bus=' + bus);\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 1160
+    },
+    {
+        "id": "cps_h_run",
+        "type": "function",
+        "name": "render summary",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) return null;\nconst r = msg.payload, s = r.summary, a = r.meta.args, net = s.network, cc = s.control_center, g = s.grid, at = s.attack;\nconst gp = s.gridpack || {}, cl = s.cluster || r.meta.cluster || {};\nconst pct = v => v == null ? '\u2013' : cps.num(v, 1) + '%';\nconst k = [];\nk.push(cps.kpi('Frames delivered', pct(100 * net.delivery_ratio), net.delivery_ratio > 0.98 ? 'good' : net.delivery_ratio > 0.9 ? 'warn' : 'bad'));\nk.push(cps.kpi('Latency p95', cps.num(net.latency_ms.p95, 1) + ' ms', ''));\nk.push(cps.kpi('Complete PDC sets', pct(cc.complete_sets_pct), cc.complete_sets_pct > 95 ? 'good' : cc.complete_sets_pct > 70 ? 'warn' : 'bad'));\nk.push(cps.kpi('SE error (clean)', cc.se_mean_abs_err_pu == null ? '\u2013' : cps.num(cc.se_mean_abs_err_pu, 5) + ' pu', ''));\nk.push(cps.kpi('True violation time', cps.num(g.true_violation_time_s, 2) + ' s', g.true_violation_time_s <= 1 ? 'good' : g.true_violation_time_s <= 2 ? 'warn' : 'bad'));\nk.push(cps.kpi('Control commands', cps.esc(g.commands_applied), ''));\nk.push(cps.kpi('False alarms', pct(cc.false_alarm_rate_pct), cc.false_alarm_rate_pct <= 2 ? 'good' : 'warn'));\nif (at.type !== 'none') {\n  k.push(cps.kpi('Attack detected', pct(at.detection_rate_pct), at.detection_rate_pct > 0 ? 'good' : 'bad'));\n  k.push(cps.kpi('Time to detect', at.time_to_detect_s == null ? 'never' : cps.num(at.time_to_detect_s, 3) + ' s', at.time_to_detect_s == null ? 'bad' : 'good'));\n  k.push(cps.kpi('Compromised PMUs', cps.esc((at.compromised_pmus || []).join(', ') || '\u2013'), ''));\n  k.push(cps.kpi('Target V true / seen', cps.num(at.target_true_v_mean, 3) + ' / ' + cps.num(at.target_seen_v_mean, 3), ''));\n}\nk.push(cps.kpi('GridPACK MPI ranks', cps.esc(gp.mpi_ranks || a.mpi_np || '\u2013'), ''));\nk.push(cps.kpi('GridPACK solve / step', gp.solve_ms_mean == null ? '\u2013' : cps.num(gp.solve_ms_mean, 1) + ' ms', '', 'MPI power-flow solve time per grid step (mean)'));\nk.push(cps.kpi('Wall time', cps.num(s.wall_time_s, 1) + ' s', ''));\nconst place = cl.placement ? Object.entries(cl.placement).map(([role, host]) => `${role}: ${host}`).join(' \u00b7 ') : '';\nconst tags = [s.case, 'attack ' + a.attack, 'loss ' + a.loss, 'latency ' + a.latency + ' ms', 'BDD ' + a.bdd,\n              'control ' + a.control, a.event !== 'none' ? 'event ' + a.event : null, (a.placement === 2 ? 'redundant' : 'minimum') + ' PMUs']\n  .filter(Boolean).map(t => cps.chip(t, 'tag')).join(' ');\nconst summary = {payload: `<div class=\"cps-title\">${cps.esc(s.name)} <span class=\"sub\">${cps.esc(r.id)}</span></div>\n<div class=\"cps-tags\">${tags}</div>\n<div class=\"cps-kpis\">${k.join('')}</div>\n${place ? `<div class=\"cps-line sub\">Nodes: ${cps.esc(place)}${cl.mpi_hosts && cl.mpi_hosts.length ? ' \u00b7 MPI hosts: ' + cps.esc(cl.mpi_hosts.join(', ')) : ''}</div>` : ''}`};\nconst cmds = {payload: cps.table([\n  {label: 'Applied (s)', get: c => c.t_applied, right: true},\n  {label: 'Generator', get: c => c.gen_bus, right: true},\n  {label: 'New setpoint (pu)', get: c => c.vset, right: true},\n  {label: 'Issued (s)', get: c => c.issued_t, right: true},\n  {label: 'Delivered (s)', get: c => c.delivered_t, right: true},\n  {label: 'Reason', get: c => c.reason},\n], r.commands, 'No events or commands in this run')};\nreturn [summary, cmds];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_summary_view"
+            ],
+            [
+                "cps_cmds_view"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 1220
+    },
+    {
+        "id": "cps_summary_view",
+        "type": "ui-template",
+        "group": "cps_g_summary",
+        "page": "",
+        "ui": "",
+        "name": "summary view",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1220
+    },
+    {
+        "id": "cps_cmds_view",
+        "type": "ui-template",
+        "group": "cps_g_cmds",
+        "page": "",
+        "ui": "",
+        "name": "commands view",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1220
+    },
+    {
+        "id": "cps_h_series",
+        "type": "function",
+        "name": "render charts",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) {\n  const d = (msg.payload && msg.payload.detail) || 'no data';\n  return {payload: `<div class=\"cps-err\">${cps.esc(d)}</div>`};\n}\nconst s = msg.payload;\nconst band = s.attack_window || undefined;\nconst c = [];\nc.push(cps.chart({title: `Voltage at bus ${s.bus}`, xlabel: 'time (s)', ylabel: 'pu', band,\n  series: [{name: 'true (GridPACK)', color: '#1565c0', points: s.truth},\n           {name: 'estimated (control center)', color: '#e53935', points: s.estimate}],\n  hlines: [{y: s.vmax, color: '#555', label: 'V max'}]}));\nc.push(cps.chart({title: 'Highest bus voltage', xlabel: 'time (s)', ylabel: 'pu', band,\n  series: [{name: 'true', color: '#1565c0', points: s.truth_max}, {name: 'estimated', color: '#e53935', points: s.est_max}],\n  hlines: [{y: s.vmax, color: '#555', label: 'V max'}]}));\nc.push(cps.chart({title: 'Bad data test (chi-square)', xlabel: 'time (s)', ylabel: 'J', band,\n  series: [{name: 'J', color: '#6a1b9a', points: s.chi2.map(p => [p[0], p[1]])},\n           {name: 'threshold', color: '#ef6c00', dash: true, points: s.chi2.map(p => [p[0], p[2]])}]}));\nconst gp = s.gridpack || [];\nc.push(cps.chart({title: 'GridPACK power flow per grid step', xlabel: 'time (s)', ylabel: 'ms',\n  series: [{name: 'MPI solve (pf_server)', color: '#2e7d32', points: gp.map(p => [p[0], p[2]])},\n           {name: 'step incl. data exchange', color: '#90a4ae', points: gp.map(p => [p[0], p[1]])}], ymin: 0}));\nif (s.latency_hist) c.push(cps.chart({title: 'PMU \u2192 PDC latency', xlabel: 'latency (ms)', ylabel: 'frames', bars: true, ymin: 0,\n  series: [{name: '', color: '#00897b', points: s.latency_hist}]}));\nc.push(cps.chart({title: 'PDC set completeness', xlabel: 'time (s)', ylabel: 'share of PMUs', band, ymin: 0,\n  series: [{name: '', color: '#455a64', points: s.completeness}]}));\nif (s.pmus && s.pmus.length <= 400) c.push(cps.chart({title: 'Delivery per PMU (attacked in red)', xlabel: 'PMU (in placement order)', ylabel: 'delivered', bars: true, ymin: 0,\n  series: [{name: '', color: '#43a047', points: s.pmus.map((p, i) => [i + 1, p.delivery, p.attacked_frames ? '#e53935' : '#43a047'])}]}));\nreturn {payload: `<div class=\"cps-charts\">${c.join('')}</div>`};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_charts_view"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 1320
+    },
+    {
+        "id": "cps_charts_view",
+        "type": "ui-template",
+        "group": "cps_g_charts",
+        "page": "",
+        "ui": "",
+        "name": "charts view",
+        "order": 2,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1320
+    },
+    {
+        "id": "cps_live_poll",
+        "type": "inject",
+        "name": "every 1 s",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "3",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "wires": [
+            [
+                "cps_live_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 1320
+    },
+    {
+        "id": "cps_live_req",
+        "type": "function",
+        "name": "GET live",
+        "func": "\nconst cps = global.get('cps'); if (!cps) return null;\nconst q = [];\nconst run = flow.get('live_run'), bus = flow.get('live_bus');\nif (run) q.push('run=' + encodeURIComponent(run));\nif (bus) q.push('bus=' + bus);\nreturn cps.api({cps: 'live'}, 'GET', '/api/live' + (q.length ? '?' + q.join('&') : ''));\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_http"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 1320
+    },
+    {
+        "id": "cps_live_bus",
+        "type": "ui-text-input",
+        "group": "cps_g_live_charts",
+        "name": "live bus",
+        "label": "Plot bus (Enter)",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "topic": "topic",
+        "topicType": "msg",
+        "mode": "number",
+        "delay": 300,
+        "passthru": false,
+        "sendOnDelay": false,
+        "sendOnBlur": false,
+        "sendOnEnter": true,
+        "className": "",
+        "clearable": false,
+        "sendOnClear": false,
+        "icon": "",
+        "iconPosition": "left",
+        "iconInnerPosition": "inside",
+        "wires": [
+            [
+                "cps_live_setbus"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 120,
+        "y": 1380
+    },
+    {
+        "id": "cps_live_setbus",
+        "type": "function",
+        "name": "set live bus",
+        "func": "\nconst b = parseInt(msg.payload, 10);\nflow.set('live_bus', b > 0 ? b : null);\nflow.set('live_sig', null);\nreturn {payload: Date.now()};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_live_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 360,
+        "y": 1380
+    },
+    {
+        "id": "cps_h_live",
+        "type": "function",
+        "name": "render live",
+        "func": "\nconst cps = global.get('cps');\nif (msg.statusCode !== 200) return null;\nconst L = msg.payload.live, active = msg.payload.active || [];\nif (!L || L.starting) {\n  const txt = L ? 'Starting ' + cps.esc(L.run_id) + ' ...' : 'No experiment yet. Queue one on the Experiments page.';\n  return [{payload: {html: `<div class=\"cps-empty\">${txt}</div>`, active, selected: flow.get('live_run')}}, {payload: ''}, {payload: ''}];\n}\nconst sig = [L.run_id, L.t, L.sets, L.bus, L.done, active.join(',')].join('|');\nif (sig === flow.get('live_sig')) return null;\nflow.set('live_sig', sig);\nif (!flow.get('live_run') || !active.includes(flow.get('live_run'))) flow.set('live_run', active.length ? L.run_id : null);\nconst pct = Math.min(100, 100 * L.t / L.duration);\nconst last = L.last || {};\nconst tmax = L.truth_max.length ? L.truth_max[L.truth_max.length - 1] : null;\nconst viol = tmax && (tmax[1] > L.vmax || tmax[1] < L.vmin);\nconst issued = L.commands.filter(c => c.issued_t != null).length, applied = L.commands.filter(c => c.applied_t != null).length;\nconst k = [\n  cps.kpi('Simulated time', cps.num(L.t, 2) + ' / ' + cps.num(L.duration, 0) + ' s', ''),\n  cps.kpi('Highest true V now', tmax ? cps.num(tmax[1], 3) + ' pu (bus ' + cps.esc(tmax[2]) + ')' : '\u2013', viol ? 'bad' : 'good'),\n  cps.kpi('Highest estimated V', last.max_v != null ? cps.num(last.max_v, 3) + ' pu (bus ' + cps.esc(last.max_bus) + ')' : '\u2013', last.viol ? 'warn' : ''),\n  cps.kpi('Bad data alarms', cps.esc(L.alarms) + ' of ' + cps.esc(L.sets) + ' sets', L.alarms ? 'warn' : 'good'),\n  cps.kpi('Chi-square J / threshold', last.J != null ? cps.num(last.J, 1) + ' / ' + cps.num(last.thr, 1) : '\u2013', last.alarm ? 'bad' : ''),\n  cps.kpi('PDC set completeness', last.complete != null ? cps.num(100 * last.complete, 0) + '%' : '\u2013', last.complete < 1 ? 'warn' : 'good'),\n  cps.kpi('Commands issued / applied', issued + ' / ' + applied, ''),\n  cps.kpi('GridPACK MPI ranks', cps.esc(L.mpi_np || '\u2013'), ''),\n];\nconst state = L.done ? cps.chip('finished', 'ok') : cps.chip('running', 'run');\nconst head = `<div class=\"cps-title\">${cps.esc(L.name)} <span class=\"sub\">${cps.esc(L.grid)} \u00b7 ${cps.esc(L.run_id)}</span> ${state}</div>\n<div class=\"cps-progress\"><div style=\"width:${pct.toFixed(1)}%\"></div></div>\n<div class=\"cps-tags\">${[L.attack !== 'none' ? 'attack ' + L.attack : 'no attack', L.event !== 'none' ? 'event ' + L.event : null]\n  .filter(Boolean).map(t => cps.chip(t, 'tag')).join(' ')}</div>\n<div class=\"cps-kpis\">${k.join('')}</div>\n${active.length > 1 ? '<div class=\"cps-line sub\">Several experiments are running; pick one above.</div>' : ''}\n${L.done ? '<div class=\"cps-line sub\">The experiment has finished; all results are on the Results page.</div>' : ''}`;\nconst xr = {xmin: 0, xmax: L.duration};\nconst band = L.attack_window || undefined;\nconst c = [];\nc.push(cps.chart({title: `Voltage at bus ${L.bus}`, xlabel: 'time (s)', ylabel: 'pu', band, ...xr,\n  series: [{name: 'true (GridPACK)', color: '#1565c0', points: L.truth}, {name: 'estimated (control center)', color: '#e53935', points: L.estimate}],\n  hlines: [{y: L.vmax, color: '#555', label: 'V max'}]}));\nc.push(cps.chart({title: 'Highest bus voltage', xlabel: 'time (s)', ylabel: 'pu', band, ...xr,\n  series: [{name: 'true', color: '#1565c0', points: L.truth_max.map(p => [p[0], p[1]])}, {name: 'estimated', color: '#e53935', points: L.est_max}],\n  hlines: [{y: L.vmax, color: '#555', label: 'V max'}]}));\nc.push(cps.chart({title: 'Bad data test (chi-square)', xlabel: 'time (s)', ylabel: 'J', band, ...xr,\n  series: [{name: 'J', color: '#6a1b9a', points: L.chi2.map(p => [p[0], p[1]])},\n           {name: 'threshold', color: '#ef6c00', dash: true, points: L.chi2.map(p => [p[0], p[2]])}]}));\nc.push(cps.chart({title: 'PDC set completeness', xlabel: 'time (s)', ylabel: 'share of PMUs', band, ymin: 0, ...xr,\n  series: [{name: '', color: '#455a64', points: L.completeness}]}));\nconst rows = L.events.map(e => ({...e, kind: 'event'})).concat(L.commands.map(c => ({...c, kind: 'command'})));\nconst cmds = cps.table([\n  {label: 'Kind', get: r => r.kind},\n  {label: 'Generator', get: r => r.gen_bus, right: true},\n  {label: 'Setpoint (pu)', get: r => r.vset, right: true},\n  {label: 'Issued (s)', get: r => r.issued_t == null ? '' : cps.num(r.issued_t, 3), right: true},\n  {label: 'Delivered (s)', get: r => r.delivered_t == null ? '' : cps.num(r.delivered_t, 3), right: true},\n  {label: 'Applied (s)', get: r => r.applied_t == null ? 'pending' : cps.num(r.applied_t, 2), right: true},\n  {label: 'Reason', get: r => r.reason},\n], rows, 'No events or commands yet');\nreturn [{payload: {html: head, active, selected: L.run_id}}, {payload: `<div class=\"cps-charts\">${c.join('')}</div>`}, {payload: cmds}];\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_live_view"
+            ],
+            [
+                "cps_live_charts_view"
+            ],
+            [
+                "cps_live_cmds_view"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1060,
+        "y": 1440
+    },
+    {
+        "id": "cps_live_view",
+        "type": "ui-template",
+        "group": "cps_g_live",
+        "page": "",
+        "ui": "",
+        "name": "live status",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template>\n  <div class=\"cps\">\n    <div v-if=\"msg.payload && msg.payload.active && msg.payload.active.length > 1\" class=\"cps-tags\">\n      <button v-for=\"id in msg.payload.active\" :key=\"id\" class=\"cps-runbtn\" :class=\"{sel: id === msg.payload.selected}\"\n              @click=\"send({payload: id})\">{{ id }}</button>\n    </div>\n    <div v-html=\"msg.payload ? msg.payload.html : ''\"></div>\n  </div>\n</template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            [
+                "cps_live_pick"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1440
+    },
+    {
+        "id": "cps_live_charts_view",
+        "type": "ui-template",
+        "group": "cps_g_live_charts",
+        "page": "",
+        "ui": "",
+        "name": "live charts",
+        "order": 2,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1440
+    },
+    {
+        "id": "cps_live_cmds_view",
+        "type": "ui-template",
+        "group": "cps_g_live_cmds",
+        "page": "",
+        "ui": "",
+        "name": "live commands",
+        "order": 1,
+        "width": "12",
+        "height": "0",
+        "head": "",
+        "format": "<template><div class=\"cps\" v-html=\"msg.payload\"></div></template>",
+        "storeOutMessages": true,
+        "passthru": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "wires": [
+            []
+        ],
+        "z": "cps_tab",
+        "x": 900,
+        "y": 1440
+    },
+    {
+        "id": "cps_live_pick",
+        "type": "function",
+        "name": "pick live run",
+        "func": "\nflow.set('live_run', msg.payload);\nflow.set('live_bus', null);\nflow.set('live_sig', null);\nreturn {payload: Date.now()};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "wires": [
+            [
+                "cps_live_req"
+            ]
+        ],
+        "z": "cps_tab",
+        "x": 1320,
+        "y": 1440
+    }
+]

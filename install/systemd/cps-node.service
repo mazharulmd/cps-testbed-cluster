@@ -1,0 +1,16 @@
+[Unit]
+Description=CPS testbed compute node (installs the cluster SSH key from the shared directory)
+After=network-online.target remote-fs.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=cps
+Group=cps
+EnvironmentFile=/etc/cps/cps.env
+ExecStart=/opt/cps/venv/bin/python /opt/cps/testbed/install/configure.py
+TimeoutStartSec=infinity
+
+[Install]
+WantedBy=multi-user.target

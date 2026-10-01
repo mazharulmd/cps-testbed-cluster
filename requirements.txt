@@ -1,0 +1,10 @@
+# Python packages for the federates, the experiment API and the tools
+# (installed into /opt/cps/venv by install/steps/50-python.sh)
+helics==3.6.1
+numpy>=1.26
+scipy>=1.11
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pyyaml>=6.0
+matplotlib>=3.8

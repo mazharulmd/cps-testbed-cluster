@@ -1,0 +1,16 @@
+# Node-RED runtime state
+node-red/node_modules/
+node-red/.config.*
+node-red/.sessions.json
+node-red/*.backup
+node-red/flows_cred.json
+
+# Large binaries / image exports
+*.tar.gz
+*.tar
+
+__pycache__/
+*.pyc
+
+# experiment outputs
+results/

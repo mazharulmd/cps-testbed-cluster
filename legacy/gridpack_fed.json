@@ -1,0 +1,6 @@
+{
+  "name": "gridpack",
+  "coreType": "zmq",
+  "publications": [{ "key": "gridpack/bus1_voltage", "type": "double", "global": true }],
+  "subscriptions": [{ "key": "ns3/control_command", "type": "string" }]
+}

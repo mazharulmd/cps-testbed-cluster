@@ -145,11 +145,12 @@ legacy/          original single-PMU IEEE 14 demo used by the Node-RED console
 tools/           make_cases.py (MATPOWER → testbed cases)
 install/         native installer, build steps shared with Docker, systemd units, settings
 docker/          Dockerfile, entrypoint, compose files (single server, virtual cluster)
-documentation/   install and cluster guides, user guide and technical report (PDF)
+documentation/   complete guide (DOCX/PDF), install and cluster guides, earlier user guide and technical report
 ```
 
 ## Documentation
 
+- **[CPS_Testbed_Cluster_Guide.docx](documentation/CPS_Testbed_Cluster_Guide.docx)** ([PDF](documentation/CPS_Testbed_Cluster_Guide.pdf)): the complete guide to this testbed: concepts, architecture, installation, cluster set-up, the dashboard with screenshots, output files, validation results, sizing and troubleshooting
 - [documentation/install.md](documentation/install.md): installation on Ubuntu 24.04, settings, logins, services, cluster set-up
 - [documentation/cluster.md](documentation/cluster.md): architecture of the cluster, what runs where, tested results and MPI timings
 - [CPS_Testbed_User_Guide.pdf](documentation/CPS_Testbed_User_Guide.pdf) and [CPS_Testbed_Technical_Report.pdf](documentation/CPS_Testbed_Technical_Report.pdf): the user guide and technical report of the preceding single-server version (web app, IEEE 14 console, validation and results); the simulation models described there are the ones used here

@@ -61,9 +61,11 @@ else.
    checks the power flow, computes the optimal PMU placement and lists the grid with an id
    such as `case_activsg2000-12345`. PSS/E `.raw` files: convert them in MATPOWER first
    (`mpc = psse2mpc('grid.raw'); savecase('grid.m', mpc)`).
-2. **Scenario.** Download the *scenario template*, edit it (grid, duration, `mpi_np`, network,
-   event, attack, control) and upload it. A file can hold several experiments under
-   `scenarios:`. Each one is validated, queued and run on the cluster.
+2. **Experiment.** In *New experiment*, start from a ready-made scenario or set grid, mode,
+   event, attack, network, duration and MPI ranks, then *Run experiment*. For several
+   experiments at once, download the *scenario template*, edit it and upload it; a file can
+   hold several experiments under `scenarios:`. Each one is validated, queued and run on the
+   cluster.
 3. **Live.** While an experiment runs, the *Live* page follows it second by second: the
    voltages GridPACK computes next to what the control center estimates, bad data alarms,
    PDC completeness, and each command from the moment it is issued until GridPACK applies it.
@@ -73,7 +75,11 @@ else.
    latency and delivery, and the commands sent to the grid. Raw files are in
    `/srv/cps/runs/<run id>/`.
 
-The API does the same for scripts:
+5. **Cluster.** The *Cluster* page shows every node and lets you change the cluster without
+   editing files: default MPI ranks, experiments at the same time, the compute nodes and
+   their MPI slots, and the node of each federate. Changes apply to the next experiments.
+
+The API does the same for scripts (cluster settings: `GET`/`PUT`/`DELETE /api/cluster/settings`):
 
 ```bash
 curl -F file=@case_ACTIVSg2000.m http://localhost:8080/api/grids/file

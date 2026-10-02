@@ -116,7 +116,10 @@ if you place them there).
    (dynamic ports). If a machine has several network interfaces, set
    `OMPI_MCA_btl_tcp_if_include` and `OMPI_MCA_oob_tcp_if_include` in `/etc/cps/cps.env` to
    the cluster interface.
-4. **Describe the cluster on the head** in `/etc/cps/cps.env`:
+4. **Describe the cluster on the head**, either on the dashboard's *Cluster* page (nodes and
+   their MPI slots, where NS-3 and the control center run, default MPI ranks, experiments at
+   the same time; *Save* applies it at once and reports nodes that do not answer) or in
+   `/etc/cps/cps.env`:
 
    ```bash
    CPS_NODES=node1:16,node2:16     # MPI hosts and slots (cores for GridPACK)
@@ -126,13 +129,18 @@ if you place them there).
    CPS_MAX_JOBS=2                  # experiments at the same time
    ```
 
-   then `sudo systemctl restart cps-api`. At start-up the head creates the cluster's SSH key in
+   then `sudo systemctl restart cps-api`. Settings saved on the dashboard are kept in
+   `/srv/cps/cluster_settings.json` and take precedence; *Use the settings file* on the
+   *Cluster* page goes back to `cps.env`. The head creates the cluster's SSH key in
    `/srv/cps/.ssh`, the `cps-node` service on each node installs it, and the head checks that
    every node answers over ssh (`journalctl -u cps-api` shows "node1 reachable").
-5. **Check** on the dashboard's *Experiments* page: every node is listed with its cores, MPI
+5. **Check** on the dashboard's *Cluster* page: every node is listed with its cores, MPI
    slots and roles.
 
 An experiment starts only when its MPI ranks fit in the free slots; others wait in the queue.
+Each experiment checks the nodes when it starts and leaves out those that do not answer (its
+log says which); it stops with a message when a federate's node is down or the remaining
+slots are too few for its MPI ranks.
 
 ## Uninstall
 

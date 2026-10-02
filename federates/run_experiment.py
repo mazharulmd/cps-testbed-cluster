@@ -8,7 +8,7 @@ Example:
 Results go to <out>/<run id>/: configs, federate logs, per-frame network records,
 state estimation log, true grid state and summary.json.
 """
-import argparse, csv, json, os, socket, subprocess, sys, time
+import argparse, csv, json, os, shutil, socket, subprocess, sys, time
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -332,6 +332,13 @@ def main(argv=None):
     run_id = time.strftime("%Y%m%d_%H%M%S") + f"_{args.name}"
     run_dir = os.path.abspath(os.path.join(args.out, run_id))
     os.makedirs(run_dir, exist_ok=True)
+    try:
+        cl, down = cluster.for_run(cl, run_dir, args.mpi_np if args.solver == "gridpack" or args.mode == "dynamic" else 1)
+    except RuntimeError as e:
+        shutil.rmtree(run_dir, ignore_errors=True)
+        raise SystemExit(f"[RUN] {run_id}: {e}")
+    if down:
+        print(f"[RUN] not reachable, left out of this run: {', '.join(down)}", flush=True)
     meta = build_configs(args, run_dir, cl, port)
     print(f"[RUN] {run_id}: {meta['grid_name']}, {args.mode}, {len(meta['pmus'])} PMUs, attack={args.attack}, "
           f"GridPACK MPI ranks={args.mpi_np}, HELICS port {port}", flush=True)

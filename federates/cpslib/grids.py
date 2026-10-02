@@ -229,6 +229,12 @@ def get_info(grid_id):
     raise GridError(f"unknown grid '{grid_id}'")
 
 
+def lines(grid_id):
+    """(from, to) of the in-service branches of a grid, without duplicates."""
+    topo = json.load(open(os.path.join(grid_dir(grid_id), "topology.json")))
+    return sorted({(r["from"], r["to"]) for r in topo["branches"] if r.get("status", 1)})
+
+
 def delete(grid_id):
     d = grid_dir(grid_id)
     if os.path.dirname(os.path.abspath(d)) != os.path.abspath(GRIDS):

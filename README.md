@@ -72,15 +72,21 @@ Requirements: x86-64 machine, 4+ cores, 8 GB RAM, 15 GB disk, internet access du
 
 ## Use
 
-1. **Experiments page.** Optionally upload a grid model (MATPOWER `.m`; the power flow is
-   checked and the PMU placement computed). Download the scenario template, edit it and upload
-   it. Each experiment is validated and queued; one file can hold several.
+1. **Experiments page.** In *New experiment*, pick a ready-made scenario (attack detected,
+   stealthy attack, delay attack, packet loss, fault, generator trip, AVR fault with control)
+   or set the grid, simulation mode, event, attack, network, duration and MPI ranks in the
+   form, and press *Run experiment*. The form offers only the buses, generators and lines of
+   the chosen grid, and can save the experiment as a scenario file. For many experiments at
+   once, upload scenario files instead; grid models (MATPOWER `.m`) are uploaded here too.
 2. **Live page.** Follow the running experiment second by second: true and estimated voltages
    at any bus, bad data alarms, PDC completeness, and every command from issue to delivery to
    application.
 3. **Results page.** Summary figures, charts (voltages, chi-square test, GridPACK solve time per
    step, latency, PDC completeness, per-PMU delivery) and the command log of each run. Raw files
    are in `/srv/cps/runs/<run id>/`.
+4. **Cluster page.** The nodes and their state, and the cluster settings: default MPI ranks,
+   experiments at the same time, compute nodes with their MPI slots, and the node of each
+   federate. Saved settings apply to the next experiments, without a restart.
 
 A scenario file:
 

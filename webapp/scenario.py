@@ -77,7 +77,7 @@ class Scenario(Strict):
     mode: Literal["qss", "dynamic"] = "qss"
     grid_step: Optional[float] = Field(None, ge=0.005, le=5)
     solver: Literal["gridpack", "builtin"] = "gridpack"
-    mpi_np: int = Field(1, ge=1, le=256)
+    mpi_np: Optional[int] = Field(None, ge=1, le=1024)     # default: the cluster setting
     seed: int = Field(1, ge=1, le=10 ** 6)
     pmu: Pmu = Pmu()
     network: NetworkCfg = NetworkCfg()

@@ -81,6 +81,45 @@ def kill_remote(host, pattern):
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=20)
 
 
+def reachable(hosts, timeout=3):
+    """The hosts among `hosts` that answer over ssh (this machine always does), checked in parallel."""
+    remote = [h for h in dict.fromkeys(hosts) if not is_local(h)]
+    procs = {h: subprocess.Popen(["ssh", "-o", "BatchMode=yes", "-o", f"ConnectTimeout={timeout}", h, "true"],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) for h in remote}
+    up = {h for h in hosts if is_local(h)}
+    for h, p in procs.items():
+        try:
+            if p.wait(timeout=timeout + 5) == 0:
+                up.add(h)
+        except subprocess.TimeoutExpired:
+            p.kill()
+    return up
+
+
+def for_run(cfg, run_dir, np_):
+    """The layout for one experiment: only nodes that answer now go into its MPI hostfile (Open MPI
+    starts a daemon on every host of a hostfile, so one unreachable node would stop the run).
+    Raises RuntimeError when a federate's node or the requested MPI ranks are not available."""
+    placed = {r: cfg["placement"].get(r, cfg["head"]) for r in ("broker", "grid", "ns3", "cc")}
+    up = reachable([n["host"] for n in cfg["nodes"]] + list(placed.values()))
+    for role, host in placed.items():
+        if host not in up:
+            raise RuntimeError(f"the {role} federate is placed on {host}, which does not answer over ssh")
+    if not cfg["nodes"]:
+        return cfg, []
+    nodes = [n for n in cfg["nodes"] if n["host"] in up]
+    down = [n["host"] for n in cfg["nodes"] if n["host"] not in up]
+    slots = sum(int(n.get("slots", 1)) for n in nodes)
+    if np_ > slots:
+        raise RuntimeError(f"{np_} MPI ranks requested, but the reachable nodes have {slots} slots"
+                           + (f" ({', '.join(down)} not reachable)" if down else ""))
+    hostfile = os.path.join(run_dir, "hostfile")
+    with open(hostfile, "w") as fh:
+        fh.writelines(f"{n['host']} slots={n['slots']}\n" for n in nodes)
+    cfg = dict(cfg, nodes=nodes, mpi=dict(cfg["mpi"], hostfile=hostfile))
+    return cfg, down
+
+
 def status(cfg):
     """Reachability and core count of every node (for the dashboard)."""
     out = []

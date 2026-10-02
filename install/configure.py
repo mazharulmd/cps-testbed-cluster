@@ -13,6 +13,9 @@ Run at start-up on every node: by the systemd services of a native installation
   CPS_MAX_JOBS    experiments that may run at the same time       [1]
   CPS_SHARED      shared data directory (NFS on a real cluster)   [/srv/cps]
 
+Settings changed on the dashboard (Experiments page, Cluster settings) are kept in
+$CPS_SHARED/cluster_settings.json and take precedence over these variables.
+
 head: writes $CPS_SHARED/cluster.json and $CPS_SHARED/hostfile and, on a cluster, creates the
       cluster's SSH key in $CPS_SHARED/.ssh.
 node: waits for that key.
@@ -24,24 +27,44 @@ env = os.environ.get
 SHARED = env("CPS_SHARED", "/srv/cps")
 ROLE = env("CPS_ROLE", "head")
 HEAD = env("CPS_HEAD") or socket.gethostname()
+SETTINGS = os.path.join(SHARED, "cluster_settings.json")
 
 
-def layout():
+def settings():
+    """The cluster settings: environment variables, overridden by the dashboard's file.
+
+    {"nodes": [{"host", "slots"}], "place_grid", "place_ns3", "place_cc", "default_np",
+     "max_parallel_jobs"}; empty placements mean the head."""
     nodes = []
     for item in filter(None, (env("CPS_NODES") or "").replace(" ", "").split(",")):
         host, _, slots = item.partition(":")
         nodes.append({"host": host, "slots": int(slots or 1)})
+    s = {"nodes": nodes, "place_grid": env("CPS_PLACE_GRID") or "", "place_ns3": env("CPS_PLACE_NS3") or "",
+         "place_cc": env("CPS_PLACE_CC") or "", "default_np": int(env("CPS_MPI_NP") or 1),
+         "max_parallel_jobs": int(env("CPS_MAX_JOBS") or 1), "source": "settings file"}
+    if os.path.exists(SETTINGS):
+        try:
+            s.update({k: v for k, v in json.load(open(SETTINGS)).items() if k in s})
+            s["source"] = "dashboard"
+        except (OSError, ValueError):
+            print(f"[configure] ignoring unreadable {SETTINGS}", flush=True)
+    return s
+
+
+def layout(s=None):
+    s = s or settings()
+    nodes = s["nodes"]
     return {
         "head": HEAD,
         "nodes": nodes,
         "placement": {"broker": HEAD,
-                      "grid": env("CPS_PLACE_GRID") or HEAD,
-                      "ns3": env("CPS_PLACE_NS3") or HEAD,
-                      "cc": env("CPS_PLACE_CC") or HEAD},
+                      "grid": s["place_grid"] or HEAD,
+                      "ns3": s["place_ns3"] or HEAD,
+                      "cc": s["place_cc"] or HEAD},
         "mpi": {"hostfile": os.path.join(SHARED, "hostfile") if nodes else None,
-                "default_np": int(env("CPS_MPI_NP") or 1)},
+                "default_np": int(s["default_np"])},
         "helics_port_base": 23500,
-        "max_parallel_jobs": int(env("CPS_MAX_JOBS") or 1),
+        "max_parallel_jobs": int(s["max_parallel_jobs"]),
     }
 
 
@@ -87,26 +110,38 @@ def main():
         install_key(wait=True)
         print(f"[configure] {socket.gethostname()} ready as a compute node", flush=True)
         return
-    cfg = layout()
-    with open(os.path.join(SHARED, "hostfile"), "w") as fh:
-        fh.writelines(f"{n['host']} slots={n['slots']}\n" for n in cfg["nodes"])
-    with open(os.path.join(SHARED, "cluster.json"), "w") as fh:
-        json.dump(cfg, fh, indent=1)
+    apply(wait=int(env("CPS_WAIT_NODES") or 60))
+
+
+def apply(s=None, wait=0):
+    """Write cluster.json and the MPI hostfile, set up the cluster's SSH key when there are
+    other hosts, and check that they answer (waiting up to `wait` seconds for each).
+    Returns the layout and {host: reachable}."""
+    cfg = layout(s)
+    for name, text in (("hostfile", "".join(f"{n['host']} slots={n['slots']}\n" for n in cfg["nodes"])),
+                       ("cluster.json", json.dumps(cfg, indent=1))):
+        tmp = os.path.join(SHARED, f".{name}.tmp")
+        with open(tmp, "w") as fh:
+            fh.write(text)
+        os.replace(tmp, os.path.join(SHARED, name))
     print("[configure] cluster:", json.dumps(cfg), flush=True)
     hosts = remote_hosts(cfg)
     if not hosts:
         print("[configure] single server: everything runs on this host", flush=True)
-        return
+        return cfg, {}
     install_key(wait=False)
+    reach = {}
     for host in hosts:
         ok = False
-        for _ in range(int(env("CPS_WAIT_NODES") or 60)):
+        for _ in range(max(1, wait)):
             ok = subprocess.run(["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=2", host, "true"],
                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
-            if ok:
+            if ok or wait <= 1:
                 break
             time.sleep(1)
+        reach[host] = ok
         print(f"[configure] {host} {'reachable' if ok else 'NOT reachable over ssh'}", flush=True)
+    return cfg, reach
 
 
 if __name__ == "__main__":

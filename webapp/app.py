@@ -10,8 +10,8 @@ Environment:
 
 Start: uvicorn app:app --host 0.0.0.0 --port 8080   (from this directory)
 """
-import csv, json, os, queue, re, secrets, subprocess, sys, threading, time
-from typing import Optional
+import csv, importlib.util, json, os, queue, re, secrets, subprocess, sys, threading, time
+from typing import List, Optional
 
 import base64
 import numpy as np
@@ -32,6 +32,11 @@ sys.path.insert(0, FED)
 from cpslib.network import Network  # noqa: E402
 from cpslib.placement import optimal_placement  # noqa: E402
 from cpslib import cluster, grids  # noqa: E402
+
+# install/configure.py writes the cluster layout; the dashboard's cluster settings go through it
+_spec = importlib.util.spec_from_file_location("configure", os.path.join(ROOT, "install", "configure.py"))
+configure = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(configure)
 
 app = FastAPI(title="CPS Testbed")
 security = HTTPBasic(auto_error=False)
@@ -75,7 +80,7 @@ class RunRequest(BaseModel):
     event: str = Field("none", pattern=r"^(none|avr:\d+:[0-9.]+:[0-9.]+|load:\d+:-?[0-9.]+:[0-9.]+|"
                                       r"fault:\d+:[0-9.]+:[0-9.]+|line:\d+:\d+:[0-9.]+|gen:\d+:[0-9.]+)$")
     seed: int = Field(1, ge=1, le=10**6)
-    mpi_np: int = Field(1, ge=1, le=256)
+    mpi_np: Optional[int] = Field(None, ge=1, le=1024)     # default: the cluster's default MPI ranks
 
     def argv(self):
         a = []
@@ -109,10 +114,17 @@ def ranks_of(job):
 
 
 def worker(slot):
-    """One of max_parallel_jobs workers; each owns a HELICS port range so runs can overlap."""
+    """One of max_parallel_jobs workers; each owns a HELICS port range so runs can overlap.
+    Workers above the current max_parallel_jobs (lowered on the dashboard) stay idle."""
     port = CLUSTER["helics_port_base"] + 100 * (slot + 1)
     while True:
-        jid = job_queue.get()
+        if slot >= int(CLUSTER["max_parallel_jobs"]):
+            time.sleep(1)
+            continue
+        try:
+            jid = job_queue.get(timeout=1)
+        except queue.Empty:
+            continue
         job = jobs[jid]
         need = ranks_of(job)
         with slot_cv:
@@ -147,8 +159,17 @@ def run_job(job, jid, slot, port):
     job.update(status="done" if ok else "failed", finished=time.time(), log=log_path)
 
 
-for _slot in range(max(1, int(CLUSTER["max_parallel_jobs"]))):
-    threading.Thread(target=worker, args=(_slot,), daemon=True).start()
+_workers = []
+
+
+def ensure_workers():
+    while len(_workers) < max(1, int(CLUSTER["max_parallel_jobs"])):
+        t = threading.Thread(target=worker, args=(len(_workers),), daemon=True)
+        _workers.append(t)
+        t.start()
+
+
+ensure_workers()
 
 
 # ------------------------------------------------------------------ helpers
@@ -218,9 +239,18 @@ def queue_run(req: RunRequest, source=None):
             more = f" ... ({len(shown)} in all)" if len(shown) > 40 else ""
             raise HTTPException(422, f"bus {bus} is not a generator bus in {label}; "
                                      f"generator buses: {', '.join(map(str, shown[:40]))}{more}")
-        if kind == "load" and bus not in buses:
-            raise HTTPException(422, f"load bus {bus} is not in {label}")
+        if kind in ("load", "fault") and bus not in buses:
+            raise HTTPException(422, f"bus {bus} is not in {label}")
+        if kind == "gen" and bus not in gens:
+            raise HTTPException(422, f"bus {bus} is not a generator bus in {label}")
+        if kind == "line":
+            to = int(req.event.split(":")[2])
+            lines = {tuple(sorted(l)) for l in grids.lines(req.case)}
+            if tuple(sorted((bus, to))) not in lines:
+                raise HTTPException(422, f"there is no line {bus}-{to} in {label}")
     slots = cluster.mpi_slots(CLUSTER)
+    if req.mpi_np is None:
+        req.mpi_np = min(int(CLUSTER["mpi"].get("default_np", 1)), slots)
     if req.solver == "gridpack" and req.mpi_np > slots:
         raise HTTPException(422, f"{req.mpi_np} MPI ranks requested; the cluster has {slots} MPI slots")
     with lock:
@@ -298,7 +328,7 @@ def list_grids(_=Depends(auth)):
 @app.get("/api/grids/{grid_id}")
 def grid_info(grid_id: str, _=Depends(auth)):
     try:
-        return grids.get_info(grid_id)
+        return dict(grids.get_info(grid_id), lines=grids.lines(grid_id))
     except grids.GridError as e:
         raise HTTPException(404, str(e))
 
@@ -330,6 +360,76 @@ def cluster_status(_=Depends(auth)):
             "default_np": CLUSTER["mpi"].get("default_np", 1), "max_parallel_jobs": CLUSTER["max_parallel_jobs"],
             "placement": CLUSTER["placement"], "running": len(running),
             "queued": sum(1 for j in jobs.values() if j["status"] == "queued")}
+
+
+class NodeSetting(BaseModel):
+    host: str = Field(..., pattern=r"^[A-Za-z0-9][A-Za-z0-9.-]{0,62}$")
+    slots: int = Field(..., ge=1, le=1024)
+
+
+class ClusterSettings(BaseModel):
+    nodes: List[NodeSetting] = Field(default_factory=list, max_length=64)
+    place_grid: str = Field("", pattern=r"^[A-Za-z0-9.-]{0,63}$")
+    place_ns3: str = Field("", pattern=r"^[A-Za-z0-9.-]{0,63}$")
+    place_cc: str = Field("", pattern=r"^[A-Za-z0-9.-]{0,63}$")
+    default_np: int = Field(1, ge=1, le=1024)
+    max_parallel_jobs: int = Field(1, ge=1, le=16)
+
+
+@app.get("/api/cluster/settings")
+def get_cluster_settings(_=Depends(auth)):
+    s = configure.settings()
+    s["head"] = CLUSTER["head"]
+    s["cores_here"] = os.cpu_count()
+    return s
+
+
+@app.put("/api/cluster/settings")
+def put_cluster_settings(new: ClusterSettings, _=Depends(auth)):
+    """Change the cluster layout from the dashboard: MPI hosts and slots, where the federates
+    run, default MPI ranks, experiments at a time. Applies to experiments started afterwards."""
+    global CLUSTER
+    hosts = [n.host for n in new.nodes]
+    if len(set(hosts)) != len(hosts):
+        raise HTTPException(422, "each node may be listed once")
+    allowed = {"", CLUSTER["head"], "localhost"} | set(hosts)
+    for role in ("place_grid", "place_ns3", "place_cc"):
+        if getattr(new, role) not in allowed:
+            raise HTTPException(422, f"{role.split('_')[1]}: '{getattr(new, role)}' is neither the head nor a listed node")
+    total = sum(n.slots for n in new.nodes) if new.nodes else (os.cpu_count() or 1)
+    if new.default_np > total:
+        raise HTTPException(422, f"default MPI ranks ({new.default_np}) exceed the {total} MPI slots")
+    data = new.model_dump()
+    tmp = configure.SETTINGS + ".tmp"
+    with open(tmp, "w") as fh:
+        json.dump(data, fh, indent=1)
+    os.replace(tmp, configure.SETTINGS)
+    try:
+        cfg, reach = configure.apply(data, wait=1)
+    except Exception as e:
+        raise HTTPException(500, f"settings saved, but the cluster files could not be written: {e}")
+    CLUSTER = cluster.load()
+    with slot_cv:
+        slots["total"] = cluster.mpi_slots(CLUSTER)
+        slot_cv.notify_all()
+    ensure_workers()
+    return {"saved": True, "mpi_slots": slots["total"], "reachable": reach,
+            "unreachable": [h for h, ok in reach.items() if not ok]}
+
+
+@app.delete("/api/cluster/settings")
+def reset_cluster_settings(_=Depends(auth)):
+    """Forget the dashboard's settings and go back to /etc/cps/cps.env (or the container's variables)."""
+    global CLUSTER
+    if os.path.exists(configure.SETTINGS):
+        os.remove(configure.SETTINGS)
+    configure.apply(wait=1)
+    CLUSTER = cluster.load()
+    with slot_cv:
+        slots["total"] = cluster.mpi_slots(CLUSTER)
+        slot_cv.notify_all()
+    ensure_workers()
+    return get_cluster_settings()
 
 
 @app.get("/api/jobs")

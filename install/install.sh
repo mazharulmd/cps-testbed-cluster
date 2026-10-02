@@ -16,6 +16,7 @@
 set -euo pipefail
 ROLE=head
 SERVICES=1
+PORT_WARN=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --role) ROLE=$2; shift 2 ;;
@@ -70,6 +71,17 @@ install -m 755 "$REPO/install/cps-passwd" /usr/local/bin/cps-passwd
 if [ "$SERVICES" = 1 ]; then
   systemctl enable --now ssh >/dev/null 2>&1 || systemctl enable --now sshd >/dev/null 2>&1 || true
   if [ "$ROLE" = head ]; then
+    # another program on the dashboard or API port (e.g. an older testbed container) would keep
+    # the services from starting, and the browser would reach that program instead
+    for port in 1880 8080; do
+      owner=$(ss -ltnpH "sport = :$port" 2>/dev/null | grep -o 'users:(("[^"]*"' | head -1 | cut -d'"' -f2 || true)
+      case "$owner" in
+        ""|node-red|node|uvicorn|python*) ;;
+        *) PORT_WARN="$PORT_WARN  WARNING: port $port is used by '$owner' (docker-proxy = a container: sudo docker ps);
+           stop it, then: sudo systemctl restart cps-api cps-nodered
+" ;;
+      esac
+    done
     cp "$REPO"/install/systemd/cps-api.service "$REPO"/install/systemd/cps-nodered.service /etc/systemd/system/
     systemctl daemon-reload
     systemctl enable cps-api cps-nodered
@@ -84,6 +96,7 @@ fi
 
 echo
 echo "[cps-install] done ($ROLE)."
+[ -z "${PORT_WARN:-}" ] || printf "%s" "$PORT_WARN"
 if [ "$ROLE" = head ]; then
   echo "  Dashboard:  http://$(hostname -I | awk '{print $1}'):1880/dashboard/experiments"
   echo "  API:        http://$(hostname -I | awk '{print $1}'):8080/docs"

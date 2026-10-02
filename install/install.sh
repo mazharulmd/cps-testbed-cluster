@@ -58,11 +58,14 @@ chown -R cps:cps "$CPS_SHARED" 2>/dev/null || echo "[cps-install] note: could no
 # command-line runner: cps-run --case 118 --duration 10 ...
 cat > /usr/local/bin/cps-run <<'EOF'
 #!/bin/bash
-# Run one experiment from the command line with the settings of /etc/cps/cps.env.
-set -a; . /etc/cps/cps.env; set +a
+# Run one experiment from the command line with the settings of /etc/cps/cps.env (the logins
+# are left out: a bcrypt hash would not survive the shell, and runs do not need them).
+set -a; . <(grep -vE '^(CPS_WEB_PASSWORD|NODERED_ADMIN_HASH)=' /etc/cps/cps.env); set +a
 exec /opt/cps/venv/bin/python /opt/cps/testbed/federates/run_experiment.py "$@"
 EOF
 chmod 755 /usr/local/bin/cps-run
+# login of the dashboard, the editor and the API: sudo cps-passwd
+install -m 755 "$REPO/install/cps-passwd" /usr/local/bin/cps-passwd
 
 if [ "$SERVICES" = 1 ]; then
   systemctl enable --now ssh >/dev/null 2>&1 || systemctl enable --now sshd >/dev/null 2>&1 || true
@@ -84,8 +87,8 @@ echo "[cps-install] done ($ROLE)."
 if [ "$ROLE" = head ]; then
   echo "  Dashboard:  http://$(hostname -I | awk '{print $1}'):1880/dashboard/experiments"
   echo "  API:        http://$(hostname -I | awk '{print $1}'):8080/docs"
-  echo "  Settings:   /etc/cps/cps.env (set CPS_WEB_PASSWORD and NODERED_ADMIN_HASH, then"
-  echo "              sudo systemctl restart cps-api cps-nodered)"
+  echo "  Login:      sudo cps-passwd   (user admin; sets the dashboard, editor and API password)"
+  echo "  Settings:   /etc/cps/cps.env, then sudo systemctl restart cps-api cps-nodered"
   echo "  Command line: sudo -u cps cps-run --case 118 --duration 10"
 else
   echo "  Mount the cluster's shared directory at $CPS_SHARED, then add this host to"

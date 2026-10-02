@@ -1,0 +1,57 @@
+#!/bin/bash
+# Set the login of the dashboard, the Node-RED editor and the experiment API.
+#
+#   sudo cps-passwd            asks for a password (twice) and uses it for all three
+#   sudo cps-passwd --off      removes the login again (anyone who reaches the ports can use them)
+#
+# The user name is CPS_WEB_USER / NODERED_ADMIN_USER in /etc/cps/cps.env (admin by default).
+# The password is stored for the API and as a bcrypt hash for Node-RED, then both services
+# restart.
+set -euo pipefail
+ENV=/etc/cps/cps.env
+BCRYPT=/usr/local/lib/node_modules/node-red/node_modules/bcryptjs
+[ "$(id -u)" = 0 ] || { echo "run with sudo"; exit 1; }
+[ -f "$ENV" ] || { echo "$ENV not found; install the testbed first"; exit 1; }
+
+set_var() {     # set_var NAME VALUE: replace or append the line NAME=VALUE, value taken literally
+  NAME="$1" VALUE="$2" python3 - "$ENV" <<'PY'
+import os, sys
+path, name, value = sys.argv[1], os.environ["NAME"], os.environ["VALUE"]
+lines = open(path).read().splitlines()
+out, done = [], False
+for line in lines:
+    if line.startswith(name + "="):
+        if not done:
+            out.append(f"{name}={value}")
+            done = True
+        continue
+    out.append(line)
+if not done:
+    out.append(f"{name}={value}")
+tmp = path + ".tmp"
+with open(tmp, "w") as fh:
+    fh.write("\n".join(out) + "\n")
+os.chmod(tmp, 0o640)
+os.replace(tmp, path)
+PY
+}
+
+if [ "${1:-}" = "--off" ]; then
+  set_var CPS_WEB_PASSWORD ""
+  set_var NODERED_ADMIN_HASH ""
+  echo "login removed"
+else
+  read -r -s -p "New password: " pw; echo
+  read -r -s -p "Again: " pw2; echo
+  [ "$pw" = "$pw2" ] || { echo "the passwords differ"; exit 1; }
+  [ ${#pw} -ge 8 ] || { echo "use at least 8 characters"; exit 1; }
+  # systemd reads the settings file: quotes, backslashes and spaces would change the value
+  case "$pw" in *[\"\'\\[:space:]]*) echo "use no quotes, backslashes or spaces"; exit 1 ;; esac
+  hash=$(PW="$pw" node -e 'console.log(require(process.argv[1]).hashSync(process.env.PW, 8))' "$BCRYPT")
+  set_var CPS_WEB_PASSWORD "$pw"
+  set_var NODERED_ADMIN_HASH "$hash"
+  user=$(grep -E '^NODERED_ADMIN_USER=' "$ENV" | cut -d= -f2-)
+  echo "login set: user ${user:-admin}"
+fi
+chown root:cps "$ENV" && chmod 640 "$ENV"
+systemctl restart cps-api cps-nodered 2>/dev/null || true

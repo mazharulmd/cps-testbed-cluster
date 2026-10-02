@@ -51,8 +51,9 @@ on `node2`. Open:
 - Dashboard: http://localhost:1880/dashboard/experiments
 - API (and its documentation): http://localhost:8080/docs
 
-Set `CPS_WEB_PASSWORD` and `NODERED_ADMIN_HASH` (see [install.md](install.md#logins)) before
-exposing the ports to anyone else.
+Set `CPS_WEB_PASSWORD` and `NODERED_ADMIN_HASH` in the compose file's environment (natively:
+`sudo cps-passwd`, see [install.md](install.md#logins)) before exposing the ports to anyone
+else.
 
 ## Using it
 

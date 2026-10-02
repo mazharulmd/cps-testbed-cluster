@@ -39,19 +39,16 @@ Everything runs on this server; GridPACK uses up to as many MPI ranks as the ser
 
 ### Logins
 
-Without passwords anyone who can reach ports 1880 and 8080 can run experiments. Set them in
-`/etc/cps/cps.env`:
+Without a password anyone who can reach ports 1880 and 8080 can run experiments. Set one:
 
 ```bash
-# experiment API (user CPS_WEB_USER, default admin)
-sudo sed -i 's/^CPS_WEB_PASSWORD=.*/CPS_WEB_PASSWORD=choose-a-password/' /etc/cps/cps.env
-
-# Node-RED: a bcrypt hash of the password
-HASH=$(node -e 'console.log(require("/usr/local/lib/node_modules/node-red/node_modules/bcryptjs").hashSync(process.argv[1], 8))' 'choose-a-password')
-sudo sed -i "s|^NODERED_ADMIN_HASH=.*|NODERED_ADMIN_HASH=$HASH|" /etc/cps/cps.env
-
-sudo systemctl restart cps-api cps-nodered
+sudo cps-passwd          # asks for the password twice; sudo cps-passwd --off removes it
 ```
+
+It protects the dashboard, the Node-RED editor and the experiment API with the same password
+(user `admin`, set by `CPS_WEB_USER` / `NODERED_ADMIN_USER` in `/etc/cps/cps.env`), stores it
+in `/etc/cps/cps.env` (for Node-RED as a bcrypt hash) and restarts both services. Use at least
+8 characters and no quotes, backslashes or spaces.
 
 The dashboard talks to the API with `CPS_WEB_PASSWORD`, so both keep working together.
 
@@ -152,6 +149,7 @@ sudo userdel -r cps
 
 | Problem | What to do |
 |---|---|
+| Login fails on the dashboard or editor | The user is `admin`; set the password again with `sudo cps-passwd` (passwords written into `/etc/cps/cps.env` by hand with `sed` break on characters such as `&`, `/`, `|`) |
 | The dashboard says "Experiment API not reachable" | `systemctl status cps-api`; `journalctl -u cps-api` |
 | A job fails | The log under the job on the *Experiments* page; the federate logs (`grid.log`, `ns3.log`, `cc.log`, `broker.log`, `gridpack/pf_server.log`) in the run directory |
 | A node is shown as not reachable | `sudo -u cps ssh node1 true` on the head; check that `/srv/cps` is mounted on the node and `systemctl status cps-node` there |

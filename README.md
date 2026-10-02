@@ -43,7 +43,8 @@ sudo ./install/install.sh
 
 This installs the software, creates the service user `cps`, writes the settings to
 `/etc/cps/cps.env` and starts two systemd services, `cps-api` (port 8080) and `cps-nodered`
-(port 1880). Open `http://<server>:1880/dashboard/experiments`.
+(port 1880). Set a login with `sudo cps-passwd` (user `admin`) and open
+`http://<server>:1880/dashboard/experiments`.
 
 For a cluster, run `sudo ./install/install.sh --role node` on each compute node, share
 `/srv/cps` over NFS and list the nodes in `/etc/cps/cps.env` on the head. Details, logins and

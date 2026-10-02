@@ -13,7 +13,7 @@ rsync -a --delete --exclude .git --exclude __pycache__ \
 # NS-3 network federate
 rm -rf "$PREFIX/ns-3/scratch/helicstest"
 cp -r "$src/ns3-scratch/helicstest" "$PREFIX/ns-3/scratch/helicstest"
-(cd "$PREFIX/ns-3" && ./ns3 build helicstest)
+(cd "$PREFIX/ns-3" && USER=cps-install ./ns3 build helicstest)    # ./ns3 refuses USER=root
 ln -sf "$(find "$PREFIX/ns-3/build/scratch/helicstest" -maxdepth 1 -type f -name '*helicstest*' | head -1)" \
   "$PREFIX/ns-3/helicstest"
 

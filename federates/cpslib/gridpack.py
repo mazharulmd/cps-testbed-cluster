@@ -1,7 +1,7 @@
 """GridPACK for the grid federate: long-lived MPI jobs that the federate drives over
 stdin/stdout, pf_server (power flow, gridpack/pf_server) and dsf_server (dynamic simulation,
 gridpack/dsf_server)."""
-import math, os, shutil, subprocess
+import math, os, re, shutil, subprocess
 import numpy as np
 
 from .rawio import write_raw
@@ -33,10 +33,20 @@ def server_available(path=PF_SERVER):
     return os.path.exists(path) and shutil.which("mpirun") is not None
 
 
+# GridPACK's own progress lines: Newton iterations of the power flow and integration steps
+ITERATION = re.compile(r"Iteration (\d+)[^T]*Tol:\s*([-+0-9.eE]+)")
+
+
 class _MPIServer:
-    """An MPI job started once; rank 0 reads commands on stdin and answers with "@@" lines."""
+    """An MPI job started once; rank 0 reads commands on stdin and answers with "@@" lines.
+
+    Besides the answers it keeps what GridPACK reports while it works, for the live view:
+    ranks (host, buses and branches of every MPI rank), iterations (Newton iterations of
+    the last power flow as (iteration, mismatch)) and steps (integration steps of the last
+    dynamic step)."""
 
     def _start(self, server, xml, np_, hostfile, log):
+        self.ranks, self.iterations, self.steps = [], [], 0
         cmd = ["mpirun", "-np", str(int(np_)), "--wdir", self.dir,
                "-x", "LD_LIBRARY_PATH", "-x", "PATH"]
         if hostfile:
@@ -55,8 +65,18 @@ class _MPIServer:
         for line in self.proc.stdout:
             if not line.startswith("@@"):
                 self.log.write(line)
+                if line.startswith("Time ="):
+                    self.steps += 1
+                else:
+                    m = ITERATION.search(line)
+                    if m:
+                        self.iterations.append((int(m.group(1)), float(m.group(2))))
                 continue
             parts = line.split()
+            if parts[0] == "@@RANK" and len(parts) >= 5:
+                self.ranks.append({"rank": int(parts[1]), "host": parts[2], "buses": int(parts[3]),
+                                   "branches": int(parts[4])})
+                continue
             if collect is not None and parts[0] in collect:
                 collect[parts[0]].append(parts[1:])
             elif parts[0] == "@@WARN":
@@ -68,6 +88,7 @@ class _MPIServer:
         raise RuntimeError(f"{os.path.basename(self.server)} exited (code {self.proc.wait()}); see {self.log.name}")
 
     def _send(self, lines):
+        self.iterations, self.steps = [], 0
         self.proc.stdin.write("\n".join(lines) + "\n")
         self.proc.stdin.flush()
 

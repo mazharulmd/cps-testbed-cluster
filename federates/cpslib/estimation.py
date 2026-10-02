@@ -107,4 +107,5 @@ class StateEstimator:
             res = self.estimate(meas, exclude=excl)
         res["removed_pmus"] = removed
         res["first_J"], res["first_alarm"] = first["J"], first["alarm"]
+        res["first_threshold"], res["first_observable"] = first["threshold"], first["observable"]
         return res

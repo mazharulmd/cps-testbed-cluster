@@ -265,6 +265,16 @@ static Ptr<Socket> ccCmdSock;
 static std::map<uint32_t, Ipv4Address> genAddr;
 static uint64_t cmdSent = 0, cmdDelivered = 0;
 
+// running counters for the live view (published on ns3/status twice per simulated second)
+struct Stat
+{
+  uint64_t sent = 0, delivered = 0, late = 0, dropped = 0, attacked = 0;
+  double lastLatMs = -1;
+};
+static std::vector<Stat> stats;                      // per PMU, same order as pmus
+static uint64_t setsReleased = 0, setsComplete = 0;
+static double releaseLatSum = 0;                     // s, over released sets
+
 // attack: applied to frames of the target PMUs between start and end
 static std::string atkType = "none";
 static double atkStart = 0, atkEnd = 0, atkDelayMs = 0;
@@ -290,7 +300,13 @@ Release (uint64_t k)
       Rec &r = recs[{k, pmus[i].id}];
       r.arr = v.first;
       r.status = "delivered";
+      stats[i].delivered++;
+      stats[i].lastLatMs = (v.first - k / rate) * 1000;
     }
+  setsReleased++;
+  if (b.data.size () == pmus.size ())
+    setsComplete++;
+  releaseLatSum += Simulator::Now ().GetSeconds () - k / rate;
   outSets.push_back ({{"k", k}, {"t", k / rate}, {"release_t", Simulator::Now ().GetSeconds ()},
                       {"expected", pmus.size ()}, {"pmus", pm}});
 }
@@ -312,6 +328,7 @@ PdcReceive (Ptr<Socket> socket)
       if (b.released)
         {
           recs[{k, pmus[i].id}].status = "late";
+          stats[i].late++;
           continue;
         }
       b.data[i] = {Simulator::Now ().GetSeconds (), f["ph"]};
@@ -333,6 +350,7 @@ SendFrame (size_t i, uint64_t k, std::string payload)
   Rec &r = recs[{k, pmus[i].id}];
   r.sent = Simulator::Now ().GetSeconds ();
   r.status = "sent";
+  stats[i].sent++;
 }
 
 // every PMU samples the latest grid state at the frame time k / rate
@@ -363,9 +381,11 @@ Sample (uint64_t k)
       if (attacked)
         {
           recs[{k, p.id}].attacked = true;
+          stats[i].attacked++;
           if (atkType == "drop")
             {
               recs[{k, p.id}].status = "dropped_by_attack";
+              stats[i].dropped++;
               continue;
             }
           if (atkType == "fdi" && adaptive)
@@ -544,6 +564,10 @@ Run (const std::string &cfgPath)
   auto subCmd = fed->registerSubscription ("cc/commands");
   auto pubSets = fed->registerGlobalPublication<std::string> ("ns3/pdc");
   auto pubCmd = fed->registerGlobalPublication<std::string> ("ns3/cmd_delivered");
+  // what happens inside the network, for the dashboard's live view (no federate depends on it)
+  auto pubStatus = fed->registerGlobalPublication<std::string> ("ns3/status");
+  stats.assign (pmus.size (), Stat ());
+  const uint64_t statusEvery = std::max<uint64_t> (1, uint64_t (std::llround (rate / 2)));
   fed->enterExecutingMode ();
   std::cout << "[NS3] " << pmus.size () << " PMUs -> PDC at " << rate << " frames/s, loss " << loss
             << ", attack " << atkType << std::endl;
@@ -590,6 +614,26 @@ Run (const std::string &cfgPath)
           if (cmds.is_array ())
             for (auto &c : cmds)
               SendCommand (c);
+        }
+      if (k % statusEvery == 0)
+        {
+          json pm = json::array ();
+          for (size_t i = 0; i < pmus.size (); ++i)
+            {
+              const Stat &st = stats[i];
+              pm.push_back ({pmus[i].bus, pmus[i].delayMs, st.sent, st.delivered, st.late, st.dropped,
+                             st.attacked, std::round (st.lastLatMs * 100) / 100});
+            }
+          bool atkOn = atkType != "none" && k / rate >= atkStart && k / rate < atkEnd;
+          pubStatus.publish (json ({{"t", k / rate},
+                                    {"pmus", pm},
+                                    {"pdc", {{"sets", setsReleased}, {"complete", setsComplete},
+                                             {"release_ms", setsReleased ? 1000 * releaseLatSum / setsReleased : 0},
+                                             {"waiting", bufs.size () - setsReleased}, {"wait_ms", pdcWaitS * 1000}}},
+                                    {"commands", {{"sent", cmdSent}, {"delivered", cmdDelivered}}},
+                                    {"attack", {{"type", atkType}, {"active", atkOn}}},
+                                    {"events", Simulator::GetEventCount ()}})
+                                 .dump ());
         }
       if (k == K)
         break;

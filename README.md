@@ -81,10 +81,18 @@ Requirements: x86-64 machine, 4+ cores, 8 GB RAM, 15 GB disk, internet access du
 2. **Live page.** Follow the running experiment second by second: true and estimated voltages
    at any bus, bad data alarms, PDC completeness, and every command from issue to delivery to
    application.
-3. **Results page.** Summary figures, charts (voltages, chi-square test, GridPACK solve time per
+3. **Inside page.** What the three engines compute while the experiment runs: the HELICS
+   federation (which federate runs on which node, the simulated time the broker granted each
+   one, messages and bytes per topic); GridPACK (solver, MPI ranks and how the grid is split
+   over them, the Newton-Raphson mismatch of every iteration or the integration steps of the
+   dynamic simulation, time per step); NS-3 (frames sent, delivered, late, lost and attacked per
+   PMU, latency, PDC sets, commands, simulator events); the control center (measurements,
+   observability, chi-square test, removed PMUs, estimation time); and a log in plain words of
+   every event, alarm and command.
+4. **Results page.** Summary figures, charts (voltages, chi-square test, GridPACK solve time per
    step, latency, PDC completeness, per-PMU delivery) and the command log of each run. Raw files
    are in `/srv/cps/runs/<run id>/`.
-4. **Cluster page.** The nodes and their state, and the cluster settings: default MPI ranks,
+5. **Cluster page.** The nodes and their state, and the cluster settings: default MPI ranks,
    experiments at the same time, compute nodes with their MPI slots, and the node of each
    federate. Saved settings apply to the next experiments, without a restart.
 

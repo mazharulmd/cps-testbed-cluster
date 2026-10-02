@@ -164,6 +164,29 @@ def main(cfg_path):
         vm = np.abs(V)
         tw.writerow([t] + [f"{x:.6f}" for x in vm])
         status = {"t": t, "vm": [round(float(x), 5) for x in vm], "solver": used, "applied": applied_now}
+        # what GridPACK did in this step, for the dashboard's Inside page
+        on_gp = used.startswith("gridpack")
+        gp = {"server": ("dsf_server" if dynamic else "pf_server") if on_gp else "built-in Newton-Raphson",
+              "ranks": getattr(solver, "np", 1) if on_gp else 1, "converged": bool(ok),
+              "t_step_ms": round(1000 * t_solve, 2),
+              "t_mpi_ms": round(1000 * float(srv["t_solve"]), 2) if on_gp and "t_solve" in srv else None,
+              "t_apply_ms": round(1000 * float(srv["t_apply"]), 3) if on_gp and "t_apply" in srv else None,
+              "load_mw": round(float(pd.sum()), 1), "max_v": [round(float(vm.max()), 4), net.bus_ids[int(vm.argmax())]],
+              "min_v": [round(float(vm.min()), 4), net.bus_ids[int(vm.argmin())]], "buses": net.n}
+        if dynamic:
+            gp.update(steps=solver.steps, dt_ms=round(1000 * solver.dt, 3), machines=len(solver.gens))
+        elif on_gp:
+            # GridPACK prints the starting mismatch twice; keep one value per Newton iteration
+            seq = []
+            for _, tol in solver.iterations:
+                if not seq or abs(tol - seq[-1]) > 1e-12 * max(abs(tol), 1):
+                    seq.append(tol)
+            gp["iterations"] = [[i, float(f"{tol:.3g}")] for i, tol in enumerate(seq)]
+        else:
+            gp["iterations"] = [[i, None] for i in range(1, int(it) + 1)]
+        if on_gp and k % 30 == 0:
+            gp["rank_map"] = solver.ranks
+        status["gp"] = gp
         if dynamic:
             fg = [f_nom * g["speed"] for g in gens]
             # centre-of-inertia frequency of the machines in service

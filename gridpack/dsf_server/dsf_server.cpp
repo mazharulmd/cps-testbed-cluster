@@ -14,6 +14,7 @@
  *
  * Rank 0 answers on stdout with lines prefixed "@@" (anything else is GridPACK/MPI chatter):
  *
+ *   @@RANK <rank> <host> <buses> <branches>   once per rank at start: how the grid is partitioned
  *   @@READY nbus=<n> ngen=<g> nranks=<p> t_setup=<s> dt=<s>
  *   @@RESULT t=<s> nbus=<n> ngen=<g> t_apply=<s> t_solve=<s>
  *   @@V <bus> <Vm pu> <Va deg> <f Hz>       one line per bus, ascending bus number
@@ -172,6 +173,33 @@ std::vector<std::vector<double> > gen_states(boost::shared_ptr<Network> &net, MP
   return gather_rows(mine, 7, comm);
 }
 
+
+// where the grid lives: host, buses and branches owned by every rank (printed once at start)
+template <typename Net>
+void print_rank_map(boost::shared_ptr<Net> &net, MPI_Comm comm)
+{
+  int rank, size;
+  MPI_Comm_rank(comm, &rank);
+  MPI_Comm_size(comm, &size);
+  int counts[2] = {0, 0};
+  for (int i = 0; i < net->numBuses(); i++) if (net->getActiveBus(i)) counts[0]++;
+  for (int i = 0; i < net->numBranches(); i++) if (net->getActiveBranch(i)) counts[1]++;
+  char host[MPI_MAX_PROCESSOR_NAME] = {0};
+  int len = 0;
+  MPI_Get_processor_name(host, &len);
+  std::vector<int> all(2 * size);
+  std::vector<char> hosts(size * MPI_MAX_PROCESSOR_NAME);
+  MPI_Gather(counts, 2, MPI_INT, all.data(), 2, MPI_INT, 0, comm);
+  MPI_Gather(host, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, hosts.data(), MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 0, comm);
+  if (rank == 0) {
+    for (int r = 0; r < size; r++) {
+      std::cout << "@@RANK " << r << " " << std::string(&hosts[r * MPI_MAX_PROCESSOR_NAME])
+                << " " << all[2 * r] << " " << all[2 * r + 1] << "\n";
+    }
+    std::cout << std::flush;
+  }
+}
+
 }  // namespace
 
 const char* help = "CPS testbed persistent MPI dynamic simulation server";
@@ -204,6 +232,7 @@ int main(int argc, char **argv)
     for (size_t k = 0; k < gbus.size(); k++) vref0[k] = get_vref(ds, gbus[k], std::to_string(gid[k]), comm);
 
     int nbus = net->totalBuses();      // collective
+    print_rank_map(net, comm);
     if (rank == 0) {
       std::cout << "@@READY nbus=" << nbus << " ngen=" << gbus.size()
                 << " nranks=" << world.size() << " t_setup=" << MPI_Wtime() - t0

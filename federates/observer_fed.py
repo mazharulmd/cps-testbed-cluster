@@ -2,7 +2,8 @@
 """Observer federate: follows a running experiment for the live dashboard.
 
 It joins the HELICS federation like the other federates but only subscribes (true grid
-state, what the control center sees, commands issued and delivered) and publishes nothing,
+state, what the control center sees, commands issued and delivered, and the federation's
+own topics, which it only counts) and publishes nothing,
 so no federate waits for it. Every half second of wall time it writes the experiment's
 live state to <run_dir>/live.json, which the experiment API serves to the Node-RED "Live"
 page. The page can ask for any bus by writing <run_dir>/watch.json ({"bus": N}).
@@ -11,6 +12,9 @@ Usage: observer_fed.py <run_dir>/observer_config.json
 """
 import json, os, sys, time
 import helics as h
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cpslib.inside import Inside
 
 
 def write_atomic(path, obj):
@@ -34,8 +38,11 @@ def main(cfg_path):
     h.helicsFederateInfoSetCoreTypeFromString(fi, "zmq")
     h.helicsFederateInfoSetCoreInitString(fi, cfg.get("helics_core_init", "--federates=1"))
     fed = h.helicsCreateValueFederate("observer", fi)
+    # the live-view topics, and the federation's own topics (counted for the Inside page)
     subs = {name: h.helicsFederateRegisterSubscription(fed, name, "")
-            for name in ("grid/status", "cc/status", "cc/commands", "ns3/cmd_delivered")}
+            for name in ("grid/status", "cc/status", "cc/commands", "ns3/cmd_delivered", "ns3/status",
+                         "grid/meas", "ns3/pdc")}
+    inside = Inside(meta, cfg)
     h.helicsFederateEnterExecutingMode(fed)
     print(f"[OBS] following {meta['grid_name']} for {T} s", flush=True)
 
@@ -53,6 +60,8 @@ def main(cfg_path):
     last_write, t = 0.0, 0.0
 
     def snapshot(done=False):
+        if not done:
+            inside.query(fed)
         bus = default_bus
         try:
             bus = int(json.load(open(watch_path)).get("bus", default_bus))
@@ -81,12 +90,21 @@ def main(cfg_path):
             "last": sets[-1] if sets else None,
             "commands": sorted(commands.values(), key=lambda c: c.get("issued_t") or c.get("applied_t") or 0),
             "events": events,
+            "inside": inside.state(),
         })
 
     while t < T:
         t = h.helicsFederateRequestTime(fed, T)       # returns early whenever a value arrives
-        if h.helicsInputIsUpdated(subs["grid/status"]):
-            g = json.loads(h.helicsInputGetString(subs["grid/status"]))
+        raw = {}
+        for name, sub in subs.items():
+            if h.helicsInputIsUpdated(sub):
+                raw[name] = h.helicsInputGetString(sub)
+                inside.count(name, raw[name], t)
+        if "ns3/status" in raw:
+            inside.on_ns3(json.loads(raw["ns3/status"]))
+        if "grid/status" in raw:
+            g = json.loads(raw["grid/status"])
+            inside.on_grid(g)
             truth.append((g["t"], g["vm"]))
             m = max(range(len(g["vm"])), key=g["vm"].__getitem__)
             max_true.append([g["t"], g["vm"][m], bus_ids[m]])
@@ -100,14 +118,17 @@ def main(cfg_path):
                 else:
                     key = f"{c['gen_bus']}@{c.get('issued_t')}"
                     commands.setdefault(key, {}).update(c, applied_t=g["t"])
-        if h.helicsInputIsUpdated(subs["cc/status"]):
-            c = json.loads(h.helicsInputGetString(subs["cc/status"]))
+        if "cc/status" in raw:
+            c = json.loads(raw["cc/status"])
+            inside.on_cc(c)
             sets.extend(c["sets"])
             if c.get("vm_est"):
                 est.append((c["t_est"], c["vm_est"]))
         for name in ("cc/commands", "ns3/cmd_delivered"):
-            if h.helicsInputIsUpdated(subs[name]):
-                for c in json.loads(h.helicsInputGetString(subs[name]) or "[]"):
+            if name in raw:
+                cmds_in = json.loads(raw[name] or "[]")
+                inside.on_commands(cmds_in, name == "ns3/cmd_delivered")
+                for c in cmds_in:
                     key = f"{c['gen_bus']}@{c.get('issued_t')}"
                     commands.setdefault(key, {}).update(c)
         if time.time() - last_write > 0.5:

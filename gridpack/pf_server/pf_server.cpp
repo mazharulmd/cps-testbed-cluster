@@ -12,10 +12,14 @@
  *
  * Rank 0 answers on stdout with lines prefixed "@@" (anything else is GridPACK/MPI chatter):
  *
+ *   @@RANK <rank> <host> <buses> <branches>   once per rank at start: how the grid is partitioned
  *   @@READY nbus=<n> nranks=<p> t_setup=<s>
  *   @@RESULT ok=<0|1> nbus=<n> t_apply=<s> t_solve=<s>
  *   @@V <bus> <Vm pu> <Va deg>      one line per bus, ascending bus number
  *   @@END
+ *
+ * GridPACK's own output is left on, so its Newton iterations ("Iteration <i> Tol: <mismatch>")
+ * appear before each @@RESULT; the grid federate shows them on the dashboard.
  */
 #include "mpi.h"
 #include <ga.h>
@@ -126,6 +130,33 @@ std::vector<double> gather_voltages(
   return all;
 }
 
+
+// where the grid lives: host, buses and branches owned by every rank (printed once at start)
+template <typename Net>
+void print_rank_map(boost::shared_ptr<Net> &net, MPI_Comm comm)
+{
+  int rank, size;
+  MPI_Comm_rank(comm, &rank);
+  MPI_Comm_size(comm, &size);
+  int counts[2] = {0, 0};
+  for (int i = 0; i < net->numBuses(); i++) if (net->getActiveBus(i)) counts[0]++;
+  for (int i = 0; i < net->numBranches(); i++) if (net->getActiveBranch(i)) counts[1]++;
+  char host[MPI_MAX_PROCESSOR_NAME] = {0};
+  int len = 0;
+  MPI_Get_processor_name(host, &len);
+  std::vector<int> all(2 * size);
+  std::vector<char> hosts(size * MPI_MAX_PROCESSOR_NAME);
+  MPI_Gather(counts, 2, MPI_INT, all.data(), 2, MPI_INT, 0, comm);
+  MPI_Gather(host, MPI_MAX_PROCESSOR_NAME, MPI_CHAR, hosts.data(), MPI_MAX_PROCESSOR_NAME, MPI_CHAR, 0, comm);
+  if (rank == 0) {
+    for (int r = 0; r < size; r++) {
+      std::cout << "@@RANK " << r << " " << std::string(&hosts[r * MPI_MAX_PROCESSOR_NAME])
+                << " " << all[2 * r] << " " << all[2 * r + 1] << "\n";
+    }
+    std::cout << std::flush;
+  }
+}
+
 }  // namespace
 
 const char* help = "CPS testbed persistent MPI power-flow server";
@@ -146,11 +177,12 @@ int main(int argc, char **argv)
     boost::shared_ptr<gridpack::powerflow::PFNetwork>
       network(new gridpack::powerflow::PFNetwork(world));
     gridpack::powerflow::PFAppModule pf;
-    pf.suppressOutput(true);
+    pf.suppressOutput(false);     // keeps the Newton iteration lines (rank 0 only)
     pf.readNetwork(network, config);
     pf.initialize();
 
     int nbus = network->totalBuses();
+    print_rank_map(network, comm);
     if (rank == 0) {
       std::cout << "@@READY nbus=" << nbus << " nranks=" << world.size()
                 << " t_setup=" << MPI_Wtime() - t0 << std::endl;

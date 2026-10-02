@@ -9,7 +9,7 @@ in the Node-RED dashboard from their browser.
                      browser (remote user)
                             │  Node-RED dashboard :1880  ·  experiment API :8080
 ┌───────────────────────────▼────────────────────────── head ─┐
-│ Node-RED: Experiments / Live / Results / IEEE 14 console    │
+│ Node-RED: Experiments / Live / Inside / Results / Cluster   │
 │ experiment API: queue, grid + scenario uploads, results     │
 │ HELICS broker (one per experiment, own port), observer      │
 │ grid federate ──stdin/stdout──► mpirun ─┐                   │
@@ -34,7 +34,8 @@ in the Node-RED dashboard from their browser.
 | Scheduling | `webapp/app.py` | Up to `CPS_MAX_JOBS` experiments at once, but a run starts only when its GridPACK ranks fit in the free MPI slots; the others wait in the queue ("waiting for N MPI slots"). MPI ranks busy-wait, so oversubscribing the slots made two parallel 4-rank runs about ten times slower (150 s instead of 13 s each). |
 | Uploads | `federates/cpslib/grids.py`, `webapp/scenario.py` | MATPOWER `.m` (or testbed `topology.json`) grid models; YAML/JSON scenario files (`webapp/scenario_template.yaml`). |
 | Live view | `federates/observer_fed.py` | A fourth HELICS federate on the head that only subscribes: true grid state (`grid/status`), what the control center sees (`cc/status`), commands issued and delivered. No federate waits for it. It writes `live.json` in the run directory about twice a second; the API serves it at `/api/live`. |
-| Dashboard | `node-red/flows.json` (tab *CPS Cluster*) | Experiments page: cluster nodes, uploads, grid list, queue. Live page: the running experiment, updated every second (progress, highest true and estimated voltage, alarms, chi-square, PDC completeness, any bus, commands as they are issued, delivered and applied). Results page: runs, summary, charts (voltages, chi-square, GridPACK time per step, latency, PDC completeness, per-PMU delivery), commands. |
+| Inside view | `federates/cpslib/inside.py`, `observer_fed.py`; reports from `pf_server`/`dsf_server`, `grid_fed.py`, `helicstest.cc`, `cc_fed.py` | What each engine computes, gathered by the observer into `live.json` (`inside`). GridPACK: at start-up every rank prints its node and the buses and branches it owns (`@@RANK`); `pf_server` keeps PETSc's Newton-Raphson iteration lines and the grid federate reports the mismatch of each iteration, `dsf_server` the integration steps; both with their times. NS-3: the federate publishes `ns3/status` twice a second (per PMU frames sent, delivered, late, dropped and attacked, link delay, last latency; PDC sets and release time; commands; attacker; simulator events). Control center: per set the measurements, observability, chi-square test before and after PMU removal, estimation time. HELICS: the observer asks the broker for every federate's granted time (`global_time` query) and counts the messages and bytes of each topic it receives. From all of it a log in plain words (events, alarms, commands, and a summary of every step). |
+| Dashboard | `node-red/flows.json` (tab *CPS Cluster*) | Experiments page: cluster nodes, uploads, grid list, queue. Live page: the running experiment, updated every second (progress, highest true and estimated voltage, alarms, chi-square, PDC completeness, any bus, commands as they are issued, delivered and applied). Inside page: the HELICS federation as a diagram, GridPACK, NS-3 and the control center at work, and the log. Results page: runs, summary, charts (voltages, chi-square, GridPACK time per step, latency, PDC completeness, per-PMU delivery), commands. |
 | Build | `install/steps/`, `docker/Dockerfile`, `install/install.sh` | The same build scripts for the container and a native Ubuntu 24.04 installation, from source: OpenMPI 4.1, PETSc 3.19 (MUMPS), ParMETIS, Global Arrays 5.9, GridPACK 3.5, HELICS 3.6.1, NS-3.48, Node-RED 4.1 + Dashboard 2. One image (or installation) for every node. |
 
 ## Try it on one machine (virtual cluster)
@@ -70,12 +71,18 @@ else.
    voltages GridPACK computes next to what the control center estimates, bad data alarms,
    PDC completeness, and each command from the moment it is issued until GridPACK applies it.
    Enter a bus number to follow another bus; the whole history of that bus is shown.
-4. **Results.** The *Results* page opens each finished run: summary figures, voltage and
+4. **Inside.** The *Inside* page shows what happens inside the three engines during the run:
+   the HELICS federation (each federate's node and granted simulated time, messages and bytes
+   per topic), GridPACK (MPI ranks and the buses each one owns, the Newton-Raphson mismatch of
+   every iteration or the integration steps, time per step), NS-3 (per PMU delivered, late,
+   lost and attacked frames, latency, PDC sets, commands) and the control center (observability,
+   chi-square test, removed PMUs, estimation time), with a log of every event in plain words.
+5. **Results.** The *Results* page opens each finished run: summary figures, voltage and
    chi-square charts, GridPACK solve time per step for the chosen number of MPI ranks, network
    latency and delivery, and the commands sent to the grid. Raw files are in
    `/srv/cps/runs/<run id>/`.
 
-5. **Cluster.** The *Cluster* page shows every node and lets you change the cluster without
+6. **Cluster.** The *Cluster* page shows every node and lets you change the cluster without
    editing files: default MPI ranks, experiments at the same time, the compute nodes and
    their MPI slots, and the node of each federate. Changes apply to the next experiments.
 
@@ -119,6 +126,8 @@ On the virtual cluster (head + 2 nodes, all three containers on one 4-core machi
 | IEEE 118, AVR fault + 5% packet loss | 18.1% complete PDC sets, violation still corrected in 0.5 s, as in the main README |
 | IEEE 118, 60% load step at bus 59, GridPACK (4 ranks) and built-in solver | True bus voltages identical to six decimals at every step |
 | Legacy IEEE 14 console script | 13/14 delivered, bus 8 over-voltage detected, as before |
+| Inside page during a 30 s IEEE 118 run (AVR fault at 6 s, FDI on bus 49 at 8-18 s, 1% loss, 2 ranks) | Ranks 0 and 1 on node1 with 58 and 60 buses; Newton mismatch 5.9 → 0.82 → 1.0×10⁻² → 3.9×10⁻⁶ → 5.7×10⁻¹³ (4 iterations); grid, NS-3, control center and observer granted times; log: command for generator 49 issued at 6.067 s, delivered after 40 ms, applied at 6.5 s; attacker starts at 8 s, alarm at 8.033 s (J = 880 > 138) with PMU 49 removed, consistent again at 18 s. Sets with a lost frame are not observable under minimum placement and are shown as not tested |
+| Inside page during a dynamic IEEE 39 run (bus 16 fault, 2 ranks) | `dsf_server`: 7 integration steps of 4.76 ms per frame in 6-10 ms; ranks with 19 and 20 buses; the 24 setpoint commands from issue to application |
 | Live page during a 30 s IEEE 118 run (fault at 8 s, FDI 8-20 s) | Updated every second while running; showed the command issued at 8.067 s, delivered at 8.107 s and applied at 8.5 s as they happened. With the observer the 10 s IEEE 118 run took 12.3 and 13.7 s (12.2 s without) |
 
 Dynamic simulation (`mode: dynamic`, IEEE 39 with its published GENROU/IEEET1/TGOV1 data, 15 s):

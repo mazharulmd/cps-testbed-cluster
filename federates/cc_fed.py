@@ -74,10 +74,14 @@ def main(cfg_path):
     lw = csv.writer(log)
     lw.writerow(["t", "release_t", "helics_t", "pmus_received", "pmus_expected", "m", "observable", "J", "threshold",
                  "alarm", "first_J", "first_alarm", "removed_pmus", "max_v_est", "max_v_bus", "min_v_est", "min_v_bus",
-                 "violations", "commands"])
+                 "violations", "commands", "first_threshold"])
     est = open(os.path.join(out, "cc_estimates.csv"), "w", newline="")
     ew = csv.writer(est)
     ew.writerow(["t"] + [f"v{b}" for b in net.bus_ids])
+    # the bus voltage magnitude each PMU delivered (as received, attacks included), blank when missing
+    rcv = open(os.path.join(out, "cc_received.csv"), "w", newline="")
+    rw = csv.writer(rcv)
+    rw.writerow(["t"] + [f"v{pm['bus']}" for pm in layout.pmus])
 
     T = cfg["duration"]
     t = 0.0
@@ -128,8 +132,10 @@ def main(cfg_path):
                          r["m"], int(r["observable"]), f"{r['J']:.3f}", f"{r['threshold']:.3f}", int(r["alarm"]),
                          f"{r['first_J']:.3f}", int(r["first_alarm"]), " ".join(str(layout.pmus[p]["bus"]) for p in r["removed_pmus"]),
                          f"{vm.max():.5f}", net.bus_ids[int(vm.argmax())], f"{vm.min():.5f}",
-                         net.bus_ids[int(vm.argmin())], len(viol), len(cmds)])
+                         net.bus_ids[int(vm.argmin())], len(viol), len(cmds), f"{r['first_threshold']:.3f}"])
             ew.writerow([f"{s['t']:.6f}"] + [f"{x:.5f}" for x in vm])
+            rx = {int(b): abs(complex(*d["ph"][0])) for b, d in s["pmus"].items() if d["ph"]}
+            rw.writerow([f"{s['t']:.6f}"] + [f"{rx[pm['bus']]:.5f}" if pm["bus"] in rx else "" for pm in layout.pmus])
             sets.append({"t": round(s["t"], 6), "J": round(float(r["first_J"]), 3), "thr": round(float(r["first_threshold"]), 3),
                          "alarm": int(r["first_alarm"]), "complete": round(len(s["pmus"]) / max(s["expected"], 1), 4),
                          "removed": [layout.pmus[p]["bus"] for p in r["removed_pmus"]], "viol": len(viol),
@@ -138,15 +144,19 @@ def main(cfg_path):
                          "m": int(r["m"]), "pmus": len(s["pmus"]), "expected": s["expected"], "obs": int(r["first_observable"]), "J_final": round(float(r["J"]), 3),
                          "est_ms": round(est_ms, 2), "lag_ms": round(1000 * (t - s["t"]), 1), "cmds": len(cmds) - n_cmds0})
             if s["t"] - last_est_t >= est_every - 1e-9:
-                vm_send, last_est_t = (round(s["t"], 6), [round(float(x), 5) for x in vm]), s["t"]
+                vm_send, last_est_t = (round(s["t"], 6), [round(float(x), 5) for x in vm],
+                                       [[b, round(v, 5)] for b, v in sorted(rx.items())],
+                                       [layout.pmus[p]["bus"] for p in r["removed_pmus"]]), s["t"]
         if sets:
             h.helicsPublicationPublishString(pub_status, json.dumps(
-                {"sets": sets, "t_est": vm_send[0] if vm_send else None, "vm_est": vm_send[1] if vm_send else None}))
+                {"sets": sets, "t_est": vm_send[0] if vm_send else None, "vm_est": vm_send[1] if vm_send else None,
+                 # PMU voltages as received and the PMUs removed as bad data, for the voltage profile
+                 "rx": vm_send[2] if vm_send else None, "removed": vm_send[3] if vm_send else None}))
         if cmds:
             h.helicsPublicationPublishString(pub, json.dumps(cmds))
             for c in cmds:
                 print(f"[CC] t={t:.3f}s {c['reason']} -> command gen {c['gen_bus']} vset {c['vset']}", flush=True)
-    log.close(); est.close()
+    log.close(); est.close(); rcv.close()
     h.helicsFederateDisconnect(fed)
     h.helicsFederateFree(fed)
     print("[CC] finished", flush=True)

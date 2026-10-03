@@ -48,6 +48,7 @@ def main(cfg_path):
 
     truth = []            # (t, vm list) per grid step
     est = []              # (t, vm list) about once per grid step
+    rx_last = (None, [], [])  # PMU voltages as received with the last estimate, and the PMUs removed
     sets = []             # per PMU set: t, J, thr, alarm, complete, max_v, ...
     commands = {}         # id -> issued / delivered / applied
     events = []
@@ -58,6 +59,18 @@ def main(cfg_path):
     live_path = os.path.join(out, "live.json")
     watch_path = os.path.join(out, "watch.json")
     last_write, t = 0.0, 0.0
+
+    def profile():
+        """Voltage of every bus at the time of the last estimate: true (GridPACK, the grid state the
+        PMUs sampled), as received from the PMUs, and as estimated by the control center."""
+        if not est:
+            return None
+        t_est, v_est = est[-1]
+        # the PMUs of a frame sample the grid state published before the frame time
+        tr = next((x for x in reversed(truth) if x[0] < t_est - 1e-4), truth[0] if truth else None)
+        return {"t": t_est, "t_true": tr[0] if tr else None, "buses": bus_ids, "true": tr[1] if tr else None,
+                "est": v_est, "rx": rx_last[1], "removed": rx_last[2],
+                "pmus_expected": sets[-1].get("expected") if sets else None}
 
     def snapshot(done=False):
         if not done:
@@ -90,6 +103,7 @@ def main(cfg_path):
             "last": sets[-1] if sets else None,
             "commands": sorted(commands.values(), key=lambda c: c.get("issued_t") or c.get("applied_t") or 0),
             "events": events,
+            "profile": profile(),
             "inside": inside.state(),
         })
 
@@ -124,6 +138,7 @@ def main(cfg_path):
             sets.extend(c["sets"])
             if c.get("vm_est"):
                 est.append((c["t_est"], c["vm_est"]))
+                rx_last = (c["t_est"], c.get("rx") or [], c.get("removed") or [])
         for name in ("cc/commands", "ns3/cmd_delivered"):
             if name in raw:
                 cmds_in = json.loads(raw[name] or "[]")

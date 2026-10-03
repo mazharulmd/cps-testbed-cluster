@@ -32,6 +32,7 @@ sys.path.insert(0, FED)
 from cpslib.network import Network  # noqa: E402
 from cpslib.placement import optimal_placement  # noqa: E402
 from cpslib import cluster, grids  # noqa: E402
+from cpslib import profile as voltage_profile  # noqa: E402
 
 # install/configure.py writes the cluster layout; the dashboard's cluster settings go through it
 _spec = importlib.util.spec_from_file_location("configure", os.path.join(ROOT, "install", "configure.py"))
@@ -530,7 +531,7 @@ def series(run_id: str, bus: Optional[int] = None, _=Depends(auth)):
     out["estimate"] = [[float(est[i]["t"]), float(est[i][col])] for i in idx]
     idx = thin(len(cc))
     out["chi2"] = [[float(cc[i]["t"]), float(cc[i]["first_J"]) if "first_J" in cc[i] else float(cc[i]["J"]),
-                    float(cc[i]["threshold"]), int(cc[i]["first_alarm"])] for i in idx]
+                    float(cc[i].get("first_threshold") or cc[i]["threshold"]), int(cc[i]["first_alarm"])] for i in idx]
     out["est_max"] = [[float(cc[i]["t"]), float(cc[i]["max_v_est"])] for i in idx]
     out["completeness"] = [[float(cc[i]["t"]), int(cc[i]["pmus_received"]) / max(int(cc[i]["pmus_expected"]), 1)] for i in idx]
     lat = [float(f["latency_ms"]) for f in frames if f["status"] == "delivered"]
@@ -560,3 +561,13 @@ def series(run_id: str, bus: Optional[int] = None, _=Depends(auth)):
                         float(dyn[i]["f_max_hz"])] for i in idx]
         out["angle_spread"] = [[float(dyn[i]["t"]), float(dyn[i]["angle_spread_deg"])] for i in idx]
     return out
+
+
+
+@app.get("/api/runs/{run_id}/profile")
+def profile(run_id: str, t: Optional[float] = None, _=Depends(auth)):
+    """Voltage of every bus at one moment of a run (see cpslib/profile.py)."""
+    try:
+        return voltage_profile.at(run_dir(run_id), t)
+    except LookupError as e:
+        raise HTTPException(404, str(e))

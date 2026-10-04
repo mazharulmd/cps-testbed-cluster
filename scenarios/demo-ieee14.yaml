@@ -1,0 +1,19 @@
+# IEEE 14 demo for the presentation: upload on the Experiments page (Upload scenario)
+grid: ieee14
+duration: 10
+mpi_np: 1
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+control: {bdd: true, voltage_control: true}
+scenarios:
+  # 1. closed loop: generator 6 AVR fails at 3 s, control center brings it back
+  - name: d14-avr-fault
+    pmu: {placement: minimum}
+    event: {type: avr_fault, bus: 6, vset: 1.12, t: 3}
+  # 2. attack on bus 8 with the minimum PMUs (4): not detected, voltage hidden
+  - name: d14-fdi-minimum
+    pmu: {placement: minimum}
+    attack: {type: fdi-simple, target: 8, start: 3, end: 8}
+  # 3. same attack with redundant PMUs (9): detected, PMU 8 removed, true voltage seen
+  - name: d14-fdi-redundant
+    pmu: {placement: redundant}
+    attack: {type: fdi-simple, target: 8, start: 3, end: 8}

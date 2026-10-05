@@ -1,7 +1,7 @@
 # CPS Testbed runbook
 
 Step by step: install the testbed, run the first experiment, read the results, and fix the
-usual problems. The complete guide is [CPS_Testbed_Cluster_Guide](CPS_Testbed_Cluster_Guide.pdf);
+usual problems. The complete guide is [CPS_Testbed_Cluster_Description_Installation_User_Guide](CPS_Testbed_Cluster_Description_Installation_User_Guide.pdf);
 installation details are in [install.md](install.md) and the cluster in [cluster.md](cluster.md).
 
 ## 1. Install (one Ubuntu 24.04 server)

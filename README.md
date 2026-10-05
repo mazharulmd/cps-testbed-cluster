@@ -202,7 +202,12 @@ documentation/   complete guide (PDF/DOCX), runbook, install and cluster guides
 
 ## Documentation
 
-- **[CPS_Testbed_Cluster_Description_Installation_User_Guide.pdf](documentation/CPS_Testbed_Cluster_Description_Installation_User_Guide.pdf)** ([DOCX](documentation/CPS_Testbed_Cluster_Description_Installation_User_Guide.docx)): the complete guide to this testbed: concepts, architecture, installation, cluster set-up, the dashboard with screenshots, output files, validation results, sizing and troubleshooting
+- **[System Description, Installation and User Guide](documentation/CPS_Testbed_Cluster_Description_Installation_User_Guide.pdf)** (PDF, 38 pages; editable [DOCX](documentation/CPS_Testbed_Cluster_Description_Installation_User_Guide.docx)): the complete guide to the testbed
+  - why the testbed is needed and the key concepts (PMU, PDC, state estimation, bad data detection, false data injection, MPI, HELICS)
+  - architecture: the closed loop, HELICS messages, single server and cluster, the GridPACK MPI servers `pf_server` and `dsf_server`
+  - installation (native Ubuntu 24.04 and Docker), logins and services, and setting up a cluster
+  - the dashboard page by page with screenshots: Experiments, Cluster, Live, Inside, Results, the IEEE 14 console, the Node-RED editor, the API and command line
+  - output files, validation results (IEEE 118 on the cluster, 2000-bus Texas grid, GridPACK accuracy and MPI times, dynamic simulation), sizing, limitations and troubleshooting
 - [documentation/RUNBOOK.md](documentation/RUNBOOK.md): step by step: install, first run with the IEEE 14 demo ([scenarios/demo-ieee14.yaml](scenarios/demo-ieee14.yaml)), results, cluster nodes, troubleshooting
 - [documentation/install.md](documentation/install.md): installation on Ubuntu 24.04, settings, logins, services, cluster set-up
 - [documentation/cluster.md](documentation/cluster.md): architecture of the cluster, what runs where, tested results and MPI timings

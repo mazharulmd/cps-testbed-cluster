@@ -67,7 +67,7 @@
 % ---------------- observer
 \node[box=cgray, below=0.75cm of N, minimum width=4.6cm] (O) {};
 \node[anchor=west] (o1) at ([xshift=2mm]O.west) {\ico[6mm]{eye}};
-\node[item, right=1mm of o1, text width=3.5cm, font=\footnotesize] {\textbf{Observer federate}\\ \scriptsize subscribes only, streams the run};
+\node[item, right=1mm of o1, text width=3.3cm, font=\footnotesize] {\textbf{Observer federate}\\ \scriptsize subscribes only,\\ streams each run};
 \draw[mon] (G.south) |- ([yshift=2mm]O.west);
 \draw[mon] (C.south) |- ([yshift=2mm]O.east);
 \draw[mon] (N.south) -- (O.north);
@@ -78,19 +78,19 @@
   label={[font=\small\bfseries, text=cgray, anchor=south]north:HELICS federation (ZeroMQ), one broker and port per experiment}] (F) {};
 \end{scope}
 
-% ---------------- operating layer
-\node[box=cops, below=1.25cm of O.south west, anchor=north east, xshift=-0.6cm] (A) {};
+% ---------------- operating layer, aligned under the three federate panels
+\node[box=cops, minimum width=4.6cm] (A) at ($(G |- O.south)+(0,-1.55)$) {};
 \node[anchor=west] (a1) at ([xshift=2mm]A.west) {\ico[6mm]{server}};
-\node[item, right=1mm of a1, text width=2.9cm, font=\footnotesize] {\textbf{Experiment API}\\ \scriptsize queue, MPI slots, runs};
-\node[box=cops, below=1.25cm of O.south east, anchor=north west, xshift=0.6cm] (D) {};
+\node[item, right=1mm of a1, text width=3.3cm, font=\footnotesize] {\textbf{Experiment API}\\ \scriptsize queue, MPI slots, runs};
+\node[box=cops, minimum width=4.6cm] (D) at (N |- A) {};
 \node[anchor=west] (d1) at ([xshift=2mm]D.west) {\ico[6mm]{layout-dashboard}};
-\node[item, right=1mm of d1, text width=2.9cm, font=\footnotesize] {\textbf{Web dashboard}\\ \scriptsize live, inside, results};
-\node[box=cops, right=1.0cm of D] (U) {};
+\node[item, right=1mm of d1, text width=3.3cm, font=\footnotesize] {\textbf{Web dashboard}\\ \scriptsize live, inside, results};
+\node[box=cops, minimum width=4.6cm] (U) at (C |- A) {};
 \node[anchor=west] (u1) at ([xshift=2mm]U.west) {\ico[6mm]{users}};
-\node[item, right=1mm of u1, text width=2.9cm, font=\footnotesize] {\textbf{Remote users}\\ \scriptsize browser over VPN};
+\node[item, right=1mm of u1, text width=3.3cm, font=\footnotesize] {\textbf{Remote users}\\ \scriptsize browser over VPN};
 \draw[mon, <->, cops, solid] (A) -- node[tag, above=1pt] {HTTP} (D);
 \draw[mon, <->, cops, solid] (D) -- node[tag, above=1pt] {HTTPS} (U);
-\draw[mon] (O.south) -- ++(0,-0.55) -| (A.north);
-\draw[mon, cops, solid] (A.west) -| node[tag, pos=0.75, sloped, above] {starts broker and federates} ([xshift=-1.0cm]F.south west |- G.west) -- (F.west |- G.west);
+\draw[mon] (O.south) -- ++(0,-0.78) -| node[tag, pos=0.3, above=1pt] {live state} (A.north);
+\draw[mon, cops, solid] (A.west) -- ++(-0.55,0) |- node[tag, pos=0.25, sloped, above=1pt] {starts broker, federates} (F.west |- G.west) -- (G.west);
 \end{tikzpicture}
 \end{document}

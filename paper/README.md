@@ -1,7 +1,7 @@
 # Paper: IEEE Access manuscript
 
-"A Remotely Accessible Testbed for Synchrophasor-Based Monitoring and Control Under
-Cyber Attacks". Md Mazharul Islam, Sunjare Zulfiker, Masum Reza and
+"A Remotely Accessible Co-Simulation Testbed for Synchrophasor Monitoring and Control
+Under Cyber Attack". Md Mazharul Islam, Sunjare Zulfiker, Masum Reza and
 Hafiz Abdur Rahman, North South University.
 
 ## Layout

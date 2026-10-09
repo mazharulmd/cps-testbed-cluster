@@ -15,6 +15,7 @@ ICONS = {  # icon name: stroke colour
     "database": "#0f7b6c", "gauge": "#b3541e", "shield-check": "#b3541e", "bug": "#c0392b",
     "eye": "#555555", "server": "#444444", "layout-dashboard": "#6a3d9a", "users": "#6a3d9a",
     "list-ordered": "#444444", "hard-drive": "#444444",
+    "router": "#0f7b6c", "clock": "#0f7b6c", "factory": "#1f5fa8", "send": "#b3541e", "timer": "#0f7b6c",
 }
 os.makedirs(OUT, exist_ok=True)
 for name, colour in ICONS.items():

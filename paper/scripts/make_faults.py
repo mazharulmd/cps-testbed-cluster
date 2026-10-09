@@ -105,3 +105,49 @@ with open(os.path.join(TAB, "fault_tests.txt"), "w") as f:
                                            permutation_type="independent", n_resamples=np.inf).pvalue
             f.write(f"{ev} {sc}: ctl={a.mean():.3f} attack={b.mean():.3f} diff={b.mean() - a.mean():+.3f} p={p:.4f}\n")
 print("tab_faults.tex, fig_fault_impact.pdf and fault_tests.txt written")
+
+
+# ---------------------------------------------------------------- dynamic-mode figures (seed 1)
+def dyn(ev, sc):
+    r = rows(os.path.join(DATA, f"series_dyn_{ev}_{sc}.csv"))
+    cols = list(r[0].keys())
+    return {c: np.array([float(x[c]) if x[c] != "" else np.nan for x in r]) for c in cols}
+
+
+W = 3.45
+plt.rcParams.update({"axes.labelsize": 8, "legend.fontsize": 6.5, "xtick.labelsize": 7, "ytick.labelsize": 7,
+                     "lines.linewidth": 1.0, "axes.linewidth": 0.6})
+
+# bus fault at bus 49: faulted bus and the bus that over-shoots after clearing
+fig, ax = plt.subplots(figsize=(W, 1.9))
+for sc, ls, tag in (("noctl", "--", "no control"), ("ctl", "-", "control")):
+    d = dyn("fault49", sc)
+    ax.plot(d["t"], d["v49"], color="C0", ls=ls, label=f"bus 49, {tag}")
+    ax.plot(d["t"], d["v66"], color="C3", ls=ls, label=f"bus 66, {tag}")
+for v in (0.94, 1.08):
+    ax.axhline(v, color="k", ls=":", lw=0.6)
+ax.set_xlim(3.9, 7.0); ax.set_ylim(0.88, 1.12)
+ax.text(4.15, 0.895, "during the fault: bus 49 at 0, bus 66 at 0.57 pu", fontsize=6)
+ax.set_xlabel("time (s)"); ax.set_ylabel("$|V|$ (pu)")
+ax.legend(loc="center right", frameon=False, ncol=1, fontsize=6, bbox_to_anchor=(1.0, 0.42))
+fig.savefig(os.path.join(FIG, "fig_dyn_busfault.pdf")); plt.close(fig)
+
+# generator trip at bus 80: voltage of bus 76 with and without control
+fig, ax = plt.subplots(figsize=(W, 1.75))
+for sc, ls, tag in (("noctl", "--", "no control"), ("ctl", "-", "control")):
+    d = dyn("gen80", sc)
+    ax.plot(d["t"], d["v76"], color="C0" if sc == "ctl" else "0.5", ls=ls, label=f"bus 76, {tag}")
+ax.axhline(0.94, color="k", ls=":", lw=0.6)
+ax.set_xlim(3, 10); ax.set_xlabel("time (s)"); ax.set_ylabel("$|V_{76}|$ (pu)")
+ax.legend(loc="lower right", frameon=False)
+fig.savefig(os.path.join(FIG, "fig_dyn_gentrip_voltage.pdf")); plt.close(fig)
+
+# generator trip at bus 80: centre-of-inertia frequency and lowest machine frequency
+fig, ax = plt.subplots(figsize=(W, 1.75))
+d = dyn("gen80", "ctl")
+ax.plot(d["t"], d["f_coi_hz"], color="C0", label="centre of inertia")
+ax.plot(d["t"], d["f_min_hz"], color="C1", lw=0.8, label="lowest machine")
+ax.set_xlim(3, 10); ax.set_xlabel("time (s)"); ax.set_ylabel("frequency (Hz)")
+ax.legend(loc="upper right", frameon=False)
+fig.savefig(os.path.join(FIG, "fig_dyn_gentrip_frequency.pdf")); plt.close(fig)
+print("dynamic figures written")

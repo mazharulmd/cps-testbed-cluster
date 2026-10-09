@@ -59,3 +59,23 @@ with open(os.path.join(OUT, "faults.csv"), "w", newline="") as f:
     w.writeheader()
     w.writerows(out)
 print(f"{len(out)} runs -> {os.path.join(OUT, 'faults.csv')}")
+
+# seed-1 time series of the dynamic runs, for the dynamic-mode figures
+def truth_cols(d, cols):
+    r = rows(os.path.join(d, "grid_truth.csv"))
+    return [[x["t"]] + [x[c] for c in cols] for x in r]
+
+
+SERIES = {"fault49": ["v49", "v66"], "gen80": ["v76", "v118"], "line7677": ["v76", "v118"]}
+for ev, cols in SERIES.items():
+    for sc in ("noctl", "ctl"):
+        d = found[f"f01-{ev}-{sc}"][0]
+        dyn = {x["t"]: x for x in rows(os.path.join(d, "grid_dynamics.csv"))}
+        with open(os.path.join(OUT, f"series_dyn_{ev}_{sc}.csv"), "w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["t"] + cols + ["f_coi_hz", "f_min_hz"])
+            for row in truth_cols(d, cols):
+                g = dyn.get(row[0], {})
+                w.writerow(row + [g.get("f_coi_hz", ""), g.get("f_min_hz", "")])
+print("dynamic series written")
+

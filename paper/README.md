@@ -41,6 +41,10 @@ Hafiz Abdur Rahman, North South University.
    python make_figures.py && python make_tables.py && python make_faults.py && ./build_diagrams.sh
    cd .. && pdflatex main && bibtex main && pdflatex main && pdflatex main
    ```
+5. Overleaf package with figures renamed Fig1 ... FigN in paper order:
+   ```
+   python scripts/make_overleaf.py OUT_DIR && (cd OUT_DIR && zip -r CPS_Testbed_Paper.zip CPS_Testbed_Paper)
+   ```
 
 The dashboard screenshots (`fig_dashboard_*.png`) were captured from the running
 dashboard during IEEE 118-bus runs. They are the only figures not drawn by a script. The icons in `fig_architecture.pdf` are from

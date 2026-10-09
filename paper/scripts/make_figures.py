@@ -161,16 +161,12 @@ save(fig, "fig_latency.pdf")
 Wn = [10, 20, 40, 60, 80]
 names = {10: "lat40-w10", 20: "lat40", 40: "lat40-w40", 60: "lat40-w60", 80: "lat40-w80"}
 fig, ax = plt.subplots(figsize=(W, 1.85))
-m = [by(names[w], "complete_pct").mean() for w in Wn]
-e = [ci95(by(names[w], "complete_pct")) for w in Wn]
-ax.errorbar(Wn, m, yerr=clipped(m, e), color="C3", marker="o", ms=3, capsize=2, lw=0.9, label="complete sets")
-ax.set_xlabel("PDC wait window $w$ (ms), $L$ = 40 ms"); ax.set_ylabel("complete sets (%)", color="C3")
-ax.set_ylim(-5, 105)
-ax2 = ax.twinx()
-m = [by(names[w], "pdc_release_ms").mean() for w in Wn]
-ax2.plot(Wn, m, color="C0", marker="s", ms=3, lw=0.9)
-ax2.set_ylabel("PDC release delay (ms)", color="C0")
-ax2.set_ylim(0, 100)
+for key, c, lab in (("frames_in_time_pct", "C0", "frames in time"), ("complete_pct", "C3", "complete sets")):
+    m = [by(names[w], key).mean() for w in Wn]
+    e = [ci95(by(names[w], key)) for w in Wn]
+    ax.errorbar(Wn, m, yerr=clipped(m, e), color=c, marker="o", ms=3, capsize=2, lw=0.9, label=lab)
+ax.set_xlabel("PDC wait window $w$ (ms), $L$ = 40 ms"); ax.set_ylabel("share (%)")
+ax.set_ylim(-5, 105); ax.legend(loc="lower right", frameon=False)
 save(fig, "fig_pdc_wait.pdf")
 
 

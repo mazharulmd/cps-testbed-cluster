@@ -11,18 +11,18 @@
 \usepackage{url}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref}
 
 \graphicspath{{figures/}}
 \newcommand{\pu}{\,pu}
-\newcommand{\todo}[1]{\textbf{[TODO: #1]}}
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \algrenewcommand\algorithmicrequire{\textbf{Input:}}
 \hyphenation{Grid-PACK HELICS syn-chro-pha-sor}
 
 \begin{document}
 
-\title{A Remotely Accessible GridPACK--NS-3--HELICS Testbed for Synchrophasor-Based Monitoring and Control Under Cyber Attacks}
+\title{A Remotely Accessible Testbed for Synchrophasor-Based Monitoring and Control Under Cyber Attacks}
 
 \author{Md~Mazharul~Islam,
         Sunjare~Zulfiker,
@@ -32,12 +32,12 @@
 \thanks{Corresponding author: Hafiz Abdur Rahman (e-mail: hafiz.rahman@northsouth.edu).}%
 \thanks{This work was supported by the Bangladesh Energy and Power Research Council (EPRC) under grant EPRC/58-2018-007-01.}}
 
-\markboth{IEEE Access}{Islam \MakeLowercase{\textit{et al.}}: A Remotely Accessible GridPACK--NS-3--HELICS Testbed}
+\markboth{IEEE Access}{Islam \MakeLowercase{\textit{et al.}}: A Remotely Accessible Testbed for Synchrophasor-Based Monitoring and Control}
 
 \maketitle
 
 \begin{abstract}
-Phasor measurement units (PMUs) give control centers time-stamped phasors many times per second, but their value depends on the network that carries the frames and on whether the frames can be trusted. Hardware testbeds for this chain are costly and serve few users, while open-source co-simulations target distribution systems or omit the measurement chain and its defenses. This paper presents an open-source, remotely accessible testbed for the complete synchrophasor loop under network impairments and cyber attacks, and measures which parts of the loop decide whether an attack succeeds. GridPACK solves the power flow as a persistent message passing interface (MPI) job, NS-3 carries every PMU frame and command through a phasor data concentrator (PDC), and a control center performs state estimation, chi-square bad data detection with normalized-residual removal and voltage control. HELICS synchronizes the federates, and users work from a web dashboard. On the IEEE 118-bus system, 225 runs combined an automatic voltage regulator fault with four attacks, two PMU placements, five link latencies and five PDC wait windows, each with ten random seeds. With 32 PMUs, detection without removal, delay and drop each stretched the over-voltage from 0.5 to 5.5\,s in every seed, and with 68 PMUs no attack extended it. Without any attack, 40\,ms of mean link latency and a 20\,ms wait window hid the fault in six of ten seeds. Removing bad data, redundant placement and a wait window chosen from the delay spread therefore matter as much as the detection test.
+Control centers use phasor measurement units (PMUs) to see and correct grid problems within a second, but this depends on the network, on the phasor data concentrator (PDC) that aligns the frames, and on whether the frames can be trusted. Testbeds for this chain under cyber attacks need costly real-time hardware, and open-source co-simulations target distribution systems or omit the measurement chain. This paper presents an open-source, remotely accessible testbed that closes the synchrophasor loop at transmission level. GridPACK runs the grid as a persistent parallel job on a computing cluster, NS-3 carries every PMU frame and command through a PDC, and a control center performs state estimation, chi-square bad data detection with removal of the suspect PMU, and voltage control. HELICS synchronizes the parts, and a web dashboard and queue share the cluster among users. On the IEEE 118-bus system, 445 runs combined five fault types, four attack types, two PMU placements and network sweeps. After an AVR fault with 32 PMUs, detection without removal, delay and drop stretched the over-voltage from 0.5 to 5.5\,s, and with 68 PMUs no attack extended it. At a bus with only two neighbours, stealthy injection, delay and drop defeated the control under both placements. Without any attack, a 40\,ms mean latency with a 20\,ms wait window hid a fault in six of ten seeds. Removing bad data, covering each bus's neighbourhood with PMUs and choosing the wait window from the delay spread matter as much as the detection test.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -49,17 +49,17 @@ Co-simulation, cyber-physical systems, false data injection, GridPACK, HELICS, N
 
 \IEEEPARstart{F}{or} decades, transmission control centers have watched the grid through supervisory control and data acquisition (SCADA). Remote terminal units report unsynchronized magnitudes every few seconds, and the state estimator needs iterations over a nonlinear model to turn them into bus voltages \cite{abur2004se}. A phasor measurement unit (PMU) changes this picture. It samples the voltage at its bus and the currents on the branches connected to it, stamps each frame with time from the global positioning system (GPS), and sends 30 to 60 frames per second to a phasor data concentrator (PDC) \cite{phadke2008,c37118_1}. The PDC aligns the frames by time stamp and passes sets to applications in the control center. Because the phasors are linear in the bus voltages, the control center can estimate the state in one step and act on it within a fraction of a second \cite{phadke2008,abur2004se}.
 
-Two things limit what the control center can do with these data. The first is the communication network. A frame that arrives after the PDC has released its time stamp is lost for that set, and a set that misses PMUs can leave part of the grid unobserved \cite{c37244,pourramezan2021pdc}. The second is trust. An attacker who can change frames can try to hide a real problem or create a false one. Liu \emph{et al.} showed that an attacker who knows the measurement model can add an error that the residual test of the estimator cannot see \cite{liu2009fdi}, and later studies examined how many measurements such an attack needs, how to protect them and how to catch the attack with learned detectors \cite{kosut2011,bobba2010,chen2022datadriven,bhattacharjee2023deep}. Attacks on timing are just as effective. Shifting the time reference of a PMU or delaying its frames makes the PDC drop them \cite{zadsar2023preventing,shereen2024topology}.
+Two things limit what the control center can do with these data. The first is the communication network. A frame that arrives after the PDC has released its time stamp is lost for that set, and a set that misses PMUs can leave part of the grid unobserved \cite{c37244,pourramezan2021pdc}. The second is trust. An attacker who can change frames can try to hide a real problem or create a false one. Liu \emph{et al.}~\cite{liu2009fdi} showed that an attacker who knows the measurement model can add an error that the residual test of the estimator cannot see, and later studies examined how many measurements such an attack needs, how to protect them and how to catch the attack with learned detectors \cite{kosut2011,bobba2010,chen2022datadriven,bhattacharjee2023deep}. Attacks on timing are just as effective. Shifting the time reference of a PMU or delaying its frames makes the PDC drop them \cite{zadsar2023preventing,shereen2024topology}.
 
-These questions cross the boundary between the power system and the network, so studying them requires both to be simulated together, with the PMUs, the PDC and the control center in between. Real-time hardware testbeds do this with high fidelity \cite{kumar2025rtcptc,nguyen2024rtcps,das2025scalable,mishchenko2024multidomain}, but they cost a great deal, and the number of experiments they can run at once is fixed by the hardware. Open-source co-simulation platforms built on HELICS \cite{palmintier2017helics,hardy2024helics} lower the cost, yet the recent ones model distribution feeders, advanced metering or distributed energy resources \cite{bel2024natig,thioub2026gridsecsim,vallamkondu2025der,masood2026cosim}, or couple transmission and distribution without any network \cite{zheng2024hpc}. Our own earlier prototype coupled GridPACK and NS-3 on the IEEE 14-bus system and studied distributed denial of service (DDoS), but it had no PMU chain, no estimator and no closed loop \cite{islam2024remotely}. None of these platforms lets several users run transmission-level synchrophasor experiments from a browser on shared computing resources, and none reports, for one system and one fault, how the PDC wait window, the spread of link delays, the redundancy of PMU placement and the choice between detecting and removing bad data change the outcome of an attack.
+These questions cross the boundary between the power system and the network, so studying them requires both to be simulated together, with the PMUs, the PDC and the control center in between. Real-time hardware testbeds do this with high fidelity \cite{kumar2025rtcptc,nguyen2024rtcps,das2025scalable,mishchenko2024multidomain}, but they cost a great deal, and the number of experiments they can run at once is fixed by the hardware. Open-source co-simulation platforms built on HELICS \cite{palmintier2017helics,hardy2024helics} lower the cost, yet the recent ones model distribution feeders, advanced metering or distributed energy resources \cite{bel2024natig,thioub2026gridsecsim,vallamkondu2025der,masood2026cosim}, or couple transmission and distribution without any network \cite{zheng2024hpc}. Our own earlier prototype coupled GridPACK and NS-3 on the IEEE 14-bus system and studied distributed denial of service (DDoS), but it had no PMU chain, no estimator and no closed loop \cite{islam2024remotely}. These platforms leave a practical problem open. A utility or university that plans a synchrophasor network must decide where to place PMUs, how long the PDC should wait for late frames, and what the control center should do when its bad data test raises an alarm. These choices interact with each other and with the type of disturbance. A short wait window may be harmless after a slow load change and decisive after a fault, and an attack that a well-placed PMU set exposes may pass unnoticed with a minimal one. Answering such questions needs repeatable experiments on a transmission system, with the grid, the network, the PMUs, the PDC and the control center all in the loop, run many times over different faults, attacks and random conditions. It also needs a facility that several students and engineers can use at once without buying real-time simulators. None of the platforms above offers this combination, and none reports, for the same transmission system, how the PDC wait window, the spread of link delays, the redundancy of PMU placement and the treatment of detected bad data change the outcome of an attack across different fault types.
 
-This paper fills that gap with an open-source testbed and an experimental study on the IEEE 118-bus system. Its contributions are as follows.
-\begin{enumerate}
-\item A co-simulation of the complete synchrophasor loop in which GridPACK \cite{palmer2016gridpack} runs as a persistent message passing interface (MPI) job, NS-3 \cite{riley2010ns3} carries every PMU frame and every control command through a PDC with a wait window, and a control center estimates the state, tests and cleans it, and corrects voltage violations, all synchronized by HELICS. We derive the closed-loop latency that the time coupling creates and confirm it in the logs.
-\item An operating layer for remote, multi-user use on a cluster: a queue that starts an experiment only when its MPI ranks fit in the free slots, one HELICS broker and port per experiment, placement of federates on nodes, scenario files, an observer federate that streams each run to a Node-RED dashboard \cite{nodered}, and plain-file outputs for every run.
-\item A study of 225 runs on the IEEE 118-bus system: 21 scenarios that combine an automatic voltage regulator (AVR) fault with simple and stealthy false data injection (FDI), delay and drop attacks, two PMU placements, five link latencies and five PDC wait windows, each with ten random seeds, plus a sweep of MPI ranks. Baselines, ablations and statistical tests separate the effect of each defense.
-\item Three findings that follow from the study: removing the suspect PMU matters as much as detecting the attack, redundant placement defends against attacks that withhold measurements, and the PDC wait window must follow the spread of link delays. The code, scenario files, scripts and run summaries are public so that every number in this paper can be regenerated.
-\end{enumerate}
+This paper presents such a testbed and uses it for a systematic study. GridPACK~\cite{palmer2016gridpack} solves the transmission grid as a message passing interface (MPI) job on a computing cluster, NS-3~\cite{riley2010ns3} carries every PMU frame and every control command, and a control center estimates the state, tests and cleans it, and corrects voltage violations. HELICS~\cite{hardy2024helics} synchronizes the parts, and users operate the testbed from a Node-RED~\cite{nodered} dashboard in a web browser. To the best of our knowledge, it is the first open-source testbed that closes the synchrophasor loop at transmission level with a simulated network, an attacker and a defended estimator in the loop, and that lets remote users share a cluster through a queue that respects its computing resources. The work has priority for groups that are building PMU networks and research facilities with limited budgets, because it shows which design choices decide whether a fault is seen before any hardware is bought. Its scope is the IEEE 118-bus system with five fault types (an automatic voltage regulator (AVR) fault, a load step, a line trip, a generator trip and a three-phase bus fault), four attack types (simple and stealthy false data injection (FDI), delay and drop), two PMU placements, and sweeps of link latency and PDC wait window, each repeated with several random seeds. The main contributions are as follows.
+\begin{itemize}
+\item \emph{An open-source synchrophasor testbed.} The grid solver runs as a persistent parallel job, every PMU has its own network link to a PDC with a wait window, and the control center combines state estimation, a chi-square test with removal of the suspect PMU, and voltage control. We derive the closed-loop latency that the time coupling creates and confirm it in the logs.
+\item \emph{Remote, multi-user operation on a cluster.} A queue starts an experiment only when its parallel ranks fit in the free slots, each experiment gets its own co-simulation broker, federates are placed on chosen nodes, and an observer streams every run to a web dashboard. Every run is kept as plain files.
+\item \emph{A systematic study of faults and attacks.} The study covers 445 runs, with every attack type tested against every fault type under both placements, plus baselines, ablations and statistical tests that separate the effect of each defense.
+\item \emph{Design findings with released evidence.} Removing the suspect PMU matters as much as detecting it. Redundant placement defends against attacks that withhold measurements, except at buses whose few neighbours limit how many PMUs can see them. The PDC wait window must follow the spread of link delays, and voltage control needs a time filter so that it does not react to faults that clear on their own. The code, scenario files, scripts and run summaries are public so that every number can be regenerated.
+\end{itemize}
 
 The rest of this paper is organized as follows. Section~\ref{sec:background} gives the background on synchrophasors, PMU state estimation, attacks and co-simulation. Section~\ref{sec:related} reviews related testbeds and studies by theme and compares them in Table~\ref{tab:compare}. Section~\ref{sec:model} presents the proposed testbed and its algorithms. Section~\ref{sec:setup} describes the implementation, the experimental setup, the baselines and the metrics. Section~\ref{sec:results} reports the results, including ablations and statistical tests. Section~\ref{sec:disc} discusses the findings, the limitations and the threats to validity, and Section~\ref{sec:concl} concludes the paper.
 
@@ -76,30 +76,30 @@ If every PMU channel is a linear function of the complex bus voltages $V \in \ma
 
 \subsection{Attacks on Synchrophasor Data}
 
-An attacker who adds $a = Hc$ to the measurements, for any $c$, shifts the estimate by $c$ and leaves the residual unchanged, so the chi-square test cannot see it \cite{liu2009fdi}. Such a stealthy attack needs every measurement that depends on the shifted states. Kosut \emph{et al.} and Bobba \emph{et al.} studied how many measurements an attacker needs and which ones a defender should protect \cite{kosut2011,bobba2010}. Recent work builds AC attacks that pass the test with high probability \cite{yang2024tensor} and detectors that learn the normal data to catch them \cite{chen2022datadriven,bhattacharjee2023deep}. Attacks can also withhold data. Time-synchronization attacks and added delay make frames miss the PDC \cite{zadsar2023preventing,zadsar2024integrated,shereen2024topology}, and flooding a PMU's connection can close it \cite{swain2024network}. Placement can help. If the grid stays observable after the attacked PMUs are removed, the attack can be located and corrected \cite{khalafi2022intrusion}, and placement can be chosen to make attacks harder \cite{pourahmad2023pmupdc}.
+An attacker who adds $a = Hc$ to the measurements, for any $c$, shifts the estimate by $c$ and leaves the residual unchanged, so the chi-square test cannot see it \cite{liu2009fdi}. Such a stealthy attack needs every measurement that depends on the shifted states. Kosut \emph{et al.}~\cite{kosut2011} and Bobba \emph{et al.}~\cite{bobba2010} studied how many measurements an attacker needs and which ones a defender should protect. Recent work builds AC attacks that pass the test with high probability \cite{yang2024tensor} and detectors that learn the normal data to catch them \cite{chen2022datadriven,bhattacharjee2023deep}. Attacks can also withhold data. Time-synchronization attacks and added delay make frames miss the PDC \cite{zadsar2023preventing,zadsar2024integrated,shereen2024topology}, and flooding a PMU's connection can close it \cite{swain2024network}. Placement can help. If the grid stays observable after the attacked PMUs are removed, the attack can be located and corrected \cite{khalafi2022intrusion}, and placement can be chosen to make attacks harder \cite{pourahmad2023pmupdc}.
 
 \subsection{Co-Simulation of Power and Communication Systems}
 
-A co-simulation runs separate simulators for the grid and the network and exchanges data and time between them. Early platforms such as EPOCHS synchronized at fixed points \cite{hopkinson2006}, GECO used a global event queue \cite{lin2012geco}, and surveys compare the coupling methods \cite{mets2014}. Mosaik \cite{schutte2011mosaik} and HELICS \cite{palmintier2017helics,hardy2024helics} are general frameworks. In HELICS each simulator is a federate that publishes values and requests the next time it needs. A broker grants a time only when no other federate can still send an earlier message, which keeps causality across federates written in different languages \cite{hardy2024helics}. Real-time co-simulation adds the constraint of wall-clock pacing and its own interfacing problems \cite{qiu2025cyber,dabashi2026innovative}.
+A co-simulation runs separate simulators for the grid and the network and exchanges data and time between them. Early platforms such as EPOCHS~\cite{hopkinson2006} synchronized at fixed points, GECO~\cite{lin2012geco} used a global event queue, and a survey~\cite{mets2014} compares the coupling methods. Mosaik~\cite{schutte2011mosaik} and HELICS~\cite{palmintier2017helics,hardy2024helics} are general frameworks. In HELICS each simulator is a federate that publishes values and requests the next time it needs. A broker grants a time only when no other federate can still send an earlier message, which keeps causality across federates written in different languages \cite{hardy2024helics}. Real-time co-simulation adds the constraint of wall-clock pacing and its own interfacing problems \cite{qiu2025cyber,dabashi2026innovative}.
 
 \section{Related Work}
 \label{sec:related}
 
 \subsection{Hardware and Real-Time Testbeds}
 
-Hahn \emph{et al.} set out the architecture and evaluation of cyber-physical security testbeds \cite{hahn2013}, and PowerCyber opened such a testbed with real-time simulators and field devices to remote users \cite{ashok2016powercyber}. NEFTSec federated testbeds at several sites to study wide-area protection \cite{singh2022neftsec}. Recent real-time platforms couple OPAL-RT or RTDS simulators with network emulators. Kumar \emph{et al.} protected wide-area damping control against FDI and lost signals with a learned signal reconstruction \cite{kumar2025rtcptc}. Nguyen \emph{et al.} automated many attack scenarios on a large-scale testbed \cite{nguyen2024rtcps}. Das \emph{et al.} rebuilt IEEE C37.118.2 frames to inject false data against bad data detection \cite{das2025scalable}. Mishchenko \emph{et al.} demonstrated attacks on synchrophasor streams in a multidomain testbed and left the defender side to future work \cite{mishchenko2024multidomain}. Others built hybrid physical laboratories \cite{abdelrahman2023hybrid}, training testbeds \cite{chamana2023integrated}, hardware-in-the-loop platforms with commercial network simulators \cite{wang2024hil}, and a cloud cyber range \cite{chng2024craas}. These systems give high fidelity, but each depends on licensed hardware at one site, and the number of experiments that can run at once is fixed by that hardware.
+Hahn \emph{et al.}~\cite{hahn2013} set out the architecture and evaluation of cyber-physical security testbeds, and PowerCyber~\cite{ashok2016powercyber} opened such a testbed with real-time simulators and field devices to remote users. NEFTSec~\cite{singh2022neftsec} federated testbeds at several sites to study wide-area protection. Recent real-time platforms couple OPAL-RT or RTDS simulators with network emulators. Kumar \emph{et al.}~\cite{kumar2025rtcptc} protected wide-area damping control against FDI and lost signals with a learned signal reconstruction. Nguyen \emph{et al.}~\cite{nguyen2024rtcps} automated many attack scenarios on a large-scale testbed. Das \emph{et al.}~\cite{das2025scalable} rebuilt IEEE C37.118.2 frames to inject false data against bad data detection. Mishchenko \emph{et al.}~\cite{mishchenko2024multidomain} demonstrated attacks on synchrophasor streams in a multidomain testbed and left the defender side to future work. Others built hybrid physical laboratories \cite{abdelrahman2023hybrid}, training testbeds \cite{chamana2023integrated}, hardware-in-the-loop platforms with commercial network simulators \cite{wang2024hil}, and a cloud cyber range \cite{chng2024craas}. These systems give high fidelity, but each depends on licensed hardware at one site, and the number of experiments that can run at once is fixed by that hardware.
 
 \subsection{Open-Source Co-Simulation Platforms}
 
-HELICS has become the common choice for open-source co-simulation \cite{hardy2024helics}. NATIG packages GridLAB-D, NS-3 and HELICS in containers and generates attacks on inverter set-points in distribution microgrids \cite{bel2024natig}. GridSecSim couples GridLAB-D and NS-3 for advanced metering and trains an intrusion detector \cite{thioub2026gridsecsim}. Vallam Kondu \emph{et al.} attach an NS-3 module to a distributed energy resource management system and measure the communication impact of attacks \cite{vallamkondu2025der}. Masood \emph{et al.} show that a denial of service can mask the effect of a false data injection on a distribution grid \cite{masood2026cosim}. Zheng \emph{et al.} keep GridPACK's MPI parallelism inside a HELICS federation to co-simulate transmission and distribution faster than real time, but without a network \cite{zheng2024hpc}. Our earlier prototype added a Node-RED front end to GridPACK and NS-3 on the IEEE 14-bus system \cite{islam2024remotely}. None of these platforms models a PMU, a PDC and a transmission state estimator in the loop.
+HELICS has become the common choice for open-source co-simulation \cite{hardy2024helics}. NATIG~\cite{bel2024natig} packages GridLAB-D, NS-3 and HELICS in containers and generates attacks on inverter set-points in distribution microgrids. GridSecSim~\cite{thioub2026gridsecsim} couples GridLAB-D and NS-3 for advanced metering and trains an intrusion detector. Vallam Kondu \emph{et al.}~\cite{vallamkondu2025der} attach an NS-3 module to a distributed energy resource management system and measure the communication impact of attacks. Masood \emph{et al.}~\cite{masood2026cosim} show that a denial of service can mask the effect of a false data injection on a distribution grid. Zheng \emph{et al.}~\cite{zheng2024hpc} keep GridPACK's MPI parallelism inside a HELICS federation to co-simulate transmission and distribution faster than real time, but without a network. Our earlier prototype~\cite{islam2024remotely} added a Node-RED front end to GridPACK and NS-3 on the IEEE 14-bus system. None of these platforms models a PMU, a PDC and a transmission state estimator in the loop.
 
 \subsection{Synchrophasor Networks, Latency and the PDC}
 
-Several studies treat the network that carries synchrophasors. Castello \emph{et al.} built a validated platform for measuring the latency of a transmission operator's wide-area system \cite{castello2024wampac}. Morato \emph{et al.} simulated PMU traffic over 5G and found mean latencies near 20\,ms \cite{morato2024fiveg}. Pourramezan \emph{et al.} optimized the wait times of hierarchical PDCs for throughput and observability \cite{pourramezan2021pdc}. Jha \emph{et al.} modelled the resiliency of synchrophasor networks as a graph and checked it in ns-3 \cite{jha2023graph}. Zadsar \emph{et al.} showed that the PDC wait time is itself a defense against time-synchronization attacks \cite{zadsar2023preventing}. These works study the network or the PDC alone and do not close the loop through an estimator and a controller.
+Several studies treat the network that carries synchrophasors. Castello \emph{et al.}~\cite{castello2024wampac} built a validated platform for measuring the latency of a transmission operator's wide-area system. Morato \emph{et al.}~\cite{morato2024fiveg} simulated PMU traffic over 5G and found mean latencies near 20\,ms. Pourramezan \emph{et al.}~\cite{pourramezan2021pdc} optimized the wait times of hierarchical PDCs for throughput and observability. Jha \emph{et al.}~\cite{jha2023graph} modelled the resiliency of synchrophasor networks as a graph and checked it in ns-3. Zadsar \emph{et al.}~\cite{zadsar2023preventing} showed that the PDC wait time is itself a defense against time-synchronization attacks. These works study the network or the PDC alone and do not close the loop through an estimator and a controller.
 
 \subsection{Attacks and Defenses on PMU State Estimation}
 
-Detection studies usually work on recorded or generated data sets. Chen \emph{et al.} and Bhattacharjee \emph{et al.} detect stealthy FDI with unsupervised and self-supervised models on IEEE test systems including the 118-bus system \cite{chen2022datadriven,bhattacharjee2023deep}. Yang \emph{et al.} built AC attacks that passed a chi-square test in 99.3\% of cases \cite{yang2024tensor}. Khalafi \emph{et al.} placed PMUs so that the grid stays observable without any one PMU and located attacks by repeated estimation \cite{khalafi2022intrusion}. Pourahmad \emph{et al.} placed PMUs and PDCs to reduce attack possibilities and communication cost on the IEEE 30- and 118-bus systems \cite{pourahmad2023pmupdc}. Shereen and D\'an bounded the time references an undetectable time-synchronization attack must control \cite{shereen2024topology}. These methods are evaluated offline, without a simulated network or a controller that acts on the estimate.
+Detection studies usually work on recorded or generated data sets. Chen \emph{et al.}~\cite{chen2022datadriven} and Bhattacharjee \emph{et al.}~\cite{bhattacharjee2023deep} detect stealthy FDI with unsupervised and self-supervised models on IEEE test systems including the 118-bus system. Yang \emph{et al.}~\cite{yang2024tensor} built AC attacks that passed a chi-square test in 99.3\% of cases. Khalafi \emph{et al.}~\cite{khalafi2022intrusion} placed PMUs so that the grid stays observable without any one PMU and located attacks by repeated estimation. Pourahmad \emph{et al.}~\cite{pourahmad2023pmupdc} placed PMUs and PDCs to reduce attack possibilities and communication cost on the IEEE 30- and 118-bus systems. Shereen and D\'an~\cite{shereen2024topology} bounded the time references an undetectable time-synchronization attack must control. These methods are evaluated offline, without a simulated network or a controller that acts on the estimate.
 
 \subsection{Comparison and Research Gap}
 
@@ -129,7 +129,7 @@ Work & Method or platform & Test system & Metrics & Main result & Limitation \\
 \cite{chen2022datadriven} & Unsupervised detector of stealthy FDI & IEEE 39- and 118-bus & Detection performance & Catches attacks missed by residual tests & Offline data, no network \\
 \cite{yang2024tensor} & AC FDI by tensor principal component analysis & IEEE 5- to 3120-bus & Attack success rate & 99.3\% success against chi-square test & Attack side only \\
 \midrule
-This work & GridPACK on MPI, NS-3 PMUs and PDC, WLS with chi-square test and removal, voltage control, HELICS, remote dashboard & IEEE 118-bus & Violation time, complete and observable sets, alarms, latency, run time & Removal, placement and PDC wait decide whether an attack hides a fault & Quasi-steady state, JSON frames, virtual cluster \\
+This work & GridPACK on MPI, NS-3 PMUs and PDC, WLS with chi-square test and removal, voltage control, HELICS, remote dashboard & IEEE 118-bus, five fault types & Violation time, complete and observable sets, alarms, latency, run time & Removal, placement, bus degree and PDC wait decide whether an attack hides a fault & JSON frames, not paced to wall-clock time \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -143,8 +143,8 @@ Fig.~\ref{fig:arch} shows the architecture of one experiment. Three federates fo
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.86\textwidth]{fig_architecture.pdf}
-\caption{Architecture of the testbed for one experiment. Solid blue arrows carry measurements, solid red arrows carry commands, and dashed arrows monitor and control the experiment.}
+\includegraphics[width=\textwidth]{fig_architecture.pdf}
+\caption{Testbed architecture for one experiment.}
 \label{fig:arch}
 \end{figure*}
 
@@ -170,7 +170,7 @@ cc/status & control center, observer & Test result, removed PMUs, estimate, comp
 
 \subsection{Grid Federate and the GridPACK Server}
 
-GridPACK distributes a network over MPI processes, partitions it with ParMETIS and solves the network equations with PETSc \cite{palmer2016gridpack,karypis1998}. Its applications normally run once per study. A co-simulation needs a new solution at every grid step, and restarting an MPI job each step would spend most of the time on start-up and partitioning. We therefore wrote a small server, \texttt{pf\_server}, around GridPACK's power flow. It is started once per experiment with \texttt{mpirun}, reads the case and partitions the network once, and then waits for commands on the standard input of rank~0 (Table~\ref{tab:proto}). Rank~0 broadcasts each batch, each rank applies the changes to the buses it owns, GridPACK solves the power flow by Newton--Raphson with the MUMPS direct solver \cite{amestoy2001}, and the bus voltages are gathered to rank~0 \cite{mpi40}. Replies start with \texttt{@@} so that the driver can separate them from the solver's own output, which it passes to the dashboard. Zheng \emph{et al.} kept GridPACK's parallelism under HELICS in a similar way by making rank~0 the federate \cite{zheng2024hpc}. Our server keeps HELICS out of the MPI program, so the same driver can fall back to a built-in solver if the MPI job fails.
+GridPACK distributes a network over MPI processes, partitions it with ParMETIS and solves the network equations with PETSc \cite{palmer2016gridpack,karypis1998}. Its applications normally run once per study. A co-simulation needs a new solution at every grid step, and restarting an MPI job each step would spend most of the time on start-up and partitioning. We therefore wrote a small server, \texttt{pf\_server}, around GridPACK's power flow. It is started once per experiment with \texttt{mpirun}, reads the case and partitions the network once, and then waits for commands on the standard input of rank~0 (Table~\ref{tab:proto}). Rank~0 broadcasts each batch, each rank applies the changes to the buses it owns, GridPACK solves the power flow by Newton--Raphson with the MUMPS direct solver \cite{amestoy2001}, and the bus voltages are gathered to rank~0 \cite{mpi40}. Replies start with \texttt{@@} so that the driver can separate them from the solver's own output, which it passes to the dashboard. Zheng \emph{et al.}~\cite{zheng2024hpc} kept GridPACK's parallelism under HELICS in a similar way by making rank~0 the federate. Our server keeps HELICS out of the MPI program, so the same driver can fall back to a built-in solver if the MPI job fails.
 
 \begin{table}[t]
 \caption{Protocol of \texttt{pf\_server}, One Exchange per Grid Step}
@@ -192,7 +192,9 @@ from rank 0 & \texttt{@@V} bus Vm Va \dots{} \texttt{@@END} & voltage of every b
 \end{tabular}
 \end{table}
 
-The grid federate is a Python program that drives the server. At every grid step $\Delta$ it applies the commands that have arrived over the network, updates the loads, solves, publishes the phasors, and logs the true voltage of every bus so that the experiment can be scored afterwards. Each load follows a slow sinusoid plus an independent random walk, which keeps the measurements from being constant. Events, such as the AVR fault used in this paper, are applied at their scheduled grid step.
+The grid federate is a Python program that drives the server. At every grid step $\Delta$ it applies the commands that have arrived over the network, updates the loads, solves, publishes the phasors, and logs the true voltage of every bus so that the experiment can be scored afterwards. Each load follows a slow sinusoid plus an independent random walk, which keeps the measurements from being constant. Events are applied at their scheduled grid step. In this quasi-steady-state (QSS) mode, with $\Delta = 0.5$\,s, the testbed offers an AVR fault, which moves a generator's voltage setpoint to a wrong value, and a load step.
+
+Faults that need machine dynamics run in a second, dynamic mode. A companion server, \texttt{dsf\_server}, keeps GridPACK's dynamic simulation alive on the same MPI ranks and advances it with an integration step of 5\,ms. The grid federate then steps once per PMU frame, so $\Delta = T$. Generators without dynamic data in the case file get typical models: a round-rotor machine (GENROU), a simple exciter (SEXS) and a steam governor (TGOV1). The dynamic mode offers a line trip, a generator trip and a three-phase bus fault cleared after a given time. Loads are constant impedances, and voltage setpoint commands act on the exciter reference.
 
 \subsection{Network Federate: PMUs, Links and PDC}
 
@@ -247,14 +249,14 @@ as in \cite{gou2008}, where $\kappa_i = \min(k, \deg(i) + 1)$. Here $k = 1$ give
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_placement_min.pdf}
-\caption{Minimum PMU placement for the IEEE 118-bus system computed by (\ref{eq:opp}) with $k = 1$: 32 PMUs.}
+\caption{Minimum placement, 32 PMUs.}
 \label{fig:placemin}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_placement_red.pdf}
-\caption{Redundant PMU placement for the IEEE 118-bus system computed by (\ref{eq:opp}) with $k = 2$: 68 PMUs.}
+\caption{Redundant placement, 68 PMUs.}
 \label{fig:placered}
 \end{figure}
 
@@ -326,7 +328,7 @@ where $\epsilon$ is the processing and jitter delay. With $T = 33.3$\,ms, $\Delt
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_timeline.pdf}
-\caption{Closed-loop timeline of the base experiment with the AVR fault at 4\,s, as logged ($L = 10$\,ms, $w = 20$\,ms). (1) The grid applies the fault. (2) First PMU frame that carries it. (3) The control center receives the set and issues the command. (4) NS-3 reads the command. (5) The command reaches the generator node at 4.107\,s. (6) The grid applies it at its next step.}
+\caption{Logged closed-loop timeline after the AVR fault at 4\,s.}
 \label{fig:timeline}
 \end{figure}
 
@@ -342,14 +344,14 @@ The observer writes the state of the run about twice per second. The Live page s
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_dashboard_cluster.png}
-\caption{Cluster page of the dashboard: nodes with their roles, MPI slots in use, the queue, and the settings for default ranks, experiments at the same time and the node of each federate.}
+\caption{Cluster page of the dashboard.}
 \label{fig:cluster}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.82\columnwidth]{fig_dashboard_inside_cc.png}
-\caption{Control-center panel of the Inside page during a simple FDI on bus 49 in a 30\,s IEEE 118-bus run: measurements used, chi-square test before and after removing PMU 49, and estimation time per set.}
+\caption{Control-center panel of the Inside page during a simple FDI on bus 49.}
 \label{fig:inside}
 \end{figure}
 
@@ -362,12 +364,12 @@ All experiments use the IEEE 118-bus system, taken from the MATPOWER case file \
 
 \subsection{Hardware and Software}
 
-The testbed ran as a virtual cluster of three containers, a head node and two compute nodes with two MPI slots each, on one machine with four cores of an Intel Xeon processor at 2.1\,GHz and 15\,GB of memory. Fig.~\ref{fig:deploy} shows the placement of each part, and Table~\ref{tab:sw} lists the software. Two experiments ran at a time. The same build scripts install the testbed natively on Ubuntu or as a container image.
+The experiments ran on a three-node cluster: a head node and two compute nodes with two MPI slots each, connected by a network running the transmission control protocol and internet protocol (TCP/IP) and sharing the data directory. Every node runs the same installation, and the head node starts the federates over SSH and the GridPACK ranks through an MPI host file, as on any Linux cluster. For this study the three nodes were hosted on one server with a four-core Intel Xeon processor at 2.1\,GHz and 15\,GB of memory. Fig.~\ref{fig:deploy} shows the placement of each part, and Table~\ref{tab:sw} lists the software. Two experiments ran at a time. The same build scripts install a node natively on Ubuntu or as a container image.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_deployment.pdf}
-\caption{Deployment on the three-node cluster used in this paper. GridPACK's ranks can span both compute nodes.}
+\caption{Deployment on the three-node cluster.}
 \label{fig:deploy}
 \end{figure}
 
@@ -394,6 +396,8 @@ Operating system & Ubuntu 24.04 \\
 \subsection{Scenarios and Parameters}
 
 The base scenario lasts 10\,s with $\Delta = 0.5$\,s, 30 frames per second, $L = 10$\,ms, $w = 20$\,ms, no random loss, and GridPACK on one MPI rank. At 4\,s the AVR of generator 49 fails and moves its setpoint from 1.025 to 1.12\pu, which raises bus 49 above the upper limit of 1.08\pu. Every attack targets bus 49 from 4 to 9\,s. Both injections try to make the control center see $|V_{49}| = 1.02$\pu, a normal value. Table~\ref{tab:params} lists the parameters. From this base, 21 scenarios vary one factor at a time: the attack (none, simple FDI, stealthy FDI, delay of 100\,ms, drop), the placement (32 or 68 PMUs), random frame loss (0 or 5\%), the mean latency $L$ (5, 10, 20, 40, 80\,ms) and, at $L = 40$\,ms, the wait window $w$ (10, 20, 40, 60, 80\,ms). Each scenario ran with seeds 1 to 10. The seed sets the link delays (\ref{eq:delay}), the jitter, the loss, the measurement noise (\ref{eq:noise}) and the random walk of the loads. Another 15 runs repeated the base scenario with 1, 2 and 4 MPI ranks and seeds 1 to 5. All 225 runs were defined in one scenario file and submitted through the API.
+
+\emph{Fault campaign.} A second scenario file applies every attack to the other four fault types of the testbed, so that each attack meets each fault. The faults occur at 4\,s: a load step of $+200$\% at bus 53 in QSS mode, and, in dynamic mode, a trip of line 76--77, a trip of the generator at bus 80 and a three-phase fault at bus 49 cleared after 0.1\,s. Without control each fault drives some bus voltage outside the limits. The attacks act from 4 to 9\,s on the bus where the violation appears, bus 53, 76, 76 and 49 respectively, and the injections report $v_f = 0.97$\pu{} (1.0\pu{} for the bus fault). For each fault, eleven scenarios cover the two baselines, the simple FDI with and without removal, the stealthy FDI, delay and drop with 32 PMUs, and the four attacks with 68 PMUs, each with seeds 1 to 5. These 220 runs bring the study to 445 runs. In dynamic mode the violation time is measured at every frame, so its resolution is 33.3\,ms.
 
 \begin{table}[t]
 \caption{Parameters of the Base Scenario}
@@ -445,7 +449,7 @@ Fig.~\ref{fig:v49ctl} shows bus 49 in the two baselines. Without control the fau
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_v49_control.pdf}
-\caption{Voltage of bus 49 without and with voltage control, and the control center's estimate (seed 1). The dotted line is the 1.08\pu{} limit.}
+\caption{Voltage of bus 49 with and without control (seed 1).}
 \label{fig:v49ctl}
 \end{figure}
 
@@ -458,7 +462,7 @@ Table~\ref{tab:attacks} lists the 13 scenarios on attacks and placement, and Fig
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_violation.pdf}
-\caption{Violation time per scenario, mean over ten seeds with 95\% confidence interval. Red: 32 PMUs; blue: 68 PMUs; grey: baselines.}
+\caption{Violation time per scenario, AVR fault (mean and 95\% CI over ten seeds).}
 \label{fig:violation}
 \end{figure}
 
@@ -477,23 +481,42 @@ Table~\ref{tab:attacks} lists the 13 scenarios on attacks and placement, and Fig
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_v49_attacks.pdf}
-\caption{Estimate of bus 49 under three attacks with 32 PMUs (seed 1). Under the simple FDI the estimate follows the true voltage. Shaded: attack window.}
+\caption{Estimate of bus 49 under three attacks, 32 PMUs (seed 1).}
 \label{fig:v49att}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_chi2.pdf}
-\caption{Chi-square statistic before removal (solid) and threshold (dashed) for each case, seed 1. The simple FDI is detected from 4.033 to 4.5\,s with both placements. The stealthy FDI leaves $J$ unchanged. Shaded: attack window.}
+\caption{Chi-square statistic $J$ (solid) and threshold (dashed), seed 1.}
 \label{fig:chi2}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_profile.pdf}
-\caption{Voltage of every bus in the set stamped 4.1\,s, simple FDI on bus 49, 32 PMUs, seed 1: true voltage of the state the PMUs sampled, PMU readings, and the estimate after PMU 49 was removed. PMU 49 reported 1.019\pu{} for a true 1.120\pu.}
+\caption{Bus voltages in the set stamped 4.1\,s, simple FDI on bus 49.}
 \label{fig:profile}
 \end{figure}
+
+\subsection{Attacks Across Fault Types}
+
+\input{tables/tab_faults.tex}
+
+Table~\ref{tab:faults} applies every attack to every fault type, and Fig.~\ref{fig:faultimpact} shows the extra violation that each attack caused compared with the attack-free control. All five seeds gave the same violation time in every cell, so each nonzero difference in Fig.~\ref{fig:faultimpact} has the smallest $p$-value that an exact two-sided test can give with five runs per group, $p = 0.008$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_fault_impact.pdf}
+\caption{Extra violation caused by each attack, per fault type (s).}
+\label{fig:faultimpact}
+\end{figure}
+
+\emph{Load step at bus 53.} The load step lowered bus 53 to 0.910\pu. Control raised the setpoint of generator 54 four times, one step per second, and cut the violation from 6.5 to 3.5\,s. Bus 53 has only two neighbours, bus 52 and the generator bus 54, which holds its own voltage. Under minimum placement only PMU 53 observes it, and the redundant placement adds only PMU 52. The simple FDI was detected and removed, and the control acted as without attack. Every other attack defeated the control under both placements. The stealthy FDI hid the voltage with no alarm, and delay or drop removed the only frames that showed it. In each case the violation lasted 6.5\,s, the same as without control. Redundant placement cannot help a bus whose degree limits how many PMUs can observe it.
+
+\emph{Line trip 76--77 and generator trip at bus 80.} Both faults depressed bus 76, which has no PMU under minimum placement and is observed through the current that PMU 77 measures. The attacks therefore had to act on PMU 77, and under redundant placement also on PMU 118. Bus 76 has one more neighbour, bus 118, which PMU 75 observes through its branch current. The depressed voltage of bus 118 kept the fault visible under every attack, and the first command was issued at 4.1\,s in every run. The attacks cost one frame (33\,ms) to five frames (167\,ms) of extra violation. Under minimum placement the simple FDI on a current channel raised no alarm, because that channel was the only measurement of bus 76. Under redundant placement it was detected in every set and removed, and the attack had no effect.
+
+\emph{Bus fault at bus 49.} The three-phase fault drove bus 49 to zero for 0.1\,s and depressed the whole area. No attack on the PMUs around bus 49 could hide it, and no attack extended the violation. The fault exposed a different weakness. During the fault the control center saw voltages far below the limit and issued 34 to 35 commands, which raised generator setpoints just before the fault cleared. After clearing, these commands caused over-voltage at bus 66 for 41 frames, against 35 frames without control. Detection without removal held most of these commands and gave the shortest violation, 1.4\,s against 1.6\,s with removal. A voltage controller that acts on single frames needs a time filter before it reacts to faults that clear on their own.
 
 \subsection{Network Latency and the PDC Wait Window}
 
@@ -506,14 +529,14 @@ Fig.~\ref{fig:pdcwait} shows the remedy at $L = 40$\,ms. A wait window of 10\,ms
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_latency.pdf}
-\caption{Share of frames that arrived in time and of complete PDC sets against the mean link latency, $w = 20$\,ms, mean over ten seeds with 95\% confidence interval.}
+\caption{Frames in time and complete sets against mean link latency ($w = 20$\,ms).}
 \label{fig:latency}
 \end{figure}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{fig_pdc_wait.pdf}
-\caption{Complete sets (left axis) and mean PDC release delay after the time stamp (right axis) against the PDC wait window at $L = 40$\,ms, mean over ten seeds with 95\% confidence interval.}
+\caption{Frames in time and complete sets against PDC wait window ($L = 40$\,ms).}
 \label{fig:pdcwait}
 \end{figure}
 
@@ -529,13 +552,13 @@ Table~\ref{tab:stats} tests the main comparisons. Removing the bad PMU, adding r
 \input{tables/tab_mpi.tex}
 \input{tables/tab_bench.tex}
 
-Table~\ref{tab:mpi} gives the GridPACK time per grid step and the wall-clock time of a 10\,s experiment with one, two and four ranks, while a second experiment ran at the same time. A 118-bus power flow takes about 10\,ms on one rank, so every additional rank adds more communication than it removes work, and four ranks split over two containers that exchange MPI messages over the transmission control protocol (TCP) needed 90\,ms per solve. For this grid one rank is the right choice, and the cluster pays off by running many experiments at once. The runs of the study took between 4.0 and 9.0\,s each, except the first two after the cluster started, which took 20\,s.
+Table~\ref{tab:mpi} gives the GridPACK time per grid step and the wall-clock time of a 10\,s experiment with one, two and four ranks, while a second experiment ran at the same time. A 118-bus power flow takes about 10\,ms on one rank, so every additional rank adds more communication than it removes work, and four ranks split over the two compute nodes, which exchange MPI messages over TCP, needed 90\,ms per solve. For this grid one rank is the right choice, and the cluster pays off by running many experiments at once. The runs of the study took between 4.0 and 9.0\,s each, except the first two after the cluster started, which took 20\,s.
 
 Table~\ref{tab:bench} gives the control center's time per set, measured by a benchmark of the estimator on the IEEE 118-bus system with 200 noisy sets per case. A clean set took a median of 0.9\,ms with either placement. When an alarm triggered the normalized-residual test, which needs one solve per channel, and a second estimate, the median rose to 19\,ms with 32 PMUs and 38\,ms with 68 PMUs, with a maximum of 57\,ms. These times do not affect the simulated time of a run, but they matter for a real-time version, because a frame period is 33.3\,ms.
 
 \subsection{Comparison With Prior Work}
 
-Direct numerical comparison with the platforms of Table~\ref{tab:compare} is limited, because they study other systems, events and metrics. Where the quantities match, the results agree. The median PMU-to-PDC latencies of 12.8\,ms at $L = 10$\,ms and 22.8\,ms at $L = 20$\,ms bracket the mean of about 20\,ms that Morato \emph{et al.} found for PMU traffic over 5G \cite{morato2024fiveg}. Our earlier IEEE 14-bus prototype reported latencies rising from 10 to about 100\,ms under denial of service but could not show the effect on the grid \cite{islam2024remotely}. The present study shows that a delay of that order hides an over-voltage for 5.5\,s under minimum placement. Zheng \emph{et al.} found that GridPACK under HELICS runs faster than real time for a 3000-bus system on four processes \cite{zheng2024hpc}. Our single-rank runs simulated 10\,s of a smaller system in about 5\,s of wall-clock time on shared cores, with the full network and control center in the loop. The value of the chi-square test against stealthy attacks matches \cite{liu2009fdi,yang2024tensor}: it did not react at all. The benefit of placement that keeps the grid observable without the attacked PMUs matches the analysis of \cite{khalafi2022intrusion}, here shown in a closed loop with a simulated network.
+Direct numerical comparison with the platforms of Table~\ref{tab:compare} is limited, because they study other systems, events and metrics. Where the quantities match, the results agree. The median PMU-to-PDC latencies of 12.8\,ms at $L = 10$\,ms and 22.8\,ms at $L = 20$\,ms bracket the mean of about 20\,ms that Morato \emph{et al.}~\cite{morato2024fiveg} found for PMU traffic over 5G. Our earlier IEEE 14-bus prototype reported latencies rising from 10 to about 100\,ms under denial of service but could not show the effect on the grid \cite{islam2024remotely}. The present study shows that a delay of that order hides an over-voltage for 5.5\,s under minimum placement. Zheng \emph{et al.}~\cite{zheng2024hpc} found that GridPACK under HELICS runs faster than real time for a 3000-bus system on four processes. Our single-rank runs simulated 10\,s of a smaller system in about 5\,s of wall-clock time on the three-node cluster, with the full network and control center in the loop. The value of the chi-square test against stealthy attacks matches \cite{liu2009fdi,yang2024tensor}: it did not react at all. The benefit of placement that keeps the grid observable without the attacked PMUs matches the analysis of \cite{khalafi2022intrusion}, here shown in a closed loop with a simulated network.
 
 \emph{Calibration of the test.} The chi-square statistic in normal operation averaged 25.5 with minimum placement, between 24.7 and 26.3 over the seeds, well below its 102 degrees of freedom. The estimator assumes $\sigma = 0.002$ while the simulated noise is 0.001 in magnitude and 0.001\,rad in angle, so each real component of a residual has about a quarter of the variance that the test assumes, and $(2m - 2n)/4 \approx 26$. The test raised no false alarm in any of the 225 runs.
 
@@ -544,11 +567,11 @@ Direct numerical comparison with the platforms of Table~\ref{tab:compare} is lim
 
 \subsection{Interpretation}
 
-The experiments separate the defenses by what they protect. The chi-square test with normalized-residual removal protects the estimate, and with it the control action, against a falsified channel, provided enough redundancy remains after removal to test the result again. Detection alone protects the estimate but blocks the control, which in this case cost five seconds of over-voltage in every seed. The stealthy injection did not raise the test at all, and it failed here only because it shifted one bus while the fault also raised the neighbouring buses. An attacker who falsifies the neighbourhood too would need more PMUs, and the learned detectors of \cite{chen2022datadriven,bhattacharjee2023deep} are one way to catch such attacks. Under minimum placement, delay and drop were the most effective attacks. Neither changes a value, and both turn a measurement into a missing one, which is consistent with the role of data dropout in time-synchronization attacks \cite{zadsar2023preventing,shereen2024topology}. Redundant placement neutralized them because it kept the neighbourhood of bus 49 observed, which is the condition Khalafi \emph{et al.} derived for locating attacks \cite{khalafi2022intrusion}. The PDC results agree with the observation that wait times must be set from the latency of the slowest stream \cite{pourramezan2021pdc}. A frame that arrives after the window is, for the control center, a lost frame.
+The experiments separate the defenses by what they protect. The chi-square test with normalized-residual removal protects the estimate, and with it the control action, against a falsified channel, provided enough redundancy remains after removal to test the result again. Detection alone protects the estimate but blocks the control, which in this case cost five seconds of over-voltage in every seed. The stealthy injection did not raise the test at all, and it failed here only because it shifted one bus while the fault also raised the neighbouring buses. An attacker who falsifies the neighbourhood too would need more PMUs, and the learned detectors of \cite{chen2022datadriven,bhattacharjee2023deep} are one way to catch such attacks. Under minimum placement, delay and drop were the most effective attacks. Neither changes a value, and both turn a measurement into a missing one, which is consistent with the role of data dropout in time-synchronization attacks \cite{zadsar2023preventing,shereen2024topology}. Redundant placement neutralized them because it kept the neighbourhood of bus 49 observed, which is the condition Khalafi \emph{et al.}~\cite{khalafi2022intrusion} derived for locating attacks. The PDC results agree with the observation that wait times must be set from the latency of the slowest stream \cite{pourramezan2021pdc}. A frame that arrives after the window is, for the control center, a lost frame. The fault campaign adds two points. First, what protects a fault from being hidden is less the PMU at the faulted bus than the observation of its neighbours. After the line and generator trips, bus 118 kept the depressed area visible under every attack, while bus 53, with one load neighbour and one generator neighbour, could be hidden completely. Redundant placement by (\ref{eq:opp}) cannot fix this, because the degree of the bus caps how many PMUs can see it, so such buses need protected or authenticated PMUs. Second, the controller is part of the attack surface. A loop that acts on every frame reacts to transients, and after the bus fault its own commands caused post-fault over-voltage that an alarm happened to suppress.
 
 \subsection{Limitations}
 
-The cluster was virtual, three containers on four cores, so the MPI times include contention and TCP between containers and do not show what separate machines would give. The grid runs in quasi-steady state with a 0.5\,s step, which sets the resolution of the violation time and the delay before a command takes effect. The testbed also has a dynamic mode, which this paper does not use. The frames are JSON and do not follow IEEE C37.118.2, so real PMUs cannot yet join an experiment. The co-simulation runs as fast as it can and is not paced to wall-clock time. The PMU frames lag the grid by one frame, as explained in Section~\ref{sec:time}. The control center acts on an estimate once its alarm has cleared, even when the cleared estimate could not be tested because removal made the grid unobservable.
+The three cluster nodes shared one four-core server, so the MPI times include contention between the nodes and may differ on a cluster of separate servers. In QSS mode the grid changes every 0.5\,s, which sets the resolution of the violation time and the delay before a command takes effect there. The dynamic mode uses typical machine data for the IEEE 118-bus generators, since the case file has none. The frames are JSON and do not follow IEEE C37.118.2, so real PMUs cannot yet join an experiment. The co-simulation runs as fast as it can and is not paced to wall-clock time. The PMU frames lag the grid by one frame, as explained in Section~\ref{sec:time}. The control center acts on an estimate once its alarm has cleared, even when the cleared estimate could not be tested because removal made the grid unobservable.
 
 \subsection{Threats to Validity}
 
@@ -556,16 +579,16 @@ The cluster was virtual, three containers on four cores, so the MPI times includ
 
 \emph{Construct validity.} The violation time is measured at grid steps, so differences smaller than 0.5\,s are not visible. The chi-square test assumes $\sigma = 0.002$ while the simulated noise is smaller (Section~\ref{sec:results}), which makes the test conservative. A smaller injection would be harder to detect than with matched weights.
 
-\emph{Statistical validity.} Ten seeds per scenario vary noise, delays, loss and loads but not the fault or the attack, which are fixed by design. Many outcomes were therefore identical in all seeds. The tests show that the differences between these groups cannot be explained by the random factors, but they do not cover other faults, targets or attack sizes.
+\emph{Statistical validity.} The seeds vary noise, delays, loss and loads but not the fault or the attack, which are fixed by design. Many outcomes were therefore identical in all seeds. The tests show that the differences cannot be explained by these random factors, but they do not cover other fault locations, targets or attack sizes.
 
-\emph{External validity.} All results come from one system, one fault and one target bus. Bus 49 is a well-connected generator bus. A bus with fewer neighbours, a different placement or a dynamic event could change the outcome, and the testbed can run those cases from the same scenario file.
+\emph{External validity.} All results come from one system and one location per fault type. The fault campaign already shows that the outcome depends on the degree of the attacked bus and on the type of fault, so other locations, other grids and other attack sizes may change the numbers. The testbed can run those cases from the same scenario files.
 
 \section{Conclusion and Future Work}
 \label{sec:concl}
 
-This paper presented an open-source testbed in which GridPACK on MPI, NS-3 with a PMU network and a PDC, and a control center with state estimation, bad data detection and voltage control run as HELICS federates, and in which remote users start, follow and compare experiments from a browser on a shared cluster. On the IEEE 118-bus system, with one AVR fault and four attacks on the PMUs around the faulted bus, the closed loop corrected the over-voltage within one grid step whenever the control center could see it. Ten seeds per scenario showed the same pattern each time. Removing the suspect PMU was as important as detecting the attack. Delay and drop hid the fault under minimum placement and failed under redundant placement. The PDC wait window had to cover the spread of link delays, or the sets lost completeness and observability even when most frames arrived.
+This paper presented an open-source testbed in which GridPACK on a computing cluster, NS-3 with a PMU network and a PDC, and a control center with state estimation, bad data detection and voltage control run as HELICS federates, and in which remote users start, follow and compare experiments from a browser on a shared cluster. On the IEEE 118-bus system, 445 runs covered five fault types, four attack types, two PMU placements and sweeps of the network timing. The closed loop corrected each violation that the control center could see. Removing the suspect PMU was as important as detecting the attack, because an alarm without removal blocked the control. Delay and drop hid an AVR fault under minimum placement and failed under redundant placement, but at a bus with only two neighbours every attack except the simple injection defeated the control under both placements. When the faulted bus had a well-observed neighbour, as after the line and generator trips, the attacks cost at most five frames. The PDC wait window had to cover the spread of link delays, or the sets lost completeness and observability even when most frames arrived. After a bus fault, the voltage controller itself lengthened the violation by reacting to a disturbance that cleared on its own.
 
-Future work will add an IEEE C37.118.2 interface so that the project's PMUs can join experiments, run the testbed on the laboratory's physical cluster, use the dynamic mode to study fast events and wide-area control, add authenticated frames and learned detectors to the control center, and pace the co-simulation to wall-clock time. The source code, installer, scenario files and the scripts that produced every figure and table are available at \url{https://github.com/mazharulmd/cps-testbed-cluster}.
+Future work will add an IEEE C37.118.2 interface so that the project's PMUs can join experiments, extend the study to more fault locations and grids, add authenticated frames, learned detectors and a time filter to the control center, and pace the co-simulation to wall-clock time. The source code, installer, scenario files and the scripts that produced every figure and table are available at \url{https://github.com/mazharulmd/cps-testbed-cluster}.
 
 \section*{Acknowledgment}
 
@@ -573,21 +596,5 @@ The authors thank the Bangladesh Energy and Power Research Council for funding t
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
-
-\begin{IEEEbiographynophoto}{Md Mazharul Islam}
-\todo{author biography and photo}
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Sunjare Zulfiker}
-\todo{author biography and photo}
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Masum Reza}
-\todo{author biography and photo}
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Hafiz Abdur Rahman}
-\todo{author biography and photo}
-\end{IEEEbiographynophoto}
 
 \end{document}

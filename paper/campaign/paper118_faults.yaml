@@ -1,0 +1,1190 @@
+# IEEE 118-bus fault campaign of the paper: load step, line trip, generator trip and bus fault,
+# each with all attack types and both placements, five seeds (220 runs).
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+control: {bdd: true, voltage_control: true}
+scenarios:
+- name: f01-load53-noctl
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f01-load53-ctl
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+- name: f01-load53-simple-min
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-simple-nobdd
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f01-load53-stealthy-min
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-delay-min
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-drop-min
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-simple-red
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-stealthy-red
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-delay-red
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-load53-drop-red
+  seed: 1
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-noctl
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f01-line7677-ctl
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+- name: f01-line7677-simple-min
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-simple-nobdd
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f01-line7677-stealthy-min
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-delay-min
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-drop-min
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-simple-red
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-stealthy-red
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-delay-red
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-line7677-drop-red
+  seed: 1
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-noctl
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f01-gen80-ctl
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+- name: f01-gen80-simple-min
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-simple-nobdd
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f01-gen80-stealthy-min
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-delay-min
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-drop-min
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-simple-red
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-stealthy-red
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-delay-red
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-gen80-drop-red
+  seed: 1
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-noctl
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f01-fault49-ctl
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+- name: f01-fault49-simple-min
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-simple-nobdd
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f01-fault49-stealthy-min
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-delay-min
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-drop-min
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-simple-red
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-stealthy-red
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-delay-red
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f01-fault49-drop-red
+  seed: 1
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-noctl
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f02-load53-ctl
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+- name: f02-load53-simple-min
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-simple-nobdd
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f02-load53-stealthy-min
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-delay-min
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-drop-min
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-simple-red
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-stealthy-red
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-delay-red
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-load53-drop-red
+  seed: 2
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-noctl
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f02-line7677-ctl
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+- name: f02-line7677-simple-min
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-simple-nobdd
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f02-line7677-stealthy-min
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-delay-min
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-drop-min
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-simple-red
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-stealthy-red
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-delay-red
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-line7677-drop-red
+  seed: 2
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-noctl
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f02-gen80-ctl
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+- name: f02-gen80-simple-min
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-simple-nobdd
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f02-gen80-stealthy-min
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-delay-min
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-drop-min
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-simple-red
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-stealthy-red
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-delay-red
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-gen80-drop-red
+  seed: 2
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-noctl
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f02-fault49-ctl
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+- name: f02-fault49-simple-min
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-simple-nobdd
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f02-fault49-stealthy-min
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-delay-min
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-drop-min
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-simple-red
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-stealthy-red
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-delay-red
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f02-fault49-drop-red
+  seed: 2
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-noctl
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f03-load53-ctl
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+- name: f03-load53-simple-min
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-simple-nobdd
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f03-load53-stealthy-min
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-delay-min
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-drop-min
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-simple-red
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-stealthy-red
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-delay-red
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-load53-drop-red
+  seed: 3
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-noctl
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f03-line7677-ctl
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+- name: f03-line7677-simple-min
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-simple-nobdd
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f03-line7677-stealthy-min
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-delay-min
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-drop-min
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-simple-red
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-stealthy-red
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-delay-red
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-line7677-drop-red
+  seed: 3
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-noctl
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f03-gen80-ctl
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+- name: f03-gen80-simple-min
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-simple-nobdd
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f03-gen80-stealthy-min
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-delay-min
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-drop-min
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-simple-red
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-stealthy-red
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-delay-red
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-gen80-drop-red
+  seed: 3
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-noctl
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f03-fault49-ctl
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+- name: f03-fault49-simple-min
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-simple-nobdd
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f03-fault49-stealthy-min
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-delay-min
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-drop-min
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-simple-red
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-stealthy-red
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-delay-red
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f03-fault49-drop-red
+  seed: 3
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-noctl
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f04-load53-ctl
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+- name: f04-load53-simple-min
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-simple-nobdd
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f04-load53-stealthy-min
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-delay-min
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-drop-min
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-simple-red
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-stealthy-red
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-delay-red
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-load53-drop-red
+  seed: 4
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-noctl
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f04-line7677-ctl
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+- name: f04-line7677-simple-min
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-simple-nobdd
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f04-line7677-stealthy-min
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-delay-min
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-drop-min
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-simple-red
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-stealthy-red
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-delay-red
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-line7677-drop-red
+  seed: 4
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-noctl
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f04-gen80-ctl
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+- name: f04-gen80-simple-min
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-simple-nobdd
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f04-gen80-stealthy-min
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-delay-min
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-drop-min
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-simple-red
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-stealthy-red
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-delay-red
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-gen80-drop-red
+  seed: 4
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-noctl
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f04-fault49-ctl
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+- name: f04-fault49-simple-min
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-simple-nobdd
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f04-fault49-stealthy-min
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-delay-min
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-drop-min
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-simple-red
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-stealthy-red
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-delay-red
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f04-fault49-drop-red
+  seed: 4
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-noctl
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f05-load53-ctl
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+- name: f05-load53-simple-min
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-simple-nobdd
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f05-load53-stealthy-min
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-delay-min
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-drop-min
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-simple-red
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-stealthy-red
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-delay-red
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-load53-drop-red
+  seed: 5
+  mode: qss
+  event: {type: load_step, bus: 53, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 53, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-noctl
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f05-line7677-ctl
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+- name: f05-line7677-simple-min
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-simple-nobdd
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f05-line7677-stealthy-min
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-delay-min
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-drop-min
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-simple-red
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-stealthy-red
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-delay-red
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-line7677-drop-red
+  seed: 5
+  mode: dynamic
+  event: {type: line_trip, bus: 76, to: 77, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-noctl
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f05-gen80-ctl
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+- name: f05-gen80-simple-min
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-simple-nobdd
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f05-gen80-stealthy-min
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-delay-min
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-drop-min
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-simple-red
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-stealthy-red
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-delay-red
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-gen80-drop-red
+  seed: 5
+  mode: dynamic
+  event: {type: gen_trip, bus: 80, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 76, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-noctl
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: f05-fault49-ctl
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+- name: f05-fault49-simple-min
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-simple-nobdd
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: f05-fault49-stealthy-min
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-delay-min
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-drop-min
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-simple-red
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-stealthy-red
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-delay-red
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}
+- name: f05-fault49-drop-red
+  seed: 5
+  mode: dynamic
+  event: {type: bus_fault, bus: 49, duration: 0.1, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.0, start: 4, end: 9, delay_ms: 100}

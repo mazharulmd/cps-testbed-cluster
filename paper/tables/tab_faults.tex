@@ -1,0 +1,20 @@
+\begin{table*}[t]
+\caption{Violation Time (s) for Every Fault Type and Attack, IEEE 118-Bus System. Mean $\pm$ Standard Deviation Over Five Seeds; a Single Value Means All Seeds Agreed}
+\label{tab:faults}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{@{}lccccccccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{Baselines} & \multicolumn{5}{c}{32 PMUs} & \multicolumn{4}{c}{68 PMUs} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-8}\cmidrule(l){9-12}
+Fault & No ctrl & Ctrl & Simple & Simple, no rem. & Stealthy & Delay & Drop & Simple & Stealthy & Delay & Drop \\
+\midrule
+AVR fault, gen.~49 & 6.50 & 0.50 & 0.50 & 5.50 & 0.50 & 5.50 & 5.50 & 0.50 & 0.50 & 0.50 & 0.50 \\
+Load step +200\%, bus 53 & 6.50 & 3.50 & 3.50 & 6.50 & 6.50 & 6.50 & 6.50 & 3.50 & 6.50 & 6.50 & 6.50 \\
+Line trip 76--77 & 6.00 & 2.50 & 2.63 & 2.63 & 2.63 & 2.63 & 2.63 & 2.50 & 2.63 & 2.63 & 2.63 \\
+Generator trip, bus 80 & 2.80 & 1.63 & 1.67 & 1.67 & 1.67 & 1.80 & 1.80 & 1.63 & 1.67 & 1.80 & 1.80 \\
+Bus fault 49, 0.1\,s & 2.03 & 1.60 & 1.60 & 1.40 & 1.60 & 1.60 & 1.60 & 1.60 & 1.60 & 1.60 & 1.60 \\
+\bottomrule
+\end{tabular}
+\end{table*}

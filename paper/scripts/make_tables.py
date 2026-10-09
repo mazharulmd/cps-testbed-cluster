@@ -115,17 +115,17 @@ t += [r"\bottomrule", r"\end{tabular}", r"\end{table*}", ""]
 write("tab_latency.tex", "\n".join(t))
 
 # ---------------------------------------------------------------- statistical tests
-TESTS = [("violation_s", "ctl", "noctl", "Voltage control (no control vs.\\ control)"),
-         ("violation_s", "simple-min", "simple-nobdd", "Removal (simple FDI, 32 PMUs)"),
-         ("violation_s", "ctl", "simple-min", "Simple FDI with removal vs.\\ no attack"),
-         ("violation_s", "ctl", "stealthy-min", "Stealthy FDI vs.\\ no attack (32 PMUs)"),
-         ("violation_s", "delay-red", "delay-min", "Placement under delay"),
-         ("violation_s", "drop-red", "drop-min", "Placement under drop"),
-         ("observable_pct", "loss5-red", "loss5-min", "Placement under 5\\% loss (observable sets)"),
-         ("complete_pct", "ctl", "lat20", "Latency 10 vs.\\ 20\\,ms (complete sets)"),
-         ("complete_pct", "lat40-w40", "lat40", "Wait 40 vs.\\ 20\\,ms at $L$ = 40\\,ms (complete sets)"),
-         ("violation_s", "lat40-w40", "lat40-w10", "Wait 40 vs.\\ 10\\,ms at $L$ = 40\\,ms (violation)"),
-         ("violation_s", "ctl", "lat80", "Latency 10 vs.\\ 80\\,ms (violation)")]
+TESTS = [("violation_s", "ctl", "noctl", "Control (A) vs.\\ no control (B)"),
+         ("violation_s", "simple-min", "simple-nobdd", "Simple FDI, 32 PMUs: removal (A) vs.\\ no removal (B)"),
+         ("violation_s", "ctl", "simple-min", "No attack (A) vs.\\ simple FDI with removal (B)"),
+         ("violation_s", "ctl", "stealthy-min", "No attack (A) vs.\\ stealthy FDI (B), 32 PMUs"),
+         ("violation_s", "delay-red", "delay-min", "Delay: 68 PMUs (A) vs.\\ 32 PMUs (B)"),
+         ("violation_s", "drop-red", "drop-min", "Drop: 68 PMUs (A) vs.\\ 32 PMUs (B)"),
+         ("observable_pct", "loss5-red", "loss5-min", "5\\% loss, observable sets: 68 PMUs (A) vs.\\ 32 PMUs (B)"),
+         ("complete_pct", "ctl", "lat20", "Complete sets: $L$ = 10\\,ms (A) vs.\\ 20\\,ms (B)"),
+         ("complete_pct", "lat40-w40", "lat40", "Complete sets at $L$ = 40\\,ms: $w$ = 40\\,ms (A) vs.\\ 20\\,ms (B)"),
+         ("violation_s", "lat40-w40", "lat40-w10", "Violation at $L$ = 40\\,ms: $w$ = 40\\,ms (A) vs.\\ 10\\,ms (B)"),
+         ("violation_s", "ctl", "lat80", "Violation: $L$ = 10\\,ms (A) vs.\\ 80\\,ms (B)")]
 t = [r"\begin{table}[t]", r"\caption{Statistical Tests Between Configurations, Ten Seeds Each. Difference of Means "
      r"(B $-$ A) With 95\% Confidence Interval and Two-Sided Exact Permutation Test}", r"\label{tab:stats}",
      r"\centering", r"\footnotesize", r"\setlength{\tabcolsep}{3pt}", r"\begin{tabular}{@{}P{3.3cm}ccc@{}}",

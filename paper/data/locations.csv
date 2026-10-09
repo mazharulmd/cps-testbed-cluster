@@ -1,0 +1,218 @@
+name,kind,bus,scenario,degree,pmus_seeing_min,pmus_seeing_red,violation_s,commands,cmd_issued_t,first_cmd_gen,first_cmd_reason,alarm_sets_first,alarm_sets_final,observable_pct,compromised_pmus,run_dir
+l-avr10-ctl,avr,10,ctl,1,1,2,0.5,1,4.066667,10,V10=1.120,0,0,100.0,,20261009_182220_l-avr10-ctl
+l-avr10-delay-min,avr,10,delay-min,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,49.7,9,20261009_182240_l-avr10-delay-min
+l-avr10-delay-red,avr,10,delay-red,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,49.7,9 10,20261009_182242_l-avr10-delay-red
+l-avr10-drop-min,avr,10,drop-min,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,49.7,9,20261009_182247_l-avr10-drop-min
+l-avr10-drop-red,avr,10,drop-red,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,49.7,9 10,20261009_182249_l-avr10-drop-red
+l-avr10-noctl,avr,10,noctl,1,1,2,6.0,0,,,,0,0,100.0,,20261009_182220_l-avr10-noctl
+l-avr10-scada,avr,10,scada,1,1,2,2.5,3,4.066667,10,V10=1.120,0,0,100.0,,20261009_183353_l-avr10-scada
+l-avr10-simple-min,avr,10,simple-min,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,100.0,9,20261009_182227_l-avr10-simple-min
+l-avr10-simple-red,avr,10,simple-red,1,1,2,0.5,1,4.066667,10,V10=1.120,15,0,100.0,10,20261009_182227_l-avr10-simple-red
+l-avr10-stealthy-min,avr,10,stealthy-min,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,100.0,9,20261009_182233_l-avr10-stealthy-min
+l-avr10-stealthy-red,avr,10,stealthy-red,1,1,2,5.5,1,9.033333,10,V10=1.120,0,0,100.0,9 10,20261009_182234_l-avr10-stealthy-red
+l-avr100-ctl,avr,100,ctl,8,2,4,0.5,1,4.066667,100,V100=1.120,0,0,100.0,,20261009_183112_l-avr100-ctl
+l-avr100-delay-min,avr,100,delay-min,8,2,4,5.5,1,9.033333,100,V100=1.119,0,0,49.7,94 101,20261009_183128_l-avr100-delay-min
+l-avr100-delay-red,avr,100,delay-red,8,2,4,5.5,1,9.033333,100,V100=1.120,0,0,49.7,92 94 100 106,20261009_183132_l-avr100-delay-red
+l-avr100-drop-min,avr,100,drop-min,8,2,4,5.5,1,9.033333,100,V100=1.119,0,0,49.7,94 101,20261009_183134_l-avr100-drop-min
+l-avr100-drop-red,avr,100,drop-red,8,2,4,5.5,1,9.033333,100,V100=1.120,0,0,49.7,92 94 100 106,20261009_183139_l-avr100-drop-red
+l-avr100-noctl,avr,100,noctl,8,2,4,6.0,0,,,,0,0,100.0,,20261009_183106_l-avr100-noctl
+l-avr100-scada,avr,100,scada,8,2,4,2.5,3,4.066667,100,V100=1.120,0,0,100.0,,20261009_183436_l-avr100-scada
+l-avr100-simple-min,avr,100,simple-min,8,2,4,0.5,9,4.033333,92,V102=0.895,150,0,49.7,94,20261009_183112_l-avr100-simple-min
+l-avr100-simple-red,avr,100,simple-red,8,2,4,0.5,1,4.066667,100,V100=1.120,15,0,100.0,100,20261009_183118_l-avr100-simple-red
+l-avr100-stealthy-min,avr,100,stealthy-min,8,2,4,0.5,3,4.033333,100,V100=0.917,0,0,100.0,94 101,20261009_183122_l-avr100-stealthy-min
+l-avr100-stealthy-red,avr,100,stealthy-red,8,2,4,5.5,1,9.033333,100,V100=1.120,0,0,100.0,92 94 100 106,20261009_183126_l-avr100-stealthy-red
+l-avr12-ctl,avr,12,ctl,7,2,4,0.5,1,4.066667,12,V12=1.120,0,0,100.0,,20261009_183004_l-avr12-ctl
+l-avr12-delay-min,avr,12,delay-min,7,2,4,5.5,1,9.033333,12,V12=1.120,0,0,49.7,3 12,20261009_183023_l-avr12-delay-min
+l-avr12-delay-red,avr,12,delay-red,7,2,4,5.5,1,9.033333,12,V12=1.120,0,0,49.7,3 11 12 117,20261009_183027_l-avr12-delay-red
+l-avr12-drop-min,avr,12,drop-min,7,2,4,5.5,1,9.033333,12,V12=1.120,0,0,49.7,3 12,20261009_183029_l-avr12-drop-min
+l-avr12-drop-red,avr,12,drop-red,7,2,4,5.5,1,9.033333,12,V12=1.120,0,0,49.7,3 11 12 117,20261009_183034_l-avr12-drop-red
+l-avr12-noctl,avr,12,noctl,7,2,4,6.0,0,,,,0,0,100.0,,20261009_183000_l-avr12-noctl
+l-avr12-scada,avr,12,scada,7,2,4,2.5,3,4.066667,12,V12=1.120,0,0,100.0,,20261009_183429_l-avr12-scada
+l-avr12-simple-min,avr,12,simple-min,7,2,4,0.5,1,4.066667,12,V12=1.121,150,0,49.7,12,20261009_183006_l-avr12-simple-min
+l-avr12-simple-red,avr,12,simple-red,7,2,4,0.5,1,4.066667,12,V12=1.120,127,0,100.0,12,20261009_183010_l-avr12-simple-red
+l-avr12-stealthy-min,avr,12,stealthy-min,7,2,4,0.5,1,4.066667,12,V117=1.106,0,0,100.0,3 12,20261009_183015_l-avr12-stealthy-min
+l-avr12-stealthy-red,avr,12,stealthy-red,7,2,4,0.5,1,4.066667,12,V117=1.106,0,0,100.0,3 11 12 117,20261009_183021_l-avr12-stealthy-red
+l-avr15-ctl,avr,15,ctl,5,2,3,0.5,1,4.066667,15,V15=1.120,0,0,100.0,,20261009_182743_l-avr15-ctl
+l-avr15-delay-min,avr,15,delay-min,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,49.7,15 17,20261009_182802_l-avr15-delay-min
+l-avr15-delay-red,avr,15,delay-red,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,49.7,15 17 19,20261009_182806_l-avr15-delay-red
+l-avr15-drop-min,avr,15,drop-min,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,49.7,15 17,20261009_182808_l-avr15-drop-min
+l-avr15-drop-red,avr,15,drop-red,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,49.7,15 17 19,20261009_182813_l-avr15-drop-red
+l-avr15-noctl,avr,15,noctl,5,2,3,6.0,0,,,,0,0,100.0,,20261009_182737_l-avr15-noctl
+l-avr15-scada,avr,15,scada,5,2,3,2.5,3,4.066667,15,V15=1.120,0,0,100.0,,20261009_183418_l-avr15-scada
+l-avr15-simple-min,avr,15,simple-min,5,2,3,0.5,1,4.066667,15,V15=1.120,150,0,49.7,15,20261009_182744_l-avr15-simple-min
+l-avr15-simple-red,avr,15,simple-red,5,2,3,0.5,1,4.066667,15,V15=1.120,150,0,100.0,15,20261009_182749_l-avr15-simple-red
+l-avr15-stealthy-min,avr,15,stealthy-min,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,100.0,15 17,20261009_182754_l-avr15-stealthy-min
+l-avr15-stealthy-red,avr,15,stealthy-red,5,2,3,5.5,1,9.033333,15,V15=1.120,0,0,100.0,15 17 19,20261009_182759_l-avr15-stealthy-red
+l-avr25-ctl,avr,25,ctl,3,2,2,0.5,1,4.066667,25,V25=1.120,0,0,100.0,,20261009_182523_l-avr25-ctl
+l-avr25-delay-min,avr,25,delay-min,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,49.7,23 26,20261009_182543_l-avr25-delay-min
+l-avr25-delay-red,avr,25,delay-red,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,49.7,26 27,20261009_182545_l-avr25-delay-red
+l-avr25-drop-min,avr,25,drop-min,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,49.7,23 26,20261009_182548_l-avr25-drop-min
+l-avr25-drop-red,avr,25,drop-red,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,49.7,26 27,20261009_182552_l-avr25-drop-red
+l-avr25-noctl,avr,25,noctl,3,2,2,6.0,0,,,,0,0,100.0,,20261009_182517_l-avr25-noctl
+l-avr25-scada,avr,25,scada,3,2,2,2.5,3,4.066667,25,V25=1.120,0,0,100.0,,20261009_183406_l-avr25-scada
+l-avr25-simple-min,avr,25,simple-min,3,2,2,5.5,11,4.033333,32,V32=0.877,150,0,49.7,26,20261009_182523_l-avr25-simple-min
+l-avr25-simple-red,avr,25,simple-red,3,2,2,0.5,1,4.066667,25,V25=1.120,150,0,100.0,26,20261009_182529_l-avr25-simple-red
+l-avr25-stealthy-min,avr,25,stealthy-min,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,100.0,23 26,20261009_182533_l-avr25-stealthy-min
+l-avr25-stealthy-red,avr,25,stealthy-red,3,2,2,5.5,1,9.033333,25,V25=1.120,0,0,100.0,26 27,20261009_182539_l-avr25-stealthy-red
+l-avr26-ctl,avr,26,ctl,2,1,2,0.5,1,4.066667,26,V26=1.120,0,0,100.0,,20261009_182333_l-avr26-ctl
+l-avr26-delay-min,avr,26,delay-min,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,49.7,26,20261009_182347_l-avr26-delay-min
+l-avr26-delay-red,avr,26,delay-red,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,49.7,26 30,20261009_182354_l-avr26-delay-red
+l-avr26-drop-min,avr,26,drop-min,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,49.7,26,20261009_182354_l-avr26-drop-min
+l-avr26-drop-red,avr,26,drop-red,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,49.7,26 30,20261009_182400_l-avr26-drop-red
+l-avr26-noctl,avr,26,noctl,2,1,2,6.0,0,,,,0,0,100.0,,20261009_182326_l-avr26-noctl
+l-avr26-scada,avr,26,scada,2,1,2,2.5,3,4.066667,26,V26=1.120,0,0,100.0,,20261009_183359_l-avr26-scada
+l-avr26-simple-min,avr,26,simple-min,2,1,2,0.5,1,4.066667,26,V26=1.112,15,0,95.0,26,20261009_182333_l-avr26-simple-min
+l-avr26-simple-red,avr,26,simple-red,2,1,2,0.5,1,4.066667,26,V26=1.120,15,0,100.0,26,20261009_182339_l-avr26-simple-red
+l-avr26-stealthy-min,avr,26,stealthy-min,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,100.0,26,20261009_182340_l-avr26-stealthy-min
+l-avr26-stealthy-red,avr,26,stealthy-red,2,1,2,5.5,1,9.033333,26,V26=1.120,0,0,100.0,26 30,20261009_182346_l-avr26-stealthy-red
+l-avr40-ctl,avr,40,ctl,4,2,3,0.5,1,4.066667,40,V40=1.120,0,0,100.0,,20261009_182558_l-avr40-ctl
+l-avr40-delay-min,avr,40,delay-min,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,49.7,37 40,20261009_182618_l-avr40-delay-min
+l-avr40-delay-red,avr,40,delay-red,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,49.7,37 40 42,20261009_182622_l-avr40-delay-red
+l-avr40-drop-min,avr,40,drop-min,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,49.7,37 40,20261009_182624_l-avr40-drop-min
+l-avr40-drop-red,avr,40,drop-red,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,49.7,37 40 42,20261009_182629_l-avr40-drop-red
+l-avr40-noctl,avr,40,noctl,4,2,3,6.0,0,,,,0,0,100.0,,20261009_182555_l-avr40-noctl
+l-avr40-scada,avr,40,scada,4,2,3,2.5,3,4.066667,40,V40=1.120,0,0,100.0,,20261009_183411_l-avr40-scada
+l-avr40-simple-min,avr,40,simple-min,4,2,3,0.5,1,4.066667,40,V40=1.120,150,0,49.7,40,20261009_182600_l-avr40-simple-min
+l-avr40-simple-red,avr,40,simple-red,4,2,3,0.5,1,4.066667,40,V40=1.120,150,0,100.0,40,20261009_182604_l-avr40-simple-red
+l-avr40-stealthy-min,avr,40,stealthy-min,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,100.0,37 40,20261009_182610_l-avr40-stealthy-min
+l-avr40-stealthy-red,avr,40,stealthy-red,4,2,3,5.5,1,9.033333,40,V40=1.120,0,0,100.0,37 40 42,20261009_182616_l-avr40-stealthy-red
+l-avr49-scada,avr,49,scada,9,2,5,2.5,3,4.066667,49,V49=1.120,0,0,100.0,,20261009_183441_l-avr49-scada
+l-avr54-ctl,avr,54,ctl,5,3,4,0.5,1,4.066667,54,V54=1.120,0,0,100.0,,20261009_182819_l-avr54-ctl
+l-avr54-delay-min,avr,54,delay-min,5,3,4,5.5,1,9.033333,54,V54=1.120,0,0,49.7,49 53 56,20261009_182839_l-avr54-delay-min
+l-avr54-delay-red,avr,54,delay-red,5,3,4,5.5,1,9.033333,54,V54=1.120,0,0,49.7,49 53 56 59,20261009_182842_l-avr54-delay-red
+l-avr54-drop-min,avr,54,drop-min,5,3,4,5.5,1,9.033333,54,V54=1.120,0,0,49.7,49 53 56,20261009_182844_l-avr54-drop-min
+l-avr54-drop-red,avr,54,drop-red,5,3,4,5.5,1,9.033333,54,V54=1.120,0,0,49.7,49 53 56 59,20261009_182849_l-avr54-drop-red
+l-avr54-noctl,avr,54,noctl,5,3,4,6.0,0,,,,0,0,100.0,,20261009_182814_l-avr54-noctl
+l-avr54-scada,avr,54,scada,5,3,4,2.5,3,4.066667,54,V54=1.120,0,0,100.0,,20261009_183423_l-avr54-scada
+l-avr54-simple-min,avr,54,simple-min,5,3,4,0.5,1,4.066667,54,V54=1.120,150,0,49.7,56,20261009_182820_l-avr54-simple-min
+l-avr54-simple-red,avr,54,simple-red,5,3,4,0.5,1,4.066667,54,V54=1.120,150,0,100.0,56,20261009_182826_l-avr54-simple-red
+l-avr54-stealthy-min,avr,54,stealthy-min,5,3,4,0.5,5,4.033333,54,V54=0.856,0,0,100.0,49 53 56,20261009_182830_l-avr54-stealthy-min
+l-avr54-stealthy-red,avr,54,stealthy-red,5,3,4,0.5,5,4.033333,54,V54=0.856,0,0,100.0,49 53 56 59,20261009_182835_l-avr54-stealthy-red
+l-avr59-ctl,avr,59,ctl,6,1,3,0.5,1,4.066667,59,V59=1.120,0,0,100.0,,20261009_182855_l-avr59-ctl
+l-avr59-delay-min,avr,59,delay-min,6,1,3,5.5,1,9.033333,59,V59=1.120,0,0,49.7,56,20261009_182916_l-avr59-delay-min
+l-avr59-delay-red,avr,59,delay-red,6,1,3,5.5,1,9.033333,59,V59=1.120,0,0,49.7,56 59 63,20261009_182919_l-avr59-delay-red
+l-avr59-drop-min,avr,59,drop-min,6,1,3,5.5,1,9.033333,59,V59=1.120,0,0,49.7,56,20261009_182921_l-avr59-drop-min
+l-avr59-drop-red,avr,59,drop-red,6,1,3,5.5,1,9.033333,59,V59=1.120,0,0,49.7,56 59 63,20261009_182925_l-avr59-drop-red
+l-avr59-noctl,avr,59,noctl,6,1,3,6.0,0,,,,0,0,100.0,,20261009_182850_l-avr59-noctl
+l-avr59-scada,avr,59,scada,6,1,3,2.5,3,4.066667,59,V59=1.120,0,0,100.0,,20261009_183423_l-avr59-scada
+l-avr59-simple-min,avr,59,simple-min,6,1,3,5.5,1,9.033333,59,V59=1.120,150,0,49.7,56,20261009_182856_l-avr59-simple-min
+l-avr59-simple-red,avr,59,simple-red,6,1,3,0.5,1,4.066667,59,V59=1.120,149,0,100.0,59,20261009_182901_l-avr59-simple-red
+l-avr59-stealthy-min,avr,59,stealthy-min,6,1,3,0.5,5,4.033333,59,V59=0.885,0,0,100.0,56,20261009_182906_l-avr59-stealthy-min
+l-avr59-stealthy-red,avr,59,stealthy-red,6,1,3,5.5,1,9.033333,59,V59=1.120,0,0,100.0,56 59 63,20261009_182912_l-avr59-stealthy-red
+l-avr66-ctl,avr,66,ctl,4,2,3,0.5,1,4.066667,66,V66=1.120,0,0,100.0,,20261009_182635_l-avr66-ctl
+l-avr66-delay-min,avr,66,delay-min,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,49.7,49 62,20261009_182651_l-avr66-delay-min
+l-avr66-delay-red,avr,66,delay-red,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,49.7,49 62 66,20261009_182656_l-avr66-delay-red
+l-avr66-drop-min,avr,66,drop-min,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,49.7,49 62,20261009_182657_l-avr66-drop-min
+l-avr66-drop-red,avr,66,drop-red,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,49.7,49 62 66,20261009_182702_l-avr66-drop-red
+l-avr66-noctl,avr,66,noctl,4,2,3,6.0,0,,,,0,0,100.0,,20261009_182630_l-avr66-noctl
+l-avr66-scada,avr,66,scada,4,2,3,2.5,3,4.066667,66,V66=1.120,0,0,100.0,,20261009_183412_l-avr66-scada
+l-avr66-simple-min,avr,66,simple-min,4,2,3,0.5,1,4.066667,66,V66=1.120,150,0,49.7,49,20261009_182636_l-avr66-simple-min
+l-avr66-simple-red,avr,66,simple-red,4,2,3,0.5,1,4.066667,66,V66=1.120,15,0,100.0,66,20261009_182642_l-avr66-simple-red
+l-avr66-stealthy-min,avr,66,stealthy-min,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,100.0,49 62,20261009_182645_l-avr66-stealthy-min
+l-avr66-stealthy-red,avr,66,stealthy-red,4,2,3,5.5,1,9.033333,66,V66=1.120,0,0,100.0,49 62 66,20261009_182649_l-avr66-stealthy-red
+l-avr77-ctl,avr,77,ctl,6,3,3,0.5,2,4.066667,77,V77=1.120,0,0,100.0,,20261009_182932_l-avr77-ctl
+l-avr77-delay-min,avr,77,delay-min,6,3,3,5.5,2,9.033333,77,V77=1.120,0,0,49.7,75 77 80,20261009_182948_l-avr77-delay-min
+l-avr77-delay-red,avr,77,delay-red,6,3,3,0.5,2,4.066667,77,V78=1.105,0,0,49.7,75 77 80,20261009_182952_l-avr77-delay-red
+l-avr77-drop-min,avr,77,drop-min,6,3,3,5.5,2,9.033333,77,V77=1.120,0,0,49.7,75 77 80,20261009_182954_l-avr77-drop-min
+l-avr77-drop-red,avr,77,drop-red,6,3,3,0.5,2,4.066667,77,V78=1.105,0,0,49.7,75 77 80,20261009_182958_l-avr77-drop-red
+l-avr77-noctl,avr,77,noctl,6,3,3,6.0,0,,,,0,0,100.0,,20261009_182927_l-avr77-noctl
+l-avr77-scada,avr,77,scada,6,3,3,2.5,4,4.066667,77,V77=1.120,0,0,100.0,,20261009_183429_l-avr77-scada
+l-avr77-simple-min,avr,77,simple-min,6,3,3,0.5,2,4.066667,77,V77=1.120,147,0,50.7,77,20261009_182933_l-avr77-simple-min
+l-avr77-simple-red,avr,77,simple-red,6,3,3,0.5,2,4.066667,77,V77=1.120,15,0,100.0,77,20261009_182938_l-avr77-simple-red
+l-avr77-stealthy-min,avr,77,stealthy-min,6,3,3,0.5,2,4.066667,77,V78=1.104,0,0,100.0,75 77 80,20261009_182942_l-avr77-stealthy-min
+l-avr77-stealthy-red,avr,77,stealthy-red,6,3,3,0.5,2,4.066667,77,V78=1.105,0,0,100.0,75 77 80,20261009_182946_l-avr77-stealthy-red
+l-avr8-ctl,avr,8,ctl,3,2,3,0.5,1,4.066667,8,V8=1.120,0,0,100.0,,20261009_182445_l-avr8-ctl
+l-avr8-delay-min,avr,8,delay-min,3,2,3,5.5,1,9.033333,8,V8=1.120,0,0,49.7,5 9,20261009_182504_l-avr8-delay-min
+l-avr8-delay-red,avr,8,delay-red,3,2,3,0.5,1,4.066667,8,V9=1.098,0,0,49.7,5 9 30,20261009_182510_l-avr8-delay-red
+l-avr8-drop-min,avr,8,drop-min,3,2,3,5.5,1,9.033333,8,V8=1.120,0,0,49.7,5 9,20261009_182510_l-avr8-drop-min
+l-avr8-drop-red,avr,8,drop-red,3,2,3,0.5,1,4.066667,8,V9=1.098,0,0,49.7,5 9 30,20261009_182517_l-avr8-drop-red
+l-avr8-noctl,avr,8,noctl,3,2,3,6.0,0,,,,0,0,100.0,,20261009_182442_l-avr8-noctl
+l-avr8-scada,avr,8,scada,3,2,3,2.5,3,4.066667,8,V8=1.120,0,0,100.0,,20261009_183405_l-avr8-scada
+l-avr8-simple-min,avr,8,simple-min,3,2,3,0.5,1,4.066667,8,V8=1.121,150,0,49.7,5,20261009_182447_l-avr8-simple-min
+l-avr8-simple-red,avr,8,simple-red,3,2,3,0.5,1,4.066667,8,V8=1.120,150,0,100.0,5,20261009_182451_l-avr8-simple-red
+l-avr8-stealthy-min,avr,8,stealthy-min,3,2,3,0.5,3,4.033333,8,V8=0.915,0,0,100.0,5 9,20261009_182457_l-avr8-stealthy-min
+l-avr8-stealthy-red,avr,8,stealthy-red,3,2,3,0.5,3,4.033333,8,V8=0.915,0,0,100.0,5 9 30,20261009_182503_l-avr8-stealthy-red
+l-avr80-ctl,avr,80,ctl,7,2,4,0.5,1,4.066667,80,V80=1.120,0,0,100.0,,20261009_183041_l-avr80-ctl
+l-avr80-delay-min,avr,80,delay-min,7,2,4,5.5,1,9.033333,80,V80=1.120,0,0,49.7,77 80,20261009_183054_l-avr80-delay-min
+l-avr80-delay-red,avr,80,delay-red,7,2,4,5.5,1,9.033333,80,V80=1.120,0,0,49.7,77 79 80 96,20261009_183100_l-avr80-delay-red
+l-avr80-drop-min,avr,80,drop-min,7,2,4,5.5,1,9.033333,80,V80=1.120,0,0,49.7,77 80,20261009_183100_l-avr80-drop-min
+l-avr80-drop-red,avr,80,drop-red,7,2,4,5.5,1,9.033333,80,V80=1.120,0,0,49.7,77 79 80 96,20261009_183106_l-avr80-drop-red
+l-avr80-noctl,avr,80,noctl,7,2,4,6.0,0,,,,0,0,100.0,,20261009_183035_l-avr80-noctl
+l-avr80-scada,avr,80,scada,7,2,4,2.5,3,4.066667,80,V80=1.120,0,0,100.0,,20261009_183435_l-avr80-scada
+l-avr80-simple-min,avr,80,simple-min,7,2,4,0.5,1,4.066667,80,V80=1.119,15,0,95.0,80,20261009_183041_l-avr80-simple-min
+l-avr80-simple-red,avr,80,simple-red,7,2,4,0.5,1,4.066667,80,V80=1.120,15,0,100.0,80,20261009_183047_l-avr80-simple-red
+l-avr80-stealthy-min,avr,80,stealthy-min,7,2,4,5.5,1,9.033333,80,V80=1.120,6,0,98.0,77 80,20261009_183047_l-avr80-stealthy-min
+l-avr80-stealthy-red,avr,80,stealthy-red,7,2,4,5.5,1,9.033333,80,V80=1.120,0,0,100.0,77 79 80 96,20261009_183053_l-avr80-stealthy-red
+l-avr87-ctl,avr,87,ctl,1,1,2,0.5,1,4.066667,87,V87=1.120,0,0,100.0,,20261009_182255_l-avr87-ctl
+l-avr87-delay-min,avr,87,delay-min,1,1,2,5.5,1,9.033333,87,V87=1.118,0,0,49.7,86,20261009_182312_l-avr87-delay-min
+l-avr87-delay-red,avr,87,delay-red,1,1,2,5.5,1,9.033333,87,V87=1.120,0,0,49.7,86 87,20261009_182318_l-avr87-delay-red
+l-avr87-drop-min,avr,87,drop-min,1,1,2,5.5,1,9.033333,87,V87=1.118,0,0,49.7,86,20261009_182318_l-avr87-drop-min
+l-avr87-drop-red,avr,87,drop-red,1,1,2,5.5,1,9.033333,87,V87=1.120,0,0,49.7,86 87,20261009_182325_l-avr87-drop-red
+l-avr87-noctl,avr,87,noctl,1,1,2,6.0,0,,,,0,0,100.0,,20261009_182253_l-avr87-noctl
+l-avr87-scada,avr,87,scada,1,1,2,2.5,3,4.066667,87,V87=1.120,0,0,100.0,,20261009_183354_l-avr87-scada
+l-avr87-simple-min,avr,87,simple-min,1,1,2,0.5,3,4.033333,87,V87=0.914,0,0,100.0,86,20261009_182259_l-avr87-simple-min
+l-avr87-simple-red,avr,87,simple-red,1,1,2,0.5,1,4.066667,87,V87=1.120,15,0,100.0,87,20261009_182301_l-avr87-simple-red
+l-avr87-stealthy-min,avr,87,stealthy-min,1,1,2,0.5,3,4.033333,87,V87=0.914,0,0,100.0,86,20261009_182305_l-avr87-stealthy-min
+l-avr87-stealthy-red,avr,87,stealthy-red,1,1,2,5.5,1,9.033333,87,V87=1.120,0,0,100.0,86 87,20261009_182309_l-avr87-stealthy-red
+l-avr89-ctl,avr,89,ctl,4,2,3,0.5,1,4.066667,89,V89=1.120,0,0,100.0,,20261009_182709_l-avr89-ctl
+l-avr89-delay-min,avr,89,delay-min,4,2,3,5.5,1,9.033333,89,V89=1.118,0,0,49.7,85 90,20261009_182725_l-avr89-delay-min
+l-avr89-delay-red,avr,89,delay-red,4,2,3,5.5,1,9.033333,89,V89=1.120,0,0,49.7,85 89 92,20261009_182729_l-avr89-delay-red
+l-avr89-drop-min,avr,89,drop-min,4,2,3,5.5,1,9.033333,89,V89=1.118,0,0,49.7,85 90,20261009_182731_l-avr89-drop-min
+l-avr89-drop-red,avr,89,drop-red,4,2,3,5.5,1,9.033333,89,V89=1.120,0,0,49.7,85 89 92,20261009_182736_l-avr89-drop-red
+l-avr89-noctl,avr,89,noctl,4,2,3,6.0,0,,,,0,0,100.0,,20261009_182703_l-avr89-noctl
+l-avr89-scada,avr,89,scada,4,2,3,2.5,3,4.066667,89,V89=1.120,0,0,100.0,,20261009_183417_l-avr89-scada
+l-avr89-simple-min,avr,89,simple-min,4,2,3,0.5,1,4.066667,89,V89=1.120,150,0,49.7,90,20261009_182710_l-avr89-simple-min
+l-avr89-simple-red,avr,89,simple-red,4,2,3,0.5,1,4.066667,89,V89=1.120,15,0,100.0,89,20261009_182715_l-avr89-simple-red
+l-avr89-stealthy-min,avr,89,stealthy-min,4,2,3,0.5,4,4.033333,89,V89=0.904,0,0,100.0,85 90,20261009_182720_l-avr89-stealthy-min
+l-avr89-stealthy-red,avr,89,stealthy-red,4,2,3,5.5,1,9.033333,89,V89=1.120,0,0,100.0,85 89 92,20261009_182723_l-avr89-stealthy-red
+l-avr90-ctl,avr,90,ctl,2,1,2,0.5,1,4.066667,90,V90=1.120,0,0,100.0,,20261009_182407_l-avr90-ctl
+l-avr90-delay-min,avr,90,delay-min,2,1,2,5.5,1,9.033333,90,V90=1.118,0,0,49.7,90,20261009_182430_l-avr90-delay-min
+l-avr90-delay-red,avr,90,delay-red,2,1,2,5.5,1,9.033333,90,V90=1.120,0,0,49.7,89 91,20261009_182432_l-avr90-delay-red
+l-avr90-drop-min,avr,90,drop-min,2,1,2,5.5,1,9.033333,90,V90=1.118,0,0,49.7,90,20261009_182435_l-avr90-drop-min
+l-avr90-drop-red,avr,90,drop-red,2,1,2,5.5,1,9.033333,90,V90=1.120,0,0,49.7,89 91,20261009_182438_l-avr90-drop-red
+l-avr90-noctl,avr,90,noctl,2,1,2,6.0,0,,,,0,0,100.0,,20261009_182400_l-avr90-noctl
+l-avr90-scada,avr,90,scada,2,1,2,2.5,3,4.066667,90,V90=1.120,0,0,100.0,,20261009_183400_l-avr90-scada
+l-avr90-simple-min,avr,90,simple-min,2,1,2,6.0,9,4.366667,91,V91=0.880,150,0,49.7,90,20261009_182407_l-avr90-simple-min
+l-avr90-simple-red,avr,90,simple-red,2,1,2,0.5,1,4.066667,90,V90=1.120,150,0,100.0,91,20261009_182414_l-avr90-simple-red
+l-avr90-stealthy-min,avr,90,stealthy-min,2,1,2,5.5,1,9.033333,90,V90=1.118,0,0,100.0,90,20261009_182418_l-avr90-stealthy-min
+l-avr90-stealthy-red,avr,90,stealthy-red,2,1,2,0.5,5,4.033333,90,V90=0.885,0,0,100.0,89 91,20261009_182425_l-avr90-stealthy-red
+l-load118-ctl,load,118,ctl,2,1,2,1.5,2,4.066667,76,V118=0.931,0,0,100.0,,20261009_183145_l-load118-ctl
+l-load118-delay-min,load,118,delay-min,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,49.7,75,20261009_183158_l-load118-delay-min
+l-load118-delay-red,load,118,delay-red,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,49.7,75 118,20261009_183203_l-load118-delay-red
+l-load118-drop-min,load,118,drop-min,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,49.7,75,20261009_183204_l-load118-drop-min
+l-load118-drop-red,load,118,drop-red,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,49.7,75 118,20261009_183210_l-load118-drop-red
+l-load118-noctl,load,118,noctl,2,1,2,6.0,0,,,,0,0,100.0,,20261009_183139_l-load118-noctl
+l-load118-simple-min,load,118,simple-min,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,100.0,75,20261009_183146_l-load118-simple-min
+l-load118-simple-red,load,118,simple-red,2,1,2,2.0,2,4.066667,76,V118=0.932,13,0,100.0,118,20261009_183151_l-load118-simple-red
+l-load118-stealthy-min,load,118,stealthy-min,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,100.0,75,20261009_183151_l-load118-stealthy-min
+l-load118-stealthy-red,load,118,stealthy-red,2,1,2,6.0,1,9.033333,76,V118=0.931,0,0,100.0,75 118,20261009_183157_l-load118-stealthy-red
+l-load21-ctl,load,21,ctl,2,1,2,6.0,2,4.066667,19,V21=0.925,0,0,100.0,,20261009_183216_l-load21-ctl
+l-load21-delay-min,load,21,delay-min,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,49.7,20,20261009_183230_l-load21-delay-min
+l-load21-delay-red,load,21,delay-red,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,49.7,21 22,20261009_183235_l-load21-delay-red
+l-load21-drop-min,load,21,drop-min,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,49.7,20,20261009_183236_l-load21-drop-min
+l-load21-drop-red,load,21,drop-red,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,49.7,21 22,20261009_183241_l-load21-drop-red
+l-load21-noctl,load,21,noctl,2,1,2,6.0,0,,,,0,0,100.0,,20261009_183210_l-load21-noctl
+l-load21-simple-min,load,21,simple-min,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,100.0,20,20261009_183217_l-load21-simple-min
+l-load21-simple-red,load,21,simple-red,2,1,2,6.0,2,4.066667,19,V21=0.926,43,0,100.0,21,20261009_183222_l-load21-simple-red
+l-load21-stealthy-min,load,21,stealthy-min,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,100.0,20,20261009_183223_l-load21-stealthy-min
+l-load21-stealthy-red,load,21,stealthy-red,2,1,2,6.0,1,9.033333,19,V21=0.926,0,0,100.0,21 22,20261009_183229_l-load21-stealthy-red
+l-load52-ctl,load,52,ctl,2,1,3,3.0,2,4.066667,49,V52=0.933,0,0,100.0,,20261009_183248_l-load52-ctl
+l-load52-delay-min,load,52,delay-min,2,1,3,5.5,2,9.033333,49,V52=0.933,0,0,49.7,53,20261009_183302_l-load52-delay-min
+l-load52-delay-red,load,52,delay-red,2,1,3,5.5,2,9.033333,54,V53=0.936,0,0,49.7,51 52 53,20261009_183308_l-load52-delay-red
+l-load52-drop-min,load,52,drop-min,2,1,3,5.5,2,9.033333,49,V52=0.933,0,0,49.7,53,20261009_183308_l-load52-drop-min
+l-load52-drop-red,load,52,drop-red,2,1,3,5.5,2,9.033333,54,V53=0.936,0,0,49.7,51 52 53,20261009_183315_l-load52-drop-red
+l-load52-noctl,load,52,noctl,2,1,3,6.0,0,,,,0,0,100.0,,20261009_183242_l-load52-noctl
+l-load52-simple-min,load,52,simple-min,2,1,3,5.5,2,4.066667,54,V53=0.935,0,0,100.0,53,20261009_183248_l-load52-simple-min
+l-load52-simple-red,load,52,simple-red,2,1,3,3.0,2,4.066667,54,V53=0.936,11,0,100.0,52,20261009_183254_l-load52-simple-red
+l-load52-stealthy-min,load,52,stealthy-min,2,1,3,5.5,2,4.066667,54,V53=0.935,0,0,100.0,53,20261009_183255_l-load52-stealthy-min
+l-load52-stealthy-red,load,52,stealthy-red,2,1,3,5.5,2,4.066667,54,V53=0.935,0,0,100.0,51 52 53,20261009_183301_l-load52-stealthy-red
+l-load95-ctl,load,95,ctl,2,1,2,6.0,1,4.066667,80,V95=0.936,0,0,100.0,,20261009_183321_l-load95-ctl
+l-load95-delay-min,load,95,delay-min,2,1,2,6.0,1,9.033333,80,V95=0.936,0,0,49.7,94,20261009_183341_l-load95-delay-min
+l-load95-delay-red,load,95,delay-red,2,1,2,6.0,1,9.033333,80,V95=0.937,0,0,49.7,94 96,20261009_183341_l-load95-delay-red
+l-load95-drop-min,load,95,drop-min,2,1,2,6.0,1,9.033333,80,V95=0.936,0,0,49.7,94,20261009_183347_l-load95-drop-min
+l-load95-drop-red,load,95,drop-red,2,1,2,6.0,1,9.033333,80,V95=0.937,0,0,49.7,94 96,20261009_183348_l-load95-drop-red
+l-load95-noctl,load,95,noctl,2,1,2,6.0,0,,,,0,0,100.0,,20261009_183315_l-load95-noctl
+l-load95-simple-min,load,95,simple-min,2,1,2,6.0,1,9.033333,80,V95=0.936,0,0,100.0,94,20261009_183322_l-load95-simple-min
+l-load95-simple-red,load,95,simple-red,2,1,2,6.0,1,4.066667,80,V95=0.936,150,0,100.0,94,20261009_183328_l-load95-simple-red
+l-load95-stealthy-min,load,95,stealthy-min,2,1,2,6.0,1,9.033333,80,V95=0.936,0,0,100.0,94,20261009_183328_l-load95-stealthy-min
+l-load95-stealthy-red,load,95,stealthy-red,2,1,2,6.0,1,9.033333,80,V95=0.937,0,0,100.0,94 96,20261009_183334_l-load95-stealthy-red

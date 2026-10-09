@@ -1,0 +1,721 @@
+# IEEE 118-bus location campaign: AVR faults at 16 generator buses and load steps at 4 load buses,
+# each with every attack and both placements (seed 1), plus the SCADA-setpoint controller at 17 AVR locations.
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+control: {bdd: true, voltage_control: true}
+scenarios:
+- name: l-avr10-noctl
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr10-ctl
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+- name: l-avr10-simple-min
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-simple-red
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-min
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-red
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-min
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-red
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-drop-min
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: drop, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-drop-red
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-noctl
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr87-ctl
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+- name: l-avr87-simple-min
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-simple-red
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-stealthy-min
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-stealthy-red
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-delay-min
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  attack: {type: delay, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-delay-red
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-drop-min
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  attack: {type: drop, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr87-drop-red
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 87, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-noctl
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr26-ctl
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+- name: l-avr26-simple-min
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-simple-red
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-stealthy-min
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-stealthy-red
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-delay-min
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  attack: {type: delay, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-delay-red
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-drop-min
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  attack: {type: drop, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr26-drop-red
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 26, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-noctl
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr90-ctl
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+- name: l-avr90-simple-min
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-simple-red
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-min
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-red
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-min
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-red
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-drop-min
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: drop, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-drop-red
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-noctl
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr8-ctl
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+- name: l-avr8-simple-min
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-simple-red
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-min
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-red
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-min
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-red
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-drop-min
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: drop, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-drop-red
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-noctl
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr25-ctl
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+- name: l-avr25-simple-min
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-simple-red
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-min
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-red
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-min
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-red
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-drop-min
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: drop, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-drop-red
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-noctl
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr40-ctl
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+- name: l-avr40-simple-min
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-simple-red
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-stealthy-min
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-stealthy-red
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-delay-min
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  attack: {type: delay, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-delay-red
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-drop-min
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  attack: {type: drop, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr40-drop-red
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 40, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-noctl
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr66-ctl
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+- name: l-avr66-simple-min
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-simple-red
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-stealthy-min
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-stealthy-red
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-delay-min
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  attack: {type: delay, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-delay-red
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-drop-min
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  attack: {type: drop, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr66-drop-red
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 66, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-noctl
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr89-ctl
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+- name: l-avr89-simple-min
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-simple-red
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-stealthy-min
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-stealthy-red
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-delay-min
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  attack: {type: delay, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-delay-red
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-drop-min
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  attack: {type: drop, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr89-drop-red
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 89, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-noctl
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr15-ctl
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+- name: l-avr15-simple-min
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-simple-red
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-stealthy-min
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-stealthy-red
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-delay-min
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  attack: {type: delay, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-delay-red
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-drop-min
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  attack: {type: drop, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr15-drop-red
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 15, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-noctl
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr54-ctl
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+- name: l-avr54-simple-min
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-simple-red
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-min
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-red
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-min
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-red
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-drop-min
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: drop, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-drop-red
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-noctl
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr59-ctl
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+- name: l-avr59-simple-min
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-simple-red
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-min
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-red
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-min
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-red
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-drop-min
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: drop, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-drop-red
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-noctl
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr77-ctl
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+- name: l-avr77-simple-min
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-simple-red
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-min
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-red
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-min
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-red
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-drop-min
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: drop, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-drop-red
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-noctl
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr12-ctl
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+- name: l-avr12-simple-min
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-simple-red
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-min
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-red
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-min
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-red
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-drop-min
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: drop, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-drop-red
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-noctl
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr80-ctl
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+- name: l-avr80-simple-min
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-simple-red
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-stealthy-min
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-stealthy-red
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-delay-min
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  attack: {type: delay, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-delay-red
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-drop-min
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  attack: {type: drop, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr80-drop-red
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 80, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-noctl
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-avr100-ctl
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+- name: l-avr100-simple-min
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-simple-red
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-stealthy-min
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-stealthy-red
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-delay-min
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  attack: {type: delay, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-delay-red
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-drop-min
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  attack: {type: drop, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr100-drop-red
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 100, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-noctl
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-load118-ctl
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+- name: l-load118-simple-min
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-simple-red
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-min
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-red
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-min
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-red
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-drop-min
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: drop, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-drop-red
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-noctl
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-load21-ctl
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+- name: l-load21-simple-min
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-simple-red
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-stealthy-min
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-stealthy-red
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-delay-min
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  attack: {type: delay, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-delay-red
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-drop-min
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  attack: {type: drop, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load21-drop-red
+  event: {type: load_step, bus: 21, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 21, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-noctl
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-load52-ctl
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+- name: l-load52-simple-min
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-simple-red
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-min
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-red
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-min
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-red
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-drop-min
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: drop, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-drop-red
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-noctl
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  control: {bdd: true, voltage_control: false}
+- name: l-load95-ctl
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+- name: l-load95-simple-min
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-simple-red
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-stealthy-min
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-stealthy-red
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-delay-min
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  attack: {type: delay, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-delay-red
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-drop-min
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  attack: {type: drop, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load95-drop-red
+  event: {type: load_step, bus: 95, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 95, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-scada
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr87-scada
+  event: {type: avr_fault, bus: 87, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr26-scada
+  event: {type: avr_fault, bus: 26, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr90-scada
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr8-scada
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr25-scada
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr40-scada
+  event: {type: avr_fault, bus: 40, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr66-scada
+  event: {type: avr_fault, bus: 66, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr89-scada
+  event: {type: avr_fault, bus: 89, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr15-scada
+  event: {type: avr_fault, bus: 15, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr54-scada
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr59-scada
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr77-scada
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr12-scada
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr80-scada
+  event: {type: avr_fault, bus: 80, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr100-scada
+  event: {type: avr_fault, bus: 100, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}
+- name: l-avr49-scada
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, setpoint_source: scada}

@@ -31,6 +31,17 @@ def rows(path):
         return list(csv.DictReader(f))
 
 
+def violation_time(d, args):
+    """Time with some true bus voltage outside the limits. Each logged step stands for
+    [t, t + grid_step); the sample at the end of the run is not counted."""
+    n = 0
+    for r in rows(os.path.join(d, "grid_truth.csv")):
+        if float(r["t"]) < args["duration"] - 1e-9 and any(
+                not (args["vmin"] <= float(v) <= args["vmax"]) for k, v in r.items() if k != "t"):
+            n += 1
+    return round(n * args["grid_step"], 3)
+
+
 def latest_runs():
     found = {}
     for d in sorted(glob.glob(os.path.join(RUNS, "2*_*"))):
@@ -63,7 +74,7 @@ def metrics(name, d):
         "placement": "minimum" if a["placement"] == 1 else "redundant",
         "attack": a["attack"], "bdd_removal": a["bdd"], "control": a["control"],
         "latency_ms": a["latency"], "pdc_wait_ms": a["pdc_wait"], "loss": a["loss"], "mpi_np": a["mpi_np"],
-        "violation_s": s["grid"]["true_violation_time_s"],
+        "violation_s": violation_time(d, a),
         "cmd_issued_t": first["issued_t"] if first else "",
         "cmd_delivered_t": first["delivered_t"] if first else "",
         "cmd_applied_t": first["t_applied"] if first else "",

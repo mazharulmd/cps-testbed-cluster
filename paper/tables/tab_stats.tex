@@ -8,17 +8,17 @@
 \toprule
 Comparison (A vs.\ B) & Mean A & Mean B $-$ A & $p$ \\
 \midrule
-Voltage control (no control vs.\ control) & 0.5\,s & +6.0\,s & $1.1\times10^{-5}$ \\
-Removal (simple FDI, 32 PMUs) & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
-Simple FDI with removal vs.\ no attack & 0.5\,s & +0.0\,s & 1 \\
-Stealthy FDI vs.\ no attack (32 PMUs) & 0.5\,s & +0.0\,s & 1 \\
-Placement under delay & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
-Placement under drop & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
-Placement under 5\% loss (observable sets) & 85.3\,\% & -64.8 [-66.4, -63.1]\,\% & $1.1\times10^{-5}$ \\
-Latency 10 vs.\ 20\,ms (complete sets) & 100.0\,\% & -32.2 [-50.0, -14.3]\,\% & 0.003 \\
-Wait 40 vs.\ 20\,ms at $L$ = 40\,ms (complete sets) & 85.5\,\% & -85.5 [-98.3, -72.7]\,\% & $1.1\times10^{-5}$ \\
-Wait 40 vs.\ 10\,ms at $L$ = 40\,ms (violation) & 0.5\,s & +5.4 [+4.1, +6.7]\,s & $1.2\times10^{-4}$ \\
-Latency 10 vs.\ 80\,ms (violation) & 0.5\,s & +5.4 [+4.1, +6.7]\,s & $1.2\times10^{-4}$ \\
+Control (A) vs.\ no control (B) & 0.5\,s & +5.5\,s & $1.1\times10^{-5}$ \\
+Simple FDI, 32 PMUs: removal (A) vs.\ no removal (B) & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
+No attack (A) vs.\ simple FDI with removal (B) & 0.5\,s & +0.0\,s & 1 \\
+No attack (A) vs.\ stealthy FDI (B), 32 PMUs & 0.5\,s & +0.0\,s & 1 \\
+Delay: 68 PMUs (A) vs.\ 32 PMUs (B) & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
+Drop: 68 PMUs (A) vs.\ 32 PMUs (B) & 0.5\,s & +5.0\,s & $1.1\times10^{-5}$ \\
+5\% loss, observable sets: 68 PMUs (A) vs.\ 32 PMUs (B) & 85.3\,\% & -64.8 [-66.4, -63.1]\,\% & $1.1\times10^{-5}$ \\
+Complete sets: $L$ = 10\,ms (A) vs.\ 20\,ms (B) & 100.0\,\% & -32.2 [-50.0, -14.3]\,\% & 0.003 \\
+Complete sets at $L$ = 40\,ms: $w$ = 40\,ms (A) vs.\ 20\,ms (B) & 85.5\,\% & -85.5 [-98.3, -72.7]\,\% & $1.1\times10^{-5}$ \\
+Violation at $L$ = 40\,ms: $w$ = 40\,ms (A) vs.\ 10\,ms (B) & 0.5\,s & +5.0 [+3.8, +6.1]\,s & $1.2\times10^{-4}$ \\
+Violation: $L$ = 10\,ms (A) vs.\ 80\,ms (B) & 0.5\,s & +5.0 [+3.8, +6.1]\,s & $1.2\times10^{-4}$ \\
 \bottomrule
 \end{tabular}
 \end{table}

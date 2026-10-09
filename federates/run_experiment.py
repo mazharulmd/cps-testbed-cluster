@@ -57,6 +57,9 @@ def parse_args(argv=None):
     a.add_argument("--control", default="on", choices=["on", "off"])
     a.add_argument("--vmin", type=float, default=0.94)
     a.add_argument("--vmax", type=float, default=1.08)
+    a.add_argument("--setpoint-source", default="case", choices=["case", "scada"],
+                   help="setpoint the control center steps from: its dispatch copy from the case (case), "
+                        "or the reference actually set at the generator, as SCADA telemetry would report (scada)")
     a.add_argument("--event", default="none",
                    help="none | avr:<gen bus>:<vset>:<t> | load:<bus>:<percent>:<t> (qss) | "
                         "fault:<bus>:<duration s>:<t> | line:<from>:<to>:<t> | gen:<bus>:<t> (dynamic)")
@@ -155,7 +158,8 @@ def build_configs(args, run_dir, cl, port):
            "load": {"amplitude": 0.02, "period": 20.0, "walk": 0.002}, "event": event,
            "se_sigma": 0.002, "bdd_alpha": 0.01, "bdd": args.bdd == "on",
            "control": {"enabled": args.control == "on", "vmin": args.vmin, "vmax": args.vmax, "step": 0.01,
-                       "deadband": 0.003, "cooldown": 1.0, "vset_min": 0.95, "vset_max": 1.10},
+                       "deadband": 0.003, "cooldown": 1.0, "vset_min": 0.95, "vset_max": 1.10,
+                       "setpoint_source": args.setpoint_source},
            "mpi": {"np": args.mpi_np, "hostfile": cl["mpi"].get("hostfile") if cl["nodes"] else None},
            "helics_port": port, "helics_core_init": cluster.core_init(cl, cl["placement"].get("grid", cl["head"]), port),
            "cc_core_init": cluster.core_init(cl, cl["placement"].get("cc", cl["head"]), port)}
@@ -248,7 +252,9 @@ def analyze(run_dir, meta, codes, wall):
         i = int(np.searchsorted(tt, t + 1e-9) - 1)
         return float(truth[max(i, 0)][f"v{bus}"])
 
-    viol_steps = [r for r in truth if any(not (vmin <= float(v) <= vmax) for k, v in r.items() if k != "t")]
+    # each logged step stands for [t, t + grid_step); the sample at the end of the run is not counted
+    viol_steps = [r for r in truth if float(r["t"]) < args["duration"] - 1e-9
+                  and any(not (vmin <= float(v) <= vmax) for k, v in r.items() if k != "t")]
     s["grid"] = {"steps": len(steps), "solver_used": sorted({r["solver"] for r in steps}),
                  "all_converged": all(r["converged"] == "True" for r in steps),
                  "true_violation_time_s": round(len(viol_steps) * args["grid_step"], 3),

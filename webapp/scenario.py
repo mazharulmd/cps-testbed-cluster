@@ -68,6 +68,7 @@ class Control(Strict):
     voltage_control: bool = True
     vmin: float = Field(0.94, ge=0.5, le=1.0)
     vmax: float = Field(1.08, ge=1.0, le=1.5)
+    setpoint_source: Literal["case", "scada"] = "case"   # what the controller steps from
 
 
 class Scenario(Strict):
@@ -118,7 +119,7 @@ class Scenario(Strict):
             "attack": self.attack.type, "target": self.attack.target, "fake": self.attack.fake,
             "attack_start": self.attack.start, "attack_end": self.attack.end, "attack_delay": self.attack.delay_ms,
             "bdd": "on" if self.control.bdd else "off", "control": "on" if self.control.voltage_control else "off",
-            "vmin": self.control.vmin, "vmax": self.control.vmax, "event": ev, "seed": self.seed,
+            "vmin": self.control.vmin, "vmax": self.control.vmax, "setpoint_source": self.control.setpoint_source, "event": ev, "seed": self.seed,
         }
 
 

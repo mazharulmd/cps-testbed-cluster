@@ -20,6 +20,17 @@ def rows(path):
         return list(csv.DictReader(f))
 
 
+def violation_time(d, args):
+    """Time with some true bus voltage outside the limits. Each logged step stands for
+    [t, t + grid_step); the sample at the end of the run is not counted."""
+    n = 0
+    for r in rows(os.path.join(d, "grid_truth.csv")):
+        if float(r["t"]) < args["duration"] - 1e-9 and any(
+                not (args["vmin"] <= float(v) <= args["vmax"]) for k, v in r.items() if k != "t"):
+            n += 1
+    return round(n * args["grid_step"], 3)
+
+
 found = {}
 for d in sorted(glob.glob(os.path.join(RUNS, "2*_f*"))):
     m = NAME.match(os.path.basename(d))
@@ -39,7 +50,7 @@ for name, (d, m) in sorted(found.items()):
         "name": name, "event": m.group(3), "scenario": m.group(4), "seed": int(m.group(2)),
         "mode": a["mode"], "placement": "minimum" if a["placement"] == 1 else "redundant",
         "attack": a["attack"], "target": a["target"], "bdd_removal": a["bdd"], "control": a["control"],
-        "violation_s": s["grid"]["true_violation_time_s"],
+        "violation_s": violation_time(d, a),
         "commands": len(cmds),
         "cmd_issued_t": cmds[0]["issued_t"] if cmds else "",
         "min_v_true": min(float(r["min_v"]) for r in steps),

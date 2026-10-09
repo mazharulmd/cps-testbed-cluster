@@ -1,0 +1,16 @@
+\begin{table}[t]
+\caption{Control-Center Computing Time per PDC Set, IEEE 118-Bus System}
+\label{tab:bench}
+\centering
+\footnotesize
+\begin{tabular}{@{}llccc@{}}
+\toprule
+PMUs & Set & Median (ms) & p95 (ms) & Max (ms) \\
+\midrule
+32 & clean & 0.91 & 1.50 & 3.90 \\
+32 & FDI, PMU 49 removed & 19.39 & 29.58 & 37.32 \\
+68 & clean & 0.85 & 1.53 & 2.30 \\
+68 & FDI, PMU 49 removed & 37.60 & 51.46 & 56.84 \\
+\bottomrule
+\end{tabular}
+\end{table}

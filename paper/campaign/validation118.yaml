@@ -1,0 +1,13 @@
+# Validation of the grid solution: the base scenario with the built-in Newton-Raphson solver
+# (compare grid_truth.csv with s01-ctl and mpi4-s01 of paper118_seeds.yaml).
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+control: {bdd: true, voltage_control: true}
+scenarios:
+  - name: val-builtin
+    solver: builtin

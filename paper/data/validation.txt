@@ -1,0 +1,4 @@
+grid steps compared: 21, buses: 118
+max |V| difference, GridPACK 1 rank vs built-in: 0.0e+00 pu
+max |V| difference, GridPACK 4 ranks vs 1 rank:  0.0e+00 pu
+voltages are logged with six decimals

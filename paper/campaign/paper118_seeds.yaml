@@ -1,0 +1,697 @@
+# IEEE 118-bus campaign of the paper: 21 scenarios x 10 seeds, plus an MPI rank sweep (225 runs).
+# Split into parts of 45 with ../scripts/split_campaign.py before uploading.
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+attack: {type: none, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+control: {bdd: true, voltage_control: true}
+scenarios:
+- name: s01-noctl
+  seed: 1
+  control: {bdd: true, voltage_control: false}
+- {name: s01-ctl, seed: 1}
+- name: s01-simple-min
+  seed: 1
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-simple-nobdd
+  seed: 1
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s01-stealthy-min
+  seed: 1
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-delay-min
+  seed: 1
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-drop-min
+  seed: 1
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-loss5-min
+  seed: 1
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s01-simple-red
+  seed: 1
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-stealthy-red
+  seed: 1
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-delay-red
+  seed: 1
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-drop-red
+  seed: 1
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s01-loss5-red
+  seed: 1
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s01-lat5
+  seed: 1
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s01-lat20
+  seed: 1
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s01-lat40
+  seed: 1
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s01-lat80
+  seed: 1
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s01-lat40-w10
+  seed: 1
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s01-lat40-w40
+  seed: 1
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s01-lat40-w60
+  seed: 1
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s01-lat40-w80
+  seed: 1
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s02-noctl
+  seed: 2
+  control: {bdd: true, voltage_control: false}
+- {name: s02-ctl, seed: 2}
+- name: s02-simple-min
+  seed: 2
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-simple-nobdd
+  seed: 2
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s02-stealthy-min
+  seed: 2
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-delay-min
+  seed: 2
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-drop-min
+  seed: 2
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-loss5-min
+  seed: 2
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s02-simple-red
+  seed: 2
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-stealthy-red
+  seed: 2
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-delay-red
+  seed: 2
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-drop-red
+  seed: 2
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s02-loss5-red
+  seed: 2
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s02-lat5
+  seed: 2
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s02-lat20
+  seed: 2
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s02-lat40
+  seed: 2
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s02-lat80
+  seed: 2
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s02-lat40-w10
+  seed: 2
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s02-lat40-w40
+  seed: 2
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s02-lat40-w60
+  seed: 2
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s02-lat40-w80
+  seed: 2
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s03-noctl
+  seed: 3
+  control: {bdd: true, voltage_control: false}
+- {name: s03-ctl, seed: 3}
+- name: s03-simple-min
+  seed: 3
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-simple-nobdd
+  seed: 3
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s03-stealthy-min
+  seed: 3
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-delay-min
+  seed: 3
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-drop-min
+  seed: 3
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-loss5-min
+  seed: 3
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s03-simple-red
+  seed: 3
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-stealthy-red
+  seed: 3
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-delay-red
+  seed: 3
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-drop-red
+  seed: 3
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s03-loss5-red
+  seed: 3
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s03-lat5
+  seed: 3
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s03-lat20
+  seed: 3
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s03-lat40
+  seed: 3
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s03-lat80
+  seed: 3
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s03-lat40-w10
+  seed: 3
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s03-lat40-w40
+  seed: 3
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s03-lat40-w60
+  seed: 3
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s03-lat40-w80
+  seed: 3
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s04-noctl
+  seed: 4
+  control: {bdd: true, voltage_control: false}
+- {name: s04-ctl, seed: 4}
+- name: s04-simple-min
+  seed: 4
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-simple-nobdd
+  seed: 4
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s04-stealthy-min
+  seed: 4
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-delay-min
+  seed: 4
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-drop-min
+  seed: 4
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-loss5-min
+  seed: 4
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s04-simple-red
+  seed: 4
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-stealthy-red
+  seed: 4
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-delay-red
+  seed: 4
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-drop-red
+  seed: 4
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s04-loss5-red
+  seed: 4
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s04-lat5
+  seed: 4
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s04-lat20
+  seed: 4
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s04-lat40
+  seed: 4
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s04-lat80
+  seed: 4
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s04-lat40-w10
+  seed: 4
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s04-lat40-w40
+  seed: 4
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s04-lat40-w60
+  seed: 4
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s04-lat40-w80
+  seed: 4
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s05-noctl
+  seed: 5
+  control: {bdd: true, voltage_control: false}
+- {name: s05-ctl, seed: 5}
+- name: s05-simple-min
+  seed: 5
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-simple-nobdd
+  seed: 5
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s05-stealthy-min
+  seed: 5
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-delay-min
+  seed: 5
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-drop-min
+  seed: 5
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-loss5-min
+  seed: 5
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s05-simple-red
+  seed: 5
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-stealthy-red
+  seed: 5
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-delay-red
+  seed: 5
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-drop-red
+  seed: 5
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s05-loss5-red
+  seed: 5
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s05-lat5
+  seed: 5
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s05-lat20
+  seed: 5
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s05-lat40
+  seed: 5
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s05-lat80
+  seed: 5
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s05-lat40-w10
+  seed: 5
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s05-lat40-w40
+  seed: 5
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s05-lat40-w60
+  seed: 5
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s05-lat40-w80
+  seed: 5
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s06-noctl
+  seed: 6
+  control: {bdd: true, voltage_control: false}
+- {name: s06-ctl, seed: 6}
+- name: s06-simple-min
+  seed: 6
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-simple-nobdd
+  seed: 6
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s06-stealthy-min
+  seed: 6
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-delay-min
+  seed: 6
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-drop-min
+  seed: 6
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-loss5-min
+  seed: 6
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s06-simple-red
+  seed: 6
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-stealthy-red
+  seed: 6
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-delay-red
+  seed: 6
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-drop-red
+  seed: 6
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s06-loss5-red
+  seed: 6
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s06-lat5
+  seed: 6
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s06-lat20
+  seed: 6
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s06-lat40
+  seed: 6
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s06-lat80
+  seed: 6
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s06-lat40-w10
+  seed: 6
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s06-lat40-w40
+  seed: 6
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s06-lat40-w60
+  seed: 6
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s06-lat40-w80
+  seed: 6
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s07-noctl
+  seed: 7
+  control: {bdd: true, voltage_control: false}
+- {name: s07-ctl, seed: 7}
+- name: s07-simple-min
+  seed: 7
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-simple-nobdd
+  seed: 7
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s07-stealthy-min
+  seed: 7
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-delay-min
+  seed: 7
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-drop-min
+  seed: 7
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-loss5-min
+  seed: 7
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s07-simple-red
+  seed: 7
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-stealthy-red
+  seed: 7
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-delay-red
+  seed: 7
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-drop-red
+  seed: 7
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s07-loss5-red
+  seed: 7
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s07-lat5
+  seed: 7
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s07-lat20
+  seed: 7
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s07-lat40
+  seed: 7
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s07-lat80
+  seed: 7
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s07-lat40-w10
+  seed: 7
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s07-lat40-w40
+  seed: 7
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s07-lat40-w60
+  seed: 7
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s07-lat40-w80
+  seed: 7
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s08-noctl
+  seed: 8
+  control: {bdd: true, voltage_control: false}
+- {name: s08-ctl, seed: 8}
+- name: s08-simple-min
+  seed: 8
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-simple-nobdd
+  seed: 8
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s08-stealthy-min
+  seed: 8
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-delay-min
+  seed: 8
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-drop-min
+  seed: 8
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-loss5-min
+  seed: 8
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s08-simple-red
+  seed: 8
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-stealthy-red
+  seed: 8
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-delay-red
+  seed: 8
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-drop-red
+  seed: 8
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s08-loss5-red
+  seed: 8
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s08-lat5
+  seed: 8
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s08-lat20
+  seed: 8
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s08-lat40
+  seed: 8
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s08-lat80
+  seed: 8
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s08-lat40-w10
+  seed: 8
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s08-lat40-w40
+  seed: 8
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s08-lat40-w60
+  seed: 8
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s08-lat40-w80
+  seed: 8
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s09-noctl
+  seed: 9
+  control: {bdd: true, voltage_control: false}
+- {name: s09-ctl, seed: 9}
+- name: s09-simple-min
+  seed: 9
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-simple-nobdd
+  seed: 9
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s09-stealthy-min
+  seed: 9
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-delay-min
+  seed: 9
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-drop-min
+  seed: 9
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-loss5-min
+  seed: 9
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s09-simple-red
+  seed: 9
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-stealthy-red
+  seed: 9
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-delay-red
+  seed: 9
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-drop-red
+  seed: 9
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s09-loss5-red
+  seed: 9
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s09-lat5
+  seed: 9
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s09-lat20
+  seed: 9
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s09-lat40
+  seed: 9
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s09-lat80
+  seed: 9
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s09-lat40-w10
+  seed: 9
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s09-lat40-w40
+  seed: 9
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s09-lat40-w60
+  seed: 9
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s09-lat40-w80
+  seed: 9
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- name: s10-noctl
+  seed: 10
+  control: {bdd: true, voltage_control: false}
+- {name: s10-ctl, seed: 10}
+- name: s10-simple-min
+  seed: 10
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-simple-nobdd
+  seed: 10
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+  control: {bdd: false, voltage_control: true}
+- name: s10-stealthy-min
+  seed: 10
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-delay-min
+  seed: 10
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-drop-min
+  seed: 10
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-loss5-min
+  seed: 10
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s10-simple-red
+  seed: 10
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-stealthy-red
+  seed: 10
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-delay-red
+  seed: 10
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-drop-red
+  seed: 10
+  pmu: {placement: redundant}
+  attack: {type: drop, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: s10-loss5-red
+  seed: 10
+  pmu: {placement: redundant}
+  network: {latency_ms: 10, loss: 0.05, pdc_wait_ms: 20}
+- name: s10-lat5
+  seed: 10
+  network: {latency_ms: 5, loss: 0, pdc_wait_ms: 20}
+- name: s10-lat20
+  seed: 10
+  network: {latency_ms: 20, loss: 0, pdc_wait_ms: 20}
+- name: s10-lat40
+  seed: 10
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 20}
+- name: s10-lat80
+  seed: 10
+  network: {latency_ms: 80, loss: 0, pdc_wait_ms: 20}
+- name: s10-lat40-w10
+  seed: 10
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 10}
+- name: s10-lat40-w40
+  seed: 10
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 40}
+- name: s10-lat40-w60
+  seed: 10
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 60}
+- name: s10-lat40-w80
+  seed: 10
+  network: {latency_ms: 40, loss: 0, pdc_wait_ms: 80}
+- {name: mpi1-s01, seed: 1, mpi_np: 1}
+- {name: mpi1-s02, seed: 2, mpi_np: 1}
+- {name: mpi1-s03, seed: 3, mpi_np: 1}
+- {name: mpi1-s04, seed: 4, mpi_np: 1}
+- {name: mpi1-s05, seed: 5, mpi_np: 1}
+- {name: mpi2-s01, seed: 1, mpi_np: 2}
+- {name: mpi2-s02, seed: 2, mpi_np: 2}
+- {name: mpi2-s03, seed: 3, mpi_np: 2}
+- {name: mpi2-s04, seed: 4, mpi_np: 2}
+- {name: mpi2-s05, seed: 5, mpi_np: 2}
+- {name: mpi4-s01, seed: 1, mpi_np: 4}
+- {name: mpi4-s02, seed: 2, mpi_np: 4}
+- {name: mpi4-s03, seed: 3, mpi_np: 4}
+- {name: mpi4-s04, seed: 4, mpi_np: 4}
+- {name: mpi4-s05, seed: 5, mpi_np: 4}

@@ -1,0 +1,5 @@
+placement,pmus,channels,case,median_ms,p95_ms,max_ms,alarm_first,removed
+minimum,32,169,clean,0.91,1.50,3.90,0,
+minimum,32,169,fdi49,19.39,29.58,37.32,1,49
+redundant,68,315,clean,0.85,1.53,2.30,0,
+redundant,68,315,fdi49,37.60,51.46,56.84,1,49

@@ -154,18 +154,23 @@ API documentation at `/docs`) and from the command line (`sudo -u cps cps-run --
 
 ## Example results (IEEE 118-bus, 10 s, AVR fault at generator 49 → 1.12 pu at t = 4 s)
 
+Values from the paper campaign (`paper/`, ten seeds per scenario, minimum PMU placement).
+
 | Scenario | Violation time | What happened |
 |---|---|---|
-| No control | 6.5 s | Violation persists to the end |
-| Control on | 0.5 s | Control center lowers generator 49 setpoint within one grid step |
-| 5% packet loss | 0.5 s | Only 18% of PDC sets complete, but estimation stays usable |
-| Simple FDI on bus 49 | 0.5 s | Detected in one frame (0.033 s); falsified PMU removed; control still acts |
-| Stealthy FDI on bus 49 | 0.5 s | Not detected (2 PMUs compromised), but neighbour bus 48 still reveals the over-voltage |
+| No control | 6.0 s | Violation persists to the end of the run |
+| Control on (dispatch setpoint) | 0.5 s | First command sets generator 49 to its dispatched 1.025 pu minus one step, replacing the faulty 1.12 pu |
+| Control on (`setpoint_source: scada`) | 2.5 s | Controller steps from the faulty reference: 1.10, 1.09, 1.08 pu at one-second intervals |
+| 5% packet loss | 0.5 s | Only 20.5% of PDC sets complete, but the frames of bus 49's PMUs arrive in most sets |
+| Simple FDI on bus 49 | 0.5 s | Detected in the first set that carries the fault; PMU 49 removed; control still acts |
+| Stealthy FDI on bus 49 | 0.5 s | Not detected (PMUs 45 and 49), but neighbour bus 48 still reveals the over-voltage |
 | Delay attack (100 ms) on PMUs 45, 49 | 5.5 s | Frames miss the PDC window; bus 49 unobserved; violation missed |
 
+Bus 49 is a well-connected bus. At 18 other fault locations, delay and drop hid the fault at every
+location with 32 PMUs and at 16 with 68 PMUs; see `paper/` for the full campaign (1087 runs).
 With minimum placement some buses are observed through a single *critical measurement*;
-falsifying it is invisible to bad data detection (e.g. IEEE 14 bus 8). Redundant placement
-removes that blind spot. Measured cluster results and MPI timings: [documentation/cluster.md](documentation/cluster.md).
+falsifying it is invisible to bad data detection. Measured cluster results and MPI timings:
+[documentation/cluster.md](documentation/cluster.md).
 
 ### Dynamic simulation (IEEE 39-bus, 15 s, published machine data)
 

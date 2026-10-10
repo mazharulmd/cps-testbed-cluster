@@ -90,6 +90,13 @@ def main(cfg_path):
         if not h.helicsInputIsUpdated(sub):
             continue
         cmds, sets, vm_send = [], [], None
+        # setpoint_source "scada": the control center learns the reference actually set at the generator
+        # (here, a faulty AVR reference) and steps from it; "case" keeps its own dispatch copy
+        ev = cfg.get("event") or {}
+        if (ctl.get("setpoint_source") == "scada" and ev.get("type") == "avr_fault" and t >= ev["t"]
+                and not ev.get("_seen")):
+            vset[ev["bus"]] = ev["vset"]
+            ev["_seen"] = True
         for s in json.loads(h.helicsInputGetString(sub)):
             meas = {}
             for bus, d in s["pmus"].items():

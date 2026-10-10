@@ -1,0 +1,35 @@
+\begin{table*}[t]
+\caption{Violation Time (s) at 20 Fault Locations, IEEE 118-Bus System, Seed 1. Attacks Target the Faulted Bus From 4 to 9\,s. Bold: the Attack Extended the Violation Beyond the Attack-Free Control}
+\label{tab:locations}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{@{}lcccccccccccccc@{}}
+\toprule
+ & & \multicolumn{2}{c}{PMUs seeing bus} & \multicolumn{3}{c}{No attack} & \multicolumn{4}{c}{32 PMUs} & \multicolumn{4}{c}{68 PMUs} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-7}\cmidrule(lr){8-11}\cmidrule(l){12-15}
+Fault & Degree & 32 & 68 & No ctrl & Dispatch & Telemetry & Simple & Stealthy & Delay & Drop & Simple & Stealthy & Delay & Drop \\
+\midrule
+AVR, gen.\ 10 & 1 & 1 & 2 & 6.0 & 0.5 & 2.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 87 & 1 & 1 & 2 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 26 & 2 & 1 & 2 & 6.0 & 0.5 & 2.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 90 & 2 & 1 & 2 & 6.0 & 0.5 & 2.5 & \textbf{6.0} & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 8 & 3 & 2 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & 0.5 & 0.5 & 0.5 \\
+AVR, gen.\ 25 & 3 & 2 & 2 & 6.0 & 0.5 & 2.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 40 & 4 & 2 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 66 & 4 & 2 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 89 & 4 & 2 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 15 & 5 & 2 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 54 & 5 & 3 & 4 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 59 & 6 & 1 & 3 & 6.0 & 0.5 & 2.5 & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 77 & 6 & 3 & 3 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & 0.5 & 0.5 & 0.5 \\
+AVR, gen.\ 12 & 7 & 2 & 4 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 80 & 7 & 2 & 4 & 6.0 & 0.5 & 2.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+AVR, gen.\ 100 & 8 & 2 & 4 & 6.0 & 0.5 & 2.5 & 0.5 & 0.5 & \textbf{5.5} & \textbf{5.5} & 0.5 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+Load step, bus 21 & 2 & 1 & 2 & 6.0 & 6.0 & -- & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 \\
+Load step, bus 52 & 2 & 1 & 3 & 6.0 & 3.0 & -- & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} & 3.0 & \textbf{5.5} & \textbf{5.5} & \textbf{5.5} \\
+Load step, bus 95 & 2 & 1 & 2 & 6.0 & 6.0 & -- & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 & 6.0 \\
+Load step, bus 118 & 2 & 1 & 2 & 6.0 & 1.5 & -- & \textbf{6.0} & \textbf{6.0} & \textbf{6.0} & \textbf{6.0} & \textbf{2.0} & \textbf{6.0} & \textbf{6.0} & \textbf{6.0} \\
+\bottomrule
+\end{tabular}
+\end{table*}

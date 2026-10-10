@@ -1,0 +1,96 @@
+% Architecture of the testbed: HELICS federation of one experiment and the operating layer.
+% Icons: Lucide (ISC license, icons/LICENSE-lucide), converted by make_icons.py.
+\documentclass[border=3pt]{standalone}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,backgrounds,shadows}
+\definecolor{cgrid}{HTML}{1F5FA8}
+\definecolor{cnet}{HTML}{0F7B6C}
+\definecolor{ccc}{HTML}{B3541E}
+\definecolor{catk}{HTML}{C0392B}
+\definecolor{cops}{HTML}{6A3D9A}
+\definecolor{cgray}{HTML}{555555}
+\newcommand{\ico}[2][5mm]{\includegraphics[width=#1]{icons/#2.pdf}}
+\begin{document}
+\begin{tikzpicture}[
+  font=\footnotesize,
+  panel/.style={draw=#1, line width=0.9pt, rounded corners=4pt, fill=#1!5, minimum width=4.6cm, minimum height=3.35cm, drop shadow={opacity=0.18}},
+  head/.style={fill=#1, text=white, rounded corners=3pt, minimum width=4.6cm, minimum height=0.62cm, font=\small\bfseries},
+  item/.style={anchor=west, align=left, text width=3.55cm, font=\scriptsize},
+  meas/.style={-{Stealth[length=2.4mm]}, line width=1.3pt, cgrid},
+  cmd/.style={-{Stealth[length=2.4mm]}, line width=1.3pt, catk},
+  mon/.style={-{Stealth[length=1.8mm]}, line width=0.7pt, cgray, dashed},
+  tag/.style={font=\scriptsize\ttfamily, fill=white, inner sep=1.2pt, rounded corners=1pt},
+  box/.style={draw=#1, line width=0.8pt, rounded corners=4pt, fill=#1!6, minimum width=4.0cm, minimum height=1.25cm, drop shadow={opacity=0.15}}]
+
+% ---------------- federate panels
+\node[panel=cgrid] (G) at (0,0) {};
+\node[panel=cnet]  (N) at (6.8,0) {};
+\node[panel=ccc]   (C) at (13.6,0) {};
+\node[head=cgrid, anchor=north] at (G.north) {Grid federate (GridPACK)};
+\node[head=cnet,  anchor=north] at (N.north) {Network federate (NS-3)};
+\node[head=ccc,   anchor=north] at (C.north) {Control-center federate};
+
+% grid items
+\node[anchor=west] (g1) at ([xshift=2mm, yshift=-1.1cm]G.north west) {\ico{cpu}};
+\node[item, right=1mm of g1] {\texttt{pf\_server}: persistent\\ job on $N$ MPI ranks};
+\node[anchor=west] (g2) at ([xshift=2mm, yshift=-2.05cm]G.north west) {\ico{zap}};
+\node[item, right=1mm of g2] {power flow every step $\Delta$;\\ loads, faults, setpoints};
+\node[anchor=west] (g3) at ([xshift=2mm, yshift=-2.9cm]G.north west) {\ico{hard-drive}};
+\node[item, right=1mm of g3] {true bus voltages logged\\ for scoring};
+% network items
+\node[anchor=west] (n1) at ([xshift=2mm, yshift=-1.1cm]N.north west) {\ico{activity}};
+\node[item, right=1mm of n1] {PMUs at 30 frames/s;\\ link delay, jitter, loss};
+\node[anchor=west] (n2) at ([xshift=2mm, yshift=-2.05cm]N.north west) {\ico{database}};
+\node[item, right=1mm of n2] {PDC: release when complete\\ or after wait window $w$};
+\node[anchor=west] (n3) at ([xshift=2mm, yshift=-2.9cm]N.north west) {\ico{bug}};
+\node[item, right=1mm of n3, text=catk] {attacker: simple and stealthy\\ FDI, delay, drop};
+% control-center items
+\node[anchor=west] (c1) at ([xshift=2mm, yshift=-1.1cm]C.north west) {\ico{gauge}};
+\node[item, right=1mm of c1] {WLS state estimation\\ from PMU phasors};
+\node[anchor=west] (c2) at ([xshift=2mm, yshift=-2.05cm]C.north west) {\ico{shield-check}};
+\node[item, right=1mm of c2] {chi-square test, removal of\\ the suspect PMU};
+\node[anchor=west] (c3) at ([xshift=2mm, yshift=-2.9cm]C.north west) {\ico{radio-tower}};
+\node[item, right=1mm of c3] {voltage control: setpoint\\ to nearest generator};
+
+% ---------------- measurement and command paths
+\draw[meas] ([yshift=0.55cm]G.east) -- node[tag, above=2pt] {grid/meas} ([yshift=0.55cm]N.west);
+\draw[meas] ([yshift=0.55cm]N.east) -- node[tag, above=2pt] {ns3/pdc} ([yshift=0.55cm]C.west);
+\draw[cmd] ([yshift=-0.55cm]C.west) -- node[tag, below=2pt] {cc/commands} ([yshift=-0.55cm]N.east);
+\draw[cmd] ([yshift=-0.55cm]N.west) -- node[tag, below=2pt] {ns3/cmd\_delivered} ([yshift=-0.55cm]G.east);
+\node[font=\scriptsize\bfseries, text=cgrid] at ($(G.east)!0.5!(N.west)+(0,1.2)$) {measurements};
+\node[font=\scriptsize\bfseries, text=catk] at ($(G.east)!0.5!(N.west)+(0,-1.2)$) {commands};
+\node[font=\scriptsize\bfseries, text=cgrid] at ($(N.east)!0.5!(C.west)+(0,1.2)$) {PMU sets};
+\node[font=\scriptsize\bfseries, text=catk] at ($(N.east)!0.5!(C.west)+(0,-1.2)$) {commands};
+
+% ---------------- observer
+\node[box=cgray, below=0.75cm of N, minimum width=4.6cm] (O) {};
+\node[anchor=west] (o1) at ([xshift=2mm]O.west) {\ico[6mm]{eye}};
+\node[item, right=1mm of o1, text width=3.3cm, font=\footnotesize] {\textbf{Observer federate}\\ \scriptsize subscribes only,\\ streams each run};
+\draw[mon] (G.south) |- ([yshift=2mm]O.west);
+\draw[mon] (C.south) |- ([yshift=2mm]O.east);
+\draw[mon] (N.south) -- (O.north);
+
+% ---------------- HELICS frame
+\begin{scope}[on background layer]
+\node[draw=cgray, dashed, line width=0.7pt, rounded corners=8pt, fill=gray!3, fit=(G)(N)(C)(O), inner sep=9pt,
+  label={[font=\small\bfseries, text=cgray, anchor=south]north:HELICS federation (ZeroMQ), one broker and port per experiment}] (F) {};
+\end{scope}
+
+% ---------------- operating layer, aligned under the three federate panels
+\node[box=cops, minimum width=4.6cm] (A) at ($(G |- O.south)+(0,-1.55)$) {};
+\node[anchor=west] (a1) at ([xshift=2mm]A.west) {\ico[6mm]{server}};
+\node[item, right=1mm of a1, text width=3.3cm, font=\footnotesize] {\textbf{Experiment API}\\ \scriptsize queue, MPI slots, runs};
+\node[box=cops, minimum width=4.6cm] (D) at (N |- A) {};
+\node[anchor=west] (d1) at ([xshift=2mm]D.west) {\ico[6mm]{layout-dashboard}};
+\node[item, right=1mm of d1, text width=3.3cm, font=\footnotesize] {\textbf{Web dashboard}\\ \scriptsize live, inside, results};
+\node[box=cops, minimum width=4.6cm] (U) at (C |- A) {};
+\node[anchor=west] (u1) at ([xshift=2mm]U.west) {\ico[6mm]{users}};
+\node[item, right=1mm of u1, text width=3.3cm, font=\footnotesize] {\textbf{Remote users}\\ \scriptsize browser over VPN};
+\draw[mon, <->, cops, solid] (A) -- node[tag, above=1pt] {HTTP} (D);
+\draw[mon, <->, cops, solid] (D) -- node[tag, above=1pt] {HTTPS} (U);
+\draw[mon] (O.south) -- ++(0,-0.78) -| node[tag, pos=0.3, above=1pt] {live state} (A.north);
+\draw[mon, cops, solid] (A.west) -- ++(-0.55,0) |- node[tag, pos=0.25, sloped, above=1pt] {starts broker, federates} (F.west |- G.west) -- (G.west);
+\end{tikzpicture}
+\end{document}

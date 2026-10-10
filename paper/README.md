@@ -16,6 +16,8 @@ Hafiz Abdur Rahman, North South University.
 | `campaign/paper118_seeds.yaml` | AVR-fault campaign: attacks, placements, latency and PDC sweeps, MPI ranks (225 runs) |
 | `campaign/paper118_faults.yaml` | fault campaign: load step, line trip, generator trip, bus fault with every attack (220 runs) |
 | `campaign/paper118_locations.yaml` | location campaign: AVR faults at 16 generators and load steps at 4 buses with every attack, plus the telemetry-mode controller (217 runs) |
+| `campaign/paper118_detection.yaml` | detector test without a fault (simple FDI of several sizes, estimator sigma 0.002 and 0.001) and matched-sigma AVR attacks (145 runs) |
+| `campaign/paper118_location_seeds.yaml` | seeds 2-5 at ten locations of the location campaign (280 runs) |
 | `campaign/validation118.yaml` | GridPACK vs built-in solver check |
 | `scripts/` | everything that produces `data/`, `tables/` and `figures/` |
 
@@ -24,7 +26,7 @@ Hafiz Abdur Rahman, North South University.
 1. Start the testbed (virtual cluster or native install) and submit the campaign:
    ```
    cd paper/scripts
-   python split_campaign.py ../campaign/paper118_seeds.yaml   # then the same for paper118_faults.yaml and paper118_locations.yaml
+   python split_campaign.py ../campaign/paper118_seeds.yaml   # then the same for the other campaign files
    for f in part*.yaml; do curl -u admin -F file=@$f http://<head>:8080/api/scenarios/file; done
    ```
 2. When the queue is empty, extract the metrics from the run directory:
@@ -32,6 +34,7 @@ Hafiz Abdur Rahman, North South University.
    python extract_results.py /srv/cps/runs ../data
    python extract_faults.py /srv/cps/runs ../data
    python extract_locations.py /srv/cps/runs ../data
+   python extract_detection.py /srv/cps/runs ../data
    python validate_grid.py /srv/cps/runs > ../data/validation.txt
    ```
 3. Time the estimator (testbed Python environment, from the repository root):
@@ -40,7 +43,7 @@ Hafiz Abdur Rahman, North South University.
    ```
 4. Build figures and tables, then the PDF:
    ```
-   python make_figures.py && python make_tables.py && python make_faults.py && python make_locations.py && ./build_diagrams.sh
+   python make_figures.py && python make_tables.py && python make_faults.py && python make_locations.py && python make_detection.py && ./build_diagrams.sh
    cd .. && pdflatex main && bibtex main && pdflatex main && pdflatex main
    ```
 5. Overleaf package with figures renamed Fig1 ... FigN in paper order:

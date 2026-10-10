@@ -57,6 +57,8 @@ def parse_args(argv=None):
     a.add_argument("--control", default="on", choices=["on", "off"])
     a.add_argument("--vmin", type=float, default=0.94)
     a.add_argument("--vmax", type=float, default=1.08)
+    a.add_argument("--se-sigma", type=float, default=0.002,
+                   help="relative standard deviation the estimator assumes for each PMU channel")
     a.add_argument("--setpoint-source", default="case", choices=["case", "scada"],
                    help="setpoint the control center steps from: its dispatch copy from the case (case), "
                         "or the reference actually set at the generator, as SCADA telemetry would report (scada)")
@@ -156,7 +158,7 @@ def build_configs(args, run_dir, cl, port):
            "duration": args.duration, "mode": args.mode, "dyn_step": args.dyn_step, "grid_step": args.grid_step,
            "seed": args.seed, "solver": args.solver, "pmu_buses": pmu_buses,
            "load": {"amplitude": 0.02, "period": 20.0, "walk": 0.002}, "event": event,
-           "se_sigma": 0.002, "bdd_alpha": 0.01, "bdd": args.bdd == "on",
+           "se_sigma": args.se_sigma, "bdd_alpha": 0.01, "bdd": args.bdd == "on",
            "control": {"enabled": args.control == "on", "vmin": args.vmin, "vmax": args.vmax, "step": 0.01,
                        "deadband": 0.003, "cooldown": 1.0, "vset_min": 0.95, "vset_max": 1.10,
                        "setpoint_source": args.setpoint_source},

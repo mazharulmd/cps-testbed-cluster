@@ -70,9 +70,11 @@ The rest of this paper is organized as follows. Section~\ref{sec:background} giv
 
 A synchrophasor is the phasor of a voltage or current referred to a common time reference. IEEE C37.118.1 defines its measurement and accuracy, and C37.118.2 the frames that carry it \cite{c37118_1,c37118_2}. A PMU reports a frame at a fixed rate $1/T$, for example $T = 1/30$\,s. Frames from many PMUs reach a PDC, which buffers them by time stamp. Because a PDC cannot wait forever for a late frame, it releases a set when all expected PMUs have reported or when a wait time has passed \cite{c37244}. The wait time trades latency for completeness, and in hierarchical networks the wait times of several PDCs have to be set together \cite{pourramezan2021pdc}. Measured end-to-end latencies of wide-area systems are in the tens of milliseconds \cite{castello2024wampac,morato2024fiveg}.
 
+\input{tables/tab_notation.tex}
+
 \subsection{PMU State Estimation and Bad Data}
 
-If every PMU channel is a linear function of the complex bus voltages $V \in \mathbb{C}^n$, the $m$ received channels satisfy $z = HV + e$, where $e$ is the measurement error. The weighted least-squares (WLS) estimate minimizes the weighted squared residual and has a closed form \cite{abur2004se}. Under Gaussian errors, the weighted sum of squared residuals $J$ follows a chi-square distribution with $2m - 2n$ degrees of freedom when the data are good, so $J$ above a quantile of that distribution signals bad data. The largest normalized residual then points to the measurement most likely to be wrong \cite{handschin1975,abur2004se}. A grid is observable from PMUs when every bus has a PMU or is adjacent to one, and the minimum set of PMUs that achieves this is found by integer programming \cite{baldwin1993,gou2008}.
+Table~\ref{tab:notation} lists the symbols used in the paper. If every PMU channel is a linear function of the complex bus voltages $V \in \mathbb{C}^n$, the $m$ received channels satisfy $z = HV + e$, where $e$ is the measurement error. The weighted least-squares (WLS) estimate minimizes the weighted squared residual and has a closed form \cite{abur2004se}. Under Gaussian errors, the weighted sum of squared residuals $J$ follows a chi-square distribution with $2m - 2n$ degrees of freedom when the data are good, so $J$ above a quantile of that distribution signals bad data. The largest normalized residual then points to the measurement most likely to be wrong \cite{handschin1975,abur2004se}. A grid is observable from PMUs when every bus has a PMU or is adjacent to one, and the minimum set of PMUs that achieves this is found by integer programming \cite{baldwin1993,gou2008}.
 
 \subsection{Attacks on Synchrophasor Data}
 
@@ -219,7 +221,7 @@ where $L$ is the mean latency. Each frame also waits 2\,ms of processing plus a 
 \label{fig:ns3}
 \end{figure}
 
-At every frame time $kT$, each PMU takes the latest phasors published by the grid federate and adds noise. With $s$ the true phasor and $\epsilon_1, \epsilon_2 \sim \mathcal{N}(0,1)$, the reported phasor is
+At every frame time $\nu T$, each PMU takes the latest phasors published by the grid federate and adds noise. With $s$ the true phasor and $\epsilon_1, \epsilon_2 \sim \mathcal{N}(0,1)$, the reported phasor is
 \begin{equation}
 p = |s|\,(1 + 0.001\,\epsilon_1)\, e^{\,j(\angle s + 0.001\,\epsilon_2)}.
 \label{eq:noise}
@@ -227,27 +229,27 @@ p = |s|\,(1 + 0.001\,\epsilon_1)\, e^{\,j(\angle s + 0.001\,\epsilon_2)}.
 The PMU sends the frame as a user datagram protocol (UDP) packet carrying its number, time stamp and phasors. These are abstract PMU frames: they carry the measurement content but not the IEEE C37.118.2 encoding~\cite{c37118_2}. The PDC keeps a buffer per time stamp and releases a set as soon as every PMU has reported, or a wait window $w$ after the first frame of that time stamp arrived \cite{c37244}. A frame that arrives after its set was released is counted as late. Algorithm~\ref{alg:ns3} gives one frame interval, including the attacks of Section~\ref{sec:attacks}.
 
 \begin{algorithm}[t]
-\caption{Network federate, frame interval $k$}
+\caption{Network federate, frame interval $\nu$}
 \label{alg:ns3}
 \begin{algorithmic}[1]
 \Require frame period $T$, link delays $d_i$, wait window $w$, attack settings
-\State request HELICS time $kT$
+\State request HELICS time $\nu T$
 \State publish the PDC sets and command deliveries of the last interval
 \State read new grid phasors $s_i$ and commands; send each command to its generator node
-\State $a \gets$ attack active at $kT$
-\If{$a$ is an FDI and the attacker holds the PMU at target bus $b$}
+\State $\mathit{att} \gets$ attack active at $\nu T$
+\If{$\mathit{att}$ is an FDI and the attacker holds the PMU at target bus $b$}
   \State $c \gets (v_f - |s_{b,0}|)\,e^{j \angle s_{b,0}}$ \Comment{adaptive offset}
 \EndIf
 \For{each PMU $i$}
-  \State $p \gets s_i$ with noise by (\ref{eq:noise}); $e \gets 0$
-  \If{$a$ and PMU $i$ is attacked}
+  \State $p \gets s_i$ with noise by (\ref{eq:noise}); $\eta \gets 0$
+  \If{$\mathit{att}$ and PMU $i$ is attacked}
     \If{drop} mark the frame dropped; \textbf{continue} \EndIf
     \If{FDI} add $h_{kb}\,c$ to attacked channels \EndIf
-    \If{delay} $e \gets d_a$ \EndIf
+    \If{delay} $\eta \gets d_a$ \EndIf
   \EndIf
-  \State send $p$ after $2\,\mathrm{ms} + \mathcal{U}(0,2)\,\mathrm{ms} + e$; the link adds $d_i$
+  \State send $p$ after $2\,\mathrm{ms} + \mathcal{U}(0,2)\,\mathrm{ms} + \eta$; the link adds $d_i$
 \EndFor
-\State run NS-3 events until $(k+1)T$; for each frame of time stamp $k'$ that reaches the PDC: if set $k'$ was released, mark it late; else store it, release set $k'$ if complete, and if it is the first frame of $k'$, schedule the release at arrival $+\,w$
+\State run NS-3 events until $(\nu+1)T$; for each frame of time stamp $\nu'$ that reaches the PDC: if set $\nu'$ was released, mark it late; else store it, release set $\nu'$ if complete, and if it is the first frame of $\nu'$, schedule the release at arrival $+\,w$
 \end{algorithmic}
 \end{algorithm}
 
@@ -258,7 +260,7 @@ A PMU at bus $i$ measures the voltage of $i$ and the current of every in-service
 \min_{x}\ \mathbf{1}^\top x \quad \text{s.t.} \quad A x \ge \kappa,
 \label{eq:opp}
 \end{equation}
-as in \cite{gou2008}, where $\kappa_i = \min(k, \deg(i) + 1)$. Here $k = 1$ gives the minimum placement for full observability and $k = 2$ a redundant placement in which every bus is seen twice where its degree allows. The problem is solved with the HiGHS solver \cite{huangfu2018}. For the IEEE 118-bus system the minimum placement has 32 PMUs with 169 phasor channels (Fig.~\ref{fig:placemin}) and the redundant placement 68 PMUs with 315 channels (Fig.~\ref{fig:placered}). Bus 49, where the fault and the attacks of Section~\ref{sec:setup} take place, has a PMU in both. Under the minimum placement it is observed by PMUs 45 and 49, and under the redundant placement by PMUs 42, 45, 49, 51 and 66. This redundancy is topological. It counts the PMUs that observe each bus, but it does not by itself set how many PMUs an attacker must hold to hide a change at a bus, which depends on the neighbourhood of that bus (Section~\ref{sec:faultsres}).
+as in \cite{gou2008}, where $\kappa_i = \min(q, \deg(i) + 1)$. Here $q = 1$ gives the minimum placement for full observability and $q = 2$ a redundant placement in which every bus is seen twice where its degree allows. The problem is solved with the HiGHS solver \cite{huangfu2018}. For the IEEE 118-bus system the minimum placement has 32 PMUs with 169 phasor channels (Fig.~\ref{fig:placemin}) and the redundant placement 68 PMUs with 315 channels (Fig.~\ref{fig:placered}). Bus 49, where the fault and the attacks of Section~\ref{sec:setup} take place, has a PMU in both. Under the minimum placement it is observed by PMUs 45 and 49, and under the redundant placement by PMUs 42, 45, 49, 51 and 66. This redundancy is topological. It counts the PMUs that observe each bus, but it does not by itself set how many PMUs an attacker must hold to hide a change at a bus, which depends on the neighbourhood of that bus (Section~\ref{sec:faultsres}).
 
 \begin{figure}[t]
 \centering
@@ -302,12 +304,12 @@ with $R = W^{-1}$, removes all channels of the PMU that holds the largest one, e
 \label{alg:cc}
 \begin{algorithmic}[1]
 \Require set $S$ of received PMUs, $H$, $\sigma$, $\alpha$, limits $[v_{\min}, v_{\max}]$, dead band $\delta$, step $\Delta v$
-\State $R \gets \emptyset$ \Comment{removed PMUs}
+\State $\mathcal{R} \gets \emptyset$ \Comment{removed PMUs}
 \State \textbf{if} $S$ is observable \textbf{then} estimate $\hat V$ by (\ref{eq:wls}); compute $J$ by (\ref{eq:J}) and $\tau$; $\mathit{alarm} \gets J > \tau$
 \State \textbf{else} add pseudo-measurements, estimate $\hat V$; $\mathit{alarm} \gets$ false \Comment{not testable}
-\While{$\mathit{alarm}$ and $|R| < 3$ and removal is enabled}
-  \State compute $r^N$ by (\ref{eq:lnr}); $p \gets$ PMU with the largest $r^N_k$
-  \State $R \gets R \cup \{p\}$; drop all channels of $p$ from $S$
+\While{$\mathit{alarm}$ and $|\mathcal{R}| < 3$ and removal is enabled}
+  \State compute $r^N$ by (\ref{eq:lnr}); $i^\star \gets$ PMU with the largest $r^N_k$
+  \State $\mathcal{R} \gets \mathcal{R} \cup \{i^\star\}$; drop all channels of $i^\star$ from $S$
   \State re-estimate and re-test as in lines 2--3
 \EndWhile
 \If{$\mathit{alarm}$} \State \Return \Comment{hold control while bad data remain} \EndIf
@@ -329,14 +331,14 @@ The attacker targets a bus $b$ and wants the control center to see $|V_b| = v_f$
 \subsection{Time Coupling and Closed-Loop Latency}
 \label{sec:time}
 
-All federates use the HELICS ZeroMQ core. The grid federate requests the times $j\Delta$. The network federate requests the frame times $kT$ one after another, runs the NS-3 event queue up to the next frame time, and at each granted time first publishes what the previous interval produced and then reads new phasors and commands. The control center does not step on its own. HELICS wakes it whenever a new PDC set is published. The grid and network federates are uninterruptible, so they are granted only the times they request.
+All federates use the HELICS ZeroMQ core. The grid federate requests the times $\ell\Delta$. The network federate requests the frame times $\nu T$ one after another, runs the NS-3 event queue up to the next frame time, and at each granted time first publishes what the previous interval produced and then reads new phasors and commands. The control center does not step on its own. HELICS wakes it whenever a new PDC set is published. The grid and network federates are uninterruptible, so they are granted only the times they request.
 
-This scheme fixes the latency of the loop. Suppose an event changes the grid at $t_0 = j\Delta$. Both the grid and the network federate are granted $t_0$, and the network federate samples the phasors that were current before the grid published its new solution, so the event first appears in the frame stamped $t_0 + T$. If the PDC releases that set $r$ after its time stamp, the network federate publishes it at the next frame time, $t_0 + T + T\lceil r/T \rceil$, and the control center issues its command at that time. NS-3 reads the command at its next step and delivers it after the generator link delay $d_g$, and the grid applies it at its next step. The first command therefore takes effect at
+This scheme fixes the latency of the loop. Suppose an event changes the grid at $t_0 = \ell\Delta$. Both the grid and the network federate are granted $t_0$, and the network federate samples the phasors that were current before the grid published its new solution, so the event first appears in the frame stamped $t_0 + T$. If the PDC releases that set $\rho$ after its time stamp, the network federate publishes it at the next frame time, $t_0 + T + T\lceil \rho/T \rceil$, and the control center issues its command at that time. NS-3 reads the command at its next step and delivers it after the generator link delay $d_g$, and the grid applies it at its next step. The first command therefore takes effect at
 \begin{equation}
-t_{\mathrm{apply}} = \Delta \left\lceil \frac{t_0 + T\,(2 + \lceil r/T \rceil) + d_g + \epsilon}{\Delta} \right\rceil,
+t_{\mathrm{apply}} = \Delta \left\lceil \frac{t_0 + T\,(2 + \lceil \rho/T \rceil) + d_g + d_p}{\Delta} \right\rceil,
 \label{eq:loop}
 \end{equation}
-where $\epsilon$ is the processing and jitter delay. The release delay $r$ grows with the wait window and the link delays, as Section~\ref{sec:results} shows. With $T = 33.3$\,ms, $\Delta = 0.5$\,s, $r \le T$ and $d_g$ of a few tens of milliseconds, the first command takes effect one grid step after the event. Whether one command clears the violation depends on the size of the setpoint step needed. Fig.~\ref{fig:timeline} shows the timeline logged in the base experiment. The one-frame lag between grid and PMUs is a property of the time coupling. It could be removed by letting the network federate request a time just after the grid's, at the cost of a second synchronization per frame. We kept the simpler scheme and report the lag.
+where $d_p$ is the processing and jitter delay. The release delay $\rho$ grows with the wait window and the link delays, as Section~\ref{sec:results} shows. With $T = 33.3$\,ms, $\Delta = 0.5$\,s, $\rho \le T$ and $d_g$ of a few tens of milliseconds, the first command takes effect one grid step after the event. Whether one command clears the violation depends on the size of the setpoint step needed. Fig.~\ref{fig:timeline} shows the timeline logged in the base experiment. The one-frame lag between grid and PMUs is a property of the time coupling. It could be removed by letting the network federate request a time just after the grid's, at the cost of a second synchronization per frame. We kept the simpler scheme and report the lag.
 
 \begin{figure}[t]
 \centering

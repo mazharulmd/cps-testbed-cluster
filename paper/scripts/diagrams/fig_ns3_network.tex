@@ -1,0 +1,61 @@
+% NS-3 model of the synchrophasor network for the IEEE 118-bus system (minimum placement).
+% Icons: Lucide (ISC license, icons/LICENSE-lucide).
+\documentclass[border=3pt]{standalone}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shadows,fit,backgrounds}
+\definecolor{cgrid}{HTML}{1F5FA8}
+\definecolor{cnet}{HTML}{0F7B6C}
+\definecolor{ccc}{HTML}{B3541E}
+\definecolor{catk}{HTML}{C0392B}
+\definecolor{cgray}{HTML}{555555}
+\newcommand{\ico}[2][5mm]{\includegraphics[width=#1]{icons/#2.pdf}}
+\begin{document}
+\begin{tikzpicture}[
+  font=\footnotesize,
+  pmu/.style={draw=cnet, line width=0.7pt, rounded corners=3pt, fill=cnet!6, minimum width=1.9cm, minimum height=0.62cm},
+  gen/.style={draw=cgrid, line width=0.7pt, rounded corners=3pt, fill=cgrid!6, minimum width=1.9cm, minimum height=0.62cm},
+  lnk/.style={line width=0.8pt, cnet},
+  clnk/.style={line width=0.8pt, cgrid},
+  lab/.style={font=\scriptsize, fill=white, inner sep=1pt}]
+
+% PMU nodes
+\foreach \b/\y in {3/2.4, 5/1.6, 45/0.8, 49/0.0, 77/-0.8, 115/-1.6} {
+  \node[pmu] (p\b) at (0,\y) {\ico[3.6mm]{activity}\ PMU \b};
+}
+\node at (0,-2.25) {\large$\vdots$};
+\node[font=\scriptsize, text=cgray] at (0,-2.75) {32 PMUs (68 redundant)};
+
+% control-center node with PDC
+\node[draw=ccc, line width=1pt, rounded corners=5pt, fill=ccc!5, minimum width=3.4cm, minimum height=5.7cm,
+      drop shadow={opacity=0.15}] (cc) at (5.2,0.6) {};
+\node[anchor=north, font=\small\bfseries, text=ccc] at (cc.north) {Control-center node};
+\node[draw=cnet, rounded corners=3pt, fill=white, text width=2.9cm, align=left, font=\scriptsize] (pdc) at ([yshift=0.35cm]cc.center)
+  {\ico[4mm]{database}\ \textbf{PDC}\\ buffer per time stamp\\ release when complete\\ or after wait window $w$};
+\node[draw=ccc, rounded corners=3pt, fill=white, text width=2.9cm, align=left, font=\scriptsize] (hx) at ([yshift=-1.3cm]cc.center)
+  {\ico[4mm]{timer}\ \textbf{HELICS interface}\\ sets out on \texttt{ns3/pdc},\\ commands in on \texttt{cc/commands}};
+
+% generator nodes
+\foreach \b/\y in {10/1.6, 49/0.8, 54/0.0, 76/-0.8} {
+  \node[gen] (g\b) at (10.2,\y) {\ico[3.6mm]{zap}\ Gen \b};
+}
+\node at (10.2,-1.45) {\large$\vdots$};
+\node[font=\scriptsize, text=cgray] at (10.2,-1.95) {54 generators};
+
+% PMU links
+\foreach \b in {3,5,45,77,115} { \draw[lnk] (p\b.east) -- ([yshift=0.0cm]cc.west |- p\b); }
+\draw[line width=1.1pt, catk] (p49.east) -- (cc.west |- p49);
+\node[lab, above] at ($(p3.east)!0.5!(cc.west |- p3)$) {10 Mb/s, $d_i = L\,u_i$};
+\node[lab, below] at ($(p115.east)!0.5!(cc.west |- p115)$) {jitter, loss $p$};
+\node[draw=catk, dashed, rounded corners=2pt, fill=catk!5, font=\scriptsize, text=catk, inner sep=2pt]
+  (atk) at ($(p49.east)!0.5!(cc.west |- p49)+(0,0.0)$) {\ico[3.6mm]{bug}\ attacker};
+
+% command links
+\foreach \b in {10,49,54,76} { \draw[clnk, -{Stealth[length=1.8mm]}] (cc.east |- g\b) -- (g\b.west); }
+\node[lab, above, text=cgrid] at ($(cc.east |- g10)!0.5!(g10.west)$) {commands};
+
+\node[font=\scriptsize\bfseries, text=cnet] at (2.0,3.5) {PMU frames (UDP)};
+\node[font=\scriptsize\bfseries, text=cgrid] at (8.5,2.55) {setpoint commands (UDP)};
+\end{tikzpicture}
+\end{document}

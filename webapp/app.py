@@ -78,6 +78,8 @@ class RunRequest(BaseModel):
     control: str = Field("on", pattern=r"^(on|off)$")
     vmin: float = Field(0.94, ge=0.5, le=1.0)
     vmax: float = Field(1.08, ge=1.0, le=1.5)
+    setpoint_source: str = Field("case", pattern=r"^(case|scada)$")
+    se_sigma: float = Field(0.002, ge=1e-4, le=0.1)
     event: str = Field("none", pattern=r"^(none|avr:\d+:[0-9.]+:[0-9.]+|load:\d+:-?[0-9.]+:[0-9.]+|"
                                       r"fault:\d+:[0-9.]+:[0-9.]+|line:\d+:\d+:[0-9.]+|gen:\d+:[0-9.]+)$")
     seed: int = Field(1, ge=1, le=10**6)

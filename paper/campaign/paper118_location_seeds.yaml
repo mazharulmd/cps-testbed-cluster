@@ -1,0 +1,1209 @@
+# Seeds 2-5 at ten locations of the location campaign (280 runs).
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+control: {bdd: true, voltage_control: true}
+scenarios:
+- name: l-avr8-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+- name: l-avr8-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+- name: l-avr77-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+- name: l-avr12-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+- name: l-avr10-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+- name: l-avr90-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+- name: l-avr25-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+- name: l-avr59-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-ctl-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+- name: l-avr54-simple-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-simple-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-min-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-red-s2
+  seed: 2
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-ctl-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+- name: l-load52-simple-min-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-simple-red-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-min-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-red-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-min-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-red-s2
+  seed: 2
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-ctl-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+- name: l-load118-simple-min-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-simple-red-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-min-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-red-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-min-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-red-s2
+  seed: 2
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+- name: l-avr8-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+- name: l-avr77-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+- name: l-avr12-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+- name: l-avr10-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+- name: l-avr90-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+- name: l-avr25-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+- name: l-avr59-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-ctl-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+- name: l-avr54-simple-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-simple-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-min-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-red-s3
+  seed: 3
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-ctl-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+- name: l-load52-simple-min-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-simple-red-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-min-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-red-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-min-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-red-s3
+  seed: 3
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-ctl-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+- name: l-load118-simple-min-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-simple-red-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-min-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-red-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-min-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-red-s3
+  seed: 3
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+- name: l-avr8-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+- name: l-avr77-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+- name: l-avr12-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+- name: l-avr10-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+- name: l-avr90-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+- name: l-avr25-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+- name: l-avr59-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-ctl-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+- name: l-avr54-simple-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-simple-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-min-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-red-s4
+  seed: 4
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-ctl-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+- name: l-load52-simple-min-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-simple-red-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-min-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-red-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-min-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-red-s4
+  seed: 4
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-ctl-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+- name: l-load118-simple-min-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-simple-red-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-min-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-red-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-min-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-red-s4
+  seed: 4
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+- name: l-avr8-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr8-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 8, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 8, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+- name: l-avr77-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr77-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 77, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 77, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+- name: l-avr12-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr12-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 12, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 12, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+- name: l-avr10-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr10-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 10, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 10, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+- name: l-avr90-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr90-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 90, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 90, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+- name: l-avr25-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr25-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 25, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 25, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+- name: l-avr59-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr59-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 59, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 59, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-ctl-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+- name: l-avr54-simple-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-simple-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-stealthy-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-min-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-avr54-delay-red-s5
+  seed: 5
+  event: {type: avr_fault, bus: 54, vset: 1.12, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 54, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-ctl-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+- name: l-load52-simple-min-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-simple-red-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-min-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-stealthy-red-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-min-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load52-delay-red-s5
+  seed: 5
+  event: {type: load_step, bus: 52, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 52, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-ctl-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+- name: l-load118-simple-min-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-simple-red-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-min-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-stealthy-red-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-min-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}
+- name: l-load118-delay-red-s5
+  seed: 5
+  event: {type: load_step, bus: 118, pct: 200, t: 4}
+  pmu: {placement: redundant}
+  attack: {type: delay, target: 118, fake: 0.97, start: 4, end: 9, delay_ms: 100}

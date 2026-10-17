@@ -1,0 +1,51 @@
+% Closed monitoring and control loop of one experiment, with the points where attacks act.
+% Icons: Lucide (ISC license, icons/LICENSE-lucide).
+\documentclass[border=3pt]{standalone}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shadows}
+\definecolor{cgrid}{HTML}{1F5FA8}
+\definecolor{cnet}{HTML}{0F7B6C}
+\definecolor{ccc}{HTML}{B3541E}
+\definecolor{catk}{HTML}{C0392B}
+\newcommand{\ico}[2][6mm]{\includegraphics[width=#1]{icons/#2.pdf}}
+\begin{document}
+\begin{tikzpicture}[
+  font=\footnotesize,
+  st/.style={draw=#1, line width=0.9pt, rounded corners=4pt, fill=#1!6, minimum width=3.2cm, minimum height=1.55cm,
+             align=center, drop shadow={opacity=0.15}},
+  flow/.style={-{Stealth[length=2.4mm]}, line width=1.3pt, #1},
+  lab/.style={font=\scriptsize, fill=white, inner sep=1pt, align=center},
+  atk/.style={draw=catk, line width=0.8pt, dashed, rounded corners=3pt, fill=catk!5, align=center, font=\scriptsize, text=catk}]
+
+% upper row: measurement path (left to right)
+\node[st=cgrid] (grid) at (0,0)    {\ico{factory}\\[1pt] \textbf{Grid (GridPACK)}\\ \scriptsize power flow or dynamics};
+\node[st=cnet]  (pmu)  at (4.9,0)  {\ico{activity}\\[1pt] \textbf{PMUs}\\ \scriptsize sample, add noise, 30/s};
+\node[st=cnet]  (link) at (9.8,0)  {\ico{router}\\[1pt] \textbf{PMU links (NS-3)}\\ \scriptsize delay, jitter, loss};
+\node[st=cnet]  (pdc)  at (14.7,0) {\ico{database}\\[1pt] \textbf{PDC}\\ \scriptsize align, wait window $w$};
+% lower row: decision and command path (right to left)
+\node[st=ccc]   (se)   at (14.7,-3.0) {\ico{gauge}\\[1pt] \textbf{State estimation}\\ \scriptsize WLS from phasors};
+\node[st=ccc]   (bdd)  at (9.8,-3.0)  {\ico{shield-check}\\[1pt] \textbf{Bad data test}\\ \scriptsize chi-square, PMU removal};
+\node[st=ccc]   (vc)   at (4.9,-3.0)  {\ico{send}\\[1pt] \textbf{Voltage control}\\ \scriptsize setpoint command};
+\node[st=cnet]  (cmd)  at (0,-3.0)    {\ico{router}\\[1pt] \textbf{Command link (NS-3)}\\ \scriptsize to generator node};
+
+\draw[flow=cgrid] (grid) -- node[lab, above=3pt] {true phasors} (pmu);
+\draw[flow=cgrid] (pmu) -- node[lab, above=3pt] {frames} (link);
+\draw[flow=cgrid] (link) -- node[lab, above=3pt] {on time\\ or late} (pdc);
+\draw[flow=cgrid] (pdc) -- node[lab, right=3pt] {time-aligned\\ set} (se);
+\draw[flow=ccc] (se) -- node[lab, above=3pt] {$\hat V$, $J$} (bdd);
+\draw[flow=ccc] (bdd) -- node[lab, above=3pt] {trusted $\hat V$} (vc);
+\draw[flow=catk] (vc) -- node[lab, above=3pt] {command} (cmd);
+\draw[flow=catk] (cmd) -- node[lab, left=3pt] {exciter\\ setpoint} (grid);
+
+% attack points
+\node[atk, above=0.55cm of link] (a1) {\ico[4.5mm]{bug}\ delay, drop};
+\node[atk, above=0.55cm of pmu]  (a2) {\ico[4.5mm]{bug}\ simple and stealthy FDI};
+\draw[catk, dashed, -{Stealth[length=1.8mm]}] (a1) -- (link);
+\draw[catk, dashed, -{Stealth[length=1.8mm]}] (a2) -- (pmu);
+
+\node[font=\small\bfseries, text=cgrid] at (7.35,-1.25) {measurement path};
+\node[font=\small\bfseries, text=ccc] at (7.35,-1.75) {decision and command path};
+\end{tikzpicture}
+\end{document}

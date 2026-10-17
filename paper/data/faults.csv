@@ -1,0 +1,221 @@
+name,event,scenario,seed,mode,placement,attack,target,bdd_removal,control,violation_s,commands,cmd_issued_t,min_v_true,complete_pct,observable_pct,alarm_sets_first,alarm_sets_final,removal_sets,compromised_pmus,frames_in_time_pct,se_mae_pu,wall_s,run_dir
+f01-fault49-ctl,fault49,ctl,1,dynamic,minimum,none,,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,,100.0,0.0005,7.6,20261009_140015_f01-fault49-ctl
+f01-fault49-delay-min,fault49,delay-min,1,dynamic,minimum,delay,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00025,8.0,20261009_140036_f01-fault49-delay-min
+f01-fault49-delay-red,fault49,delay-red,1,dynamic,redundant,delay,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,8.2,20261009_140102_f01-fault49-delay-red
+f01-fault49-drop-min,fault49,drop-min,1,dynamic,minimum,drop,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00025,9.1,20261009_140044_f01-fault49-drop-min
+f01-fault49-drop-red,fault49,drop-red,1,dynamic,redundant,drop,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,7.6,20261009_140104_f01-fault49-drop-red
+f01-fault49-noctl,fault49,noctl,1,dynamic,minimum,none,,on,off,2.033,0,,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.6,20261009_140013_f01-fault49-noctl
+f01-fault49-simple-min,fault49,simple-min,1,dynamic,minimum,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,50.0,149,0,149,49,100.0,0.00025,10.5,20261009_140022_f01-fault49-simple-min
+f01-fault49-simple-nobdd,fault49,simple-nobdd,1,dynamic,minimum,fdi-simple,49,off,on,1.4,4,4.266667,0.00037,100.0,100.0,149,149,0,49,100.0,0.00025,10.1,20261009_140024_f01-fault49-simple-nobdd
+f01-fault49-simple-red,fault49,simple-red,1,dynamic,redundant,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,110,0,110,49,100.0,0.0001,15.1,20261009_140045_f01-fault49-simple-red
+f01-fault49-stealthy-min,fault49,stealthy-min,1,dynamic,minimum,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,45 49,100.0,0.00025,8.5,20261009_140034_f01-fault49-stealthy-min
+f01-fault49-stealthy-red,fault49,stealthy-red,1,dynamic,redundant,fdi-stealthy,49,on,on,1.6,34,4.1,0.00037,100.0,100.0,0,0,0,42 45 49 51 66,100.0,0.0001,7.9,20261009_140055_f01-fault49-stealthy-red
+f01-gen80-ctl,gen80,ctl,1,dynamic,minimum,none,,on,on,1.633,2,4.1,0.92649,100.0,100.0,0,0,0,,100.0,0.00025,8.4,20261009_135915_f01-gen80-ctl
+f01-gen80-delay-min,gen80,delay-min,1,dynamic,minimum,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,9.3,20261009_135935_f01-gen80-delay-min
+f01-gen80-delay-red,gen80,delay-red,1,dynamic,redundant,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.2,20261009_140003_f01-gen80-delay-red
+f01-gen80-drop-min,gen80,drop-min,1,dynamic,minimum,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.6,20261009_135946_f01-gen80-drop-min
+f01-gen80-drop-red,gen80,drop-red,1,dynamic,redundant,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.4,20261009_140005_f01-gen80-drop-red
+f01-gen80-noctl,gen80,noctl,1,dynamic,minimum,none,,on,off,2.8,0,,0.92649,100.0,100.0,0,0,0,,100.0,0.00025,8.6,20261009_135914_f01-gen80-noctl
+f01-gen80-simple-min,gen80,simple-min,1,dynamic,minimum,fdi-simple,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,9.3,20261009_135924_f01-gen80-simple-min
+f01-gen80-simple-nobdd,gen80,simple-nobdd,1,dynamic,minimum,fdi-simple,76,off,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,9.0,20261009_135924_f01-gen80-simple-nobdd
+f01-gen80-simple-red,gen80,simple-red,1,dynamic,redundant,fdi-simple,76,on,on,1.633,2,4.1,0.92649,100.0,100.0,150,0,150,118,100.0,0.0001,15.3,20261009_135946_f01-gen80-simple-red
+f01-gen80-stealthy-min,gen80,stealthy-min,1,dynamic,minimum,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,9.3,20261009_135935_f01-gen80-stealthy-min
+f01-gen80-stealthy-red,gen80,stealthy-red,1,dynamic,redundant,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.4,20261009_135955_f01-gen80-stealthy-red
+f01-line7677-ctl,line7677,ctl,1,dynamic,minimum,none,,on,on,2.5,3,4.1,0.90053,100.0,100.0,0,0,0,,100.0,0.00025,7.9,20261009_135821_f01-line7677-ctl
+f01-line7677-delay-min,line7677,delay-min,1,dynamic,minimum,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.2,20261009_135839_f01-line7677-delay-min
+f01-line7677-delay-red,line7677,delay-red,1,dynamic,redundant,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.4,20261009_135904_f01-line7677-delay-red
+f01-line7677-drop-min,line7677,drop-min,1,dynamic,minimum,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.7,20261009_135847_f01-line7677-drop-min
+f01-line7677-drop-red,line7677,drop-red,1,dynamic,redundant,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.2,20261009_135905_f01-line7677-drop-red
+f01-line7677-noctl,line7677,noctl,1,dynamic,minimum,none,,on,off,5.967,0,,0.90041,100.0,100.0,0,0,0,,100.0,0.00025,7.6,20261009_135819_f01-line7677-noctl
+f01-line7677-simple-min,line7677,simple-min,1,dynamic,minimum,fdi-simple,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,7.2,20261009_135828_f01-line7677-simple-min
+f01-line7677-simple-nobdd,line7677,simple-nobdd,1,dynamic,minimum,fdi-simple,76,off,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,7.0,20261009_135830_f01-line7677-simple-nobdd
+f01-line7677-simple-red,line7677,simple-red,1,dynamic,redundant,fdi-simple,76,on,on,2.5,3,4.1,0.90053,100.0,100.0,150,0,150,118,100.0,0.0001,15.1,20261009_135848_f01-line7677-simple-red
+f01-line7677-stealthy-min,line7677,stealthy-min,1,dynamic,minimum,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,7.9,20261009_135837_f01-line7677-stealthy-min
+f01-line7677-stealthy-red,line7677,stealthy-red,1,dynamic,redundant,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.6,20261009_135856_f01-line7677-stealthy-red
+f01-load53-ctl,load53,ctl,1,qss,minimum,none,,on,on,3.5,4,4.066667,0.91045,100.0,100.0,0,0,0,,100.0,0.00025,5.2,20261009_135737_f01-load53-ctl
+f01-load53-delay-min,load53,delay-min,1,qss,minimum,delay,53,on,on,6.0,1,9.033333,0.91037,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,4.8,20261009_135755_f01-load53-delay-min
+f01-load53-delay-red,load53,delay-red,1,qss,redundant,delay,53,on,on,6.0,1,9.033333,0.91037,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.6,20261009_135812_f01-load53-delay-red
+f01-load53-drop-min,load53,drop-min,1,qss,minimum,drop,53,on,on,6.0,1,9.033333,0.91037,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,5.4,20261009_135800_f01-load53-drop-min
+f01-load53-drop-red,load53,drop-red,1,qss,redundant,drop,53,on,on,6.0,1,9.033333,0.91037,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.0,20261009_135814_f01-load53-drop-red
+f01-load53-noctl,load53,noctl,1,qss,minimum,none,,on,off,6.0,0,,0.91037,100.0,100.0,0,0,0,,100.0,0.00025,5.1,20261009_135738_f01-load53-noctl
+f01-load53-simple-min,load53,simple-min,1,qss,minimum,fdi-simple,53,on,on,3.5,4,4.066667,0.91045,100.0,49.7,150,0,150,53,100.0,0.00025,9.0,20261009_135744_f01-load53-simple-min
+f01-load53-simple-nobdd,load53,simple-nobdd,1,qss,minimum,fdi-simple,53,off,on,6.0,1,9.033333,0.91037,100.0,100.0,150,150,0,53,100.0,0.00025,8.6,20261009_135744_f01-load53-simple-nobdd
+f01-load53-simple-red,load53,simple-red,1,qss,redundant,fdi-simple,53,on,on,3.5,4,4.066667,0.91045,100.0,100.0,82,0,82,53,100.0,0.0001,9.6,20261009_135801_f01-load53-simple-red
+f01-load53-stealthy-min,load53,stealthy-min,1,qss,minimum,fdi-stealthy,53,on,on,6.0,2,5.633333,0.91037,100.0,100.0,0,0,0,53,100.0,0.00025,4.8,20261009_135754_f01-load53-stealthy-min
+f01-load53-stealthy-red,load53,stealthy-red,1,qss,redundant,fdi-stealthy,53,on,on,6.0,1,9.033333,0.91037,100.0,100.0,0,0,0,52 53,100.0,0.0001,5.0,20261009_135807_f01-load53-stealthy-red
+f02-fault49-ctl,fault49,ctl,2,dynamic,minimum,none,,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.4,20261009_140350_f02-fault49-ctl
+f02-fault49-delay-min,fault49,delay-min,2,dynamic,minimum,delay,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,7.4,20261009_140411_f02-fault49-delay-min
+f02-fault49-delay-red,fault49,delay-red,2,dynamic,redundant,delay,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,8.7,20261009_140434_f02-fault49-delay-red
+f02-fault49-drop-min,fault49,drop-min,2,dynamic,minimum,drop,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,7.0,20261009_140418_f02-fault49-drop-min
+f02-fault49-drop-red,fault49,drop-red,2,dynamic,redundant,drop,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,8.6,20261009_140435_f02-fault49-drop-red
+f02-fault49-noctl,fault49,noctl,2,dynamic,minimum,none,,on,off,2.033,0,,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.4,20261009_140348_f02-fault49-noctl
+f02-fault49-simple-min,fault49,simple-min,2,dynamic,minimum,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,50.0,149,0,149,49,100.0,0.00024,9.7,20261009_140357_f02-fault49-simple-min
+f02-fault49-simple-nobdd,fault49,simple-nobdd,2,dynamic,minimum,fdi-simple,49,off,on,1.4,4,4.266667,0.00037,100.0,100.0,149,149,0,49,100.0,0.00024,9.6,20261009_140359_f02-fault49-simple-nobdd
+f02-fault49-simple-red,fault49,simple-red,2,dynamic,redundant,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,106,0,106,49,100.0,0.0001,12.4,20261009_140420_f02-fault49-simple-red
+f02-fault49-stealthy-min,fault49,stealthy-min,2,dynamic,minimum,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,45 49,100.0,0.00024,7.4,20261009_140409_f02-fault49-stealthy-min
+f02-fault49-stealthy-red,fault49,stealthy-red,2,dynamic,redundant,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,42 45 49 51 66,100.0,0.0001,7.2,20261009_140426_f02-fault49-stealthy-red
+f02-gen80-ctl,gen80,ctl,2,dynamic,minimum,none,,on,on,1.633,2,4.1,0.92649,100.0,100.0,0,0,0,,100.0,0.00025,8.0,20261009_140254_f02-gen80-ctl
+f02-gen80-delay-min,gen80,delay-min,2,dynamic,minimum,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.8,20261009_140313_f02-gen80-delay-min
+f02-gen80-delay-red,gen80,delay-red,2,dynamic,redundant,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.6,20261009_140338_f02-gen80-delay-red
+f02-gen80-drop-min,gen80,drop-min,2,dynamic,minimum,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.8,20261009_140321_f02-gen80-drop-min
+f02-gen80-drop-red,gen80,drop-red,2,dynamic,redundant,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.2,20261009_140340_f02-gen80-drop-red
+f02-gen80-noctl,gen80,noctl,2,dynamic,minimum,none,,on,off,2.8,0,,0.92649,100.0,100.0,0,0,0,,100.0,0.00025,8.6,20261009_140252_f02-gen80-noctl
+f02-gen80-simple-min,gen80,simple-min,2,dynamic,minimum,fdi-simple,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.4,20261009_140302_f02-gen80-simple-min
+f02-gen80-simple-nobdd,gen80,simple-nobdd,2,dynamic,minimum,fdi-simple,76,off,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.0,20261009_140303_f02-gen80-simple-nobdd
+f02-gen80-simple-red,gen80,simple-red,2,dynamic,redundant,fdi-simple,76,on,on,1.633,2,4.1,0.92649,100.0,100.0,150,0,150,118,100.0,0.0001,14.3,20261009_140322_f02-gen80-simple-red
+f02-gen80-stealthy-min,gen80,stealthy-min,2,dynamic,minimum,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,7.8,20261009_140312_f02-gen80-stealthy-min
+f02-gen80-stealthy-red,gen80,stealthy-red,2,dynamic,redundant,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.4,20261009_140331_f02-gen80-stealthy-red
+f02-line7677-ctl,line7677,ctl,2,dynamic,minimum,none,,on,on,2.5,3,4.1,0.90053,100.0,100.0,0,0,0,,100.0,0.00025,8.6,20261009_140155_f02-line7677-ctl
+f02-line7677-delay-min,line7677,delay-min,2,dynamic,minimum,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,8.8,20261009_140215_f02-line7677-delay-min
+f02-line7677-delay-red,line7677,delay-red,2,dynamic,redundant,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.2,20261009_140242_f02-line7677-delay-red
+f02-line7677-drop-min,line7677,drop-min,2,dynamic,minimum,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.8,20261009_140226_f02-line7677-drop-min
+f02-line7677-drop-red,line7677,drop-red,2,dynamic,redundant,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,7.8,20261009_140244_f02-line7677-drop-red
+f02-line7677-noctl,line7677,noctl,2,dynamic,minimum,none,,on,off,5.967,0,,0.90041,100.0,100.0,0,0,0,,100.0,0.00024,8.6,20261009_140154_f02-line7677-noctl
+f02-line7677-simple-min,line7677,simple-min,2,dynamic,minimum,fdi-simple,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.8,20261009_140205_f02-line7677-simple-min
+f02-line7677-simple-nobdd,line7677,simple-nobdd,2,dynamic,minimum,fdi-simple,76,off,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.8,20261009_140205_f02-line7677-simple-nobdd
+f02-line7677-simple-red,line7677,simple-red,2,dynamic,redundant,fdi-simple,76,on,on,2.5,3,4.1,0.90053,100.0,100.0,150,0,150,118,100.0,0.0001,15.1,20261009_140226_f02-line7677-simple-red
+f02-line7677-stealthy-min,line7677,stealthy-min,2,dynamic,minimum,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.7,20261009_140215_f02-line7677-stealthy-min
+f02-line7677-stealthy-red,line7677,stealthy-red,2,dynamic,redundant,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.6,20261009_140235_f02-line7677-stealthy-red
+f02-load53-ctl,load53,ctl,2,qss,minimum,none,,on,on,3.5,4,4.066667,0.91081,100.0,100.0,0,0,0,,100.0,0.00025,4.4,20261009_140114_f02-load53-ctl
+f02-load53-delay-min,load53,delay-min,2,qss,minimum,delay,53,on,on,6.0,1,9.033333,0.91068,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,4.8,20261009_140129_f02-load53-delay-min
+f02-load53-delay-red,load53,delay-red,2,qss,redundant,delay,53,on,on,6.0,1,9.033333,0.91068,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.6,20261009_140147_f02-load53-delay-red
+f02-load53-drop-min,load53,drop-min,2,qss,minimum,drop,53,on,on,6.0,1,9.033333,0.91068,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,5.2,20261009_140134_f02-load53-drop-min
+f02-load53-drop-red,load53,drop-red,2,qss,redundant,drop,53,on,on,6.0,1,9.033333,0.91068,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.6,20261009_140147_f02-load53-drop-red
+f02-load53-noctl,load53,noctl,2,qss,minimum,none,,on,off,6.0,0,,0.91068,100.0,100.0,0,0,0,,100.0,0.00025,4.5,20261009_140112_f02-load53-noctl
+f02-load53-simple-min,load53,simple-min,2,qss,minimum,fdi-simple,53,on,on,3.5,4,4.066667,0.91081,100.0,49.7,150,0,150,53,100.0,0.00025,8.6,20261009_140118_f02-load53-simple-min
+f02-load53-simple-nobdd,load53,simple-nobdd,2,qss,minimum,fdi-simple,53,off,on,6.0,1,9.033333,0.91068,100.0,100.0,150,150,0,53,100.0,0.00025,8.0,20261009_140120_f02-load53-simple-nobdd
+f02-load53-simple-red,load53,simple-red,2,qss,redundant,fdi-simple,53,on,on,3.5,4,4.066667,0.91081,100.0,100.0,82,0,82,53,100.0,0.0001,10.0,20261009_140136_f02-load53-simple-red
+f02-load53-stealthy-min,load53,stealthy-min,2,qss,minimum,fdi-stealthy,53,on,on,6.0,2,4.633333,0.91074,100.0,100.0,0,0,0,53,100.0,0.00025,4.4,20261009_140128_f02-load53-stealthy-min
+f02-load53-stealthy-red,load53,stealthy-red,2,qss,redundant,fdi-stealthy,53,on,on,6.0,1,9.033333,0.91068,100.0,100.0,0,0,0,52 53,100.0,0.0001,5.2,20261009_140141_f02-load53-stealthy-red
+f03-fault49-ctl,fault49,ctl,3,dynamic,minimum,none,,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.0,20261009_140717_f03-fault49-ctl
+f03-fault49-delay-min,fault49,delay-min,3,dynamic,minimum,delay,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,7.8,20261009_140737_f03-fault49-delay-min
+f03-fault49-delay-red,fault49,delay-red,3,dynamic,redundant,delay,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,7.6,20261009_140801_f03-fault49-delay-red
+f03-fault49-drop-min,fault49,drop-min,3,dynamic,minimum,drop,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,7.4,20261009_140746_f03-fault49-drop-min
+f03-fault49-drop-red,fault49,drop-red,3,dynamic,redundant,drop,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,8.0,20261009_140803_f03-fault49-drop-red
+f03-fault49-noctl,fault49,noctl,3,dynamic,minimum,none,,on,off,2.033,0,,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.2,20261009_140716_f03-fault49-noctl
+f03-fault49-simple-min,fault49,simple-min,3,dynamic,minimum,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,50.0,149,0,149,49,100.0,0.00024,9.9,20261009_140725_f03-fault49-simple-min
+f03-fault49-simple-nobdd,fault49,simple-nobdd,3,dynamic,minimum,fdi-simple,49,off,on,1.4,4,4.266667,0.00037,100.0,100.0,149,149,0,49,100.0,0.00024,9.6,20261009_140726_f03-fault49-simple-nobdd
+f03-fault49-simple-red,fault49,simple-red,3,dynamic,redundant,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,106,0,106,49,100.0,0.0001,12.2,20261009_140747_f03-fault49-simple-red
+f03-fault49-stealthy-min,fault49,stealthy-min,3,dynamic,minimum,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,45 49,100.0,0.00024,8.3,20261009_140736_f03-fault49-stealthy-min
+f03-fault49-stealthy-red,fault49,stealthy-red,3,dynamic,redundant,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,42 45 49 51 66,100.0,0.0001,7.0,20261009_140755_f03-fault49-stealthy-red
+f03-gen80-ctl,gen80,ctl,3,dynamic,minimum,none,,on,on,1.633,2,4.1,0.92649,100.0,100.0,0,0,0,,100.0,0.00026,7.2,20261009_140622_f03-gen80-ctl
+f03-gen80-delay-min,gen80,delay-min,3,dynamic,minimum,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.8,20261009_140641_f03-gen80-delay-min
+f03-gen80-delay-red,gen80,delay-red,3,dynamic,redundant,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.4,20261009_140706_f03-gen80-delay-red
+f03-gen80-drop-min,gen80,drop-min,3,dynamic,minimum,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,8.0,20261009_140649_f03-gen80-drop-min
+f03-gen80-drop-red,gen80,drop-red,3,dynamic,redundant,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.0,20261009_140708_f03-gen80-drop-red
+f03-gen80-noctl,gen80,noctl,3,dynamic,minimum,none,,on,off,2.8,0,,0.92649,100.0,100.0,0,0,0,,100.0,0.00025,7.2,20261009_140622_f03-gen80-noctl
+f03-gen80-simple-min,gen80,simple-min,3,dynamic,minimum,fdi-simple,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,7.8,20261009_140630_f03-gen80-simple-min
+f03-gen80-simple-nobdd,gen80,simple-nobdd,3,dynamic,minimum,fdi-simple,76,off,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,7.6,20261009_140631_f03-gen80-simple-nobdd
+f03-gen80-simple-red,gen80,simple-red,3,dynamic,redundant,fdi-simple,76,on,on,1.633,2,4.1,0.92649,100.0,100.0,150,0,150,118,100.0,0.0001,14.4,20261009_140650_f03-gen80-simple-red
+f03-gen80-stealthy-min,gen80,stealthy-min,3,dynamic,minimum,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.0,20261009_140640_f03-gen80-stealthy-min
+f03-gen80-stealthy-red,gen80,stealthy-red,3,dynamic,redundant,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.4,20261009_140659_f03-gen80-stealthy-red
+f03-line7677-ctl,line7677,ctl,3,dynamic,minimum,none,,on,on,2.5,3,4.1,0.90053,100.0,100.0,0,0,0,,100.0,0.00025,7.6,20261009_140528_f03-line7677-ctl
+f03-line7677-delay-min,line7677,delay-min,3,dynamic,minimum,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.8,20261009_140546_f03-line7677-delay-min
+f03-line7677-delay-red,line7677,delay-red,3,dynamic,redundant,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,7.8,20261009_140612_f03-line7677-delay-red
+f03-line7677-drop-min,line7677,drop-min,3,dynamic,minimum,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.4,20261009_140555_f03-line7677-drop-min
+f03-line7677-drop-red,line7677,drop-red,3,dynamic,redundant,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,7.6,20261009_140613_f03-line7677-drop-red
+f03-line7677-noctl,line7677,noctl,3,dynamic,minimum,none,,on,off,5.967,0,,0.90041,100.0,100.0,0,0,0,,100.0,0.00025,7.8,20261009_140526_f03-line7677-noctl
+f03-line7677-simple-min,line7677,simple-min,3,dynamic,minimum,fdi-simple,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.2,20261009_140536_f03-line7677-simple-min
+f03-line7677-simple-nobdd,line7677,simple-nobdd,3,dynamic,minimum,fdi-simple,76,off,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,7.6,20261009_140537_f03-line7677-simple-nobdd
+f03-line7677-simple-red,line7677,simple-red,3,dynamic,redundant,fdi-simple,76,on,on,2.5,3,4.1,0.90053,100.0,100.0,150,0,150,118,100.0,0.0001,15.3,20261009_140555_f03-line7677-simple-red
+f03-line7677-stealthy-min,line7677,stealthy-min,3,dynamic,minimum,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.0,20261009_140545_f03-line7677-stealthy-min
+f03-line7677-stealthy-red,line7677,stealthy-red,3,dynamic,redundant,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77 118,100.0,0.0001,8.0,20261009_140604_f03-line7677-stealthy-red
+f03-load53-ctl,load53,ctl,3,qss,minimum,none,,on,on,3.5,4,4.1,0.91039,100.0,100.0,0,0,0,,100.0,0.00025,4.6,20261009_140445_f03-load53-ctl
+f03-load53-delay-min,load53,delay-min,3,qss,minimum,delay,53,on,on,6.0,1,9.033333,0.91038,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,4.6,20261009_140502_f03-load53-delay-min
+f03-load53-delay-red,load53,delay-red,3,qss,redundant,delay,53,on,on,6.0,1,9.033333,0.91038,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.8,20261009_140519_f03-load53-delay-red
+f03-load53-drop-min,load53,drop-min,3,qss,minimum,drop,53,on,on,6.0,1,9.033333,0.91038,49.7,49.7,0,0,0,53,98.43227424749163,0.00025,5.0,20261009_140507_f03-load53-drop-min
+f03-load53-drop-red,load53,drop-red,3,qss,redundant,drop,53,on,on,6.0,1,9.033333,0.91038,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,6.0,20261009_140520_f03-load53-drop-red
+f03-load53-noctl,load53,noctl,3,qss,minimum,none,,on,off,6.0,0,,0.91038,100.0,100.0,0,0,0,,100.0,0.00025,5.2,20261009_140444_f03-load53-noctl
+f03-load53-simple-min,load53,simple-min,3,qss,minimum,fdi-simple,53,on,on,3.5,4,4.066667,0.91039,100.0,49.7,150,0,150,53,100.0,0.00024,8.4,20261009_140451_f03-load53-simple-min
+f03-load53-simple-nobdd,load53,simple-nobdd,3,qss,minimum,fdi-simple,53,off,on,6.0,1,9.033333,0.91038,100.0,100.0,150,150,0,53,100.0,0.00025,8.8,20261009_140451_f03-load53-simple-nobdd
+f03-load53-simple-red,load53,simple-red,3,qss,redundant,fdi-simple,53,on,on,3.5,4,4.066667,0.91039,100.0,100.0,81,0,81,53,100.0,0.0001,9.4,20261009_140508_f03-load53-simple-red
+f03-load53-stealthy-min,load53,stealthy-min,3,qss,minimum,fdi-stealthy,53,on,on,6.0,2,4.1,0.91039,100.0,100.0,0,0,0,53,100.0,0.00025,4.8,20261009_140500_f03-load53-stealthy-min
+f03-load53-stealthy-red,load53,stealthy-red,3,qss,redundant,fdi-stealthy,53,on,on,6.0,1,9.033333,0.91038,100.0,100.0,0,0,0,52 53,100.0,0.0001,5.2,20261009_140513_f03-load53-stealthy-red
+f04-fault49-ctl,fault49,ctl,4,dynamic,minimum,none,,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,,100.0,0.0005,7.6,20261009_141045_f04-fault49-ctl
+f04-fault49-delay-min,fault49,delay-min,4,dynamic,minimum,delay,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00025,7.8,20261009_141106_f04-fault49-delay-min
+f04-fault49-delay-red,fault49,delay-red,4,dynamic,redundant,delay,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.00011,7.6,20261009_141131_f04-fault49-delay-red
+f04-fault49-drop-min,fault49,drop-min,4,dynamic,minimum,drop,49,on,on,1.6,34,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00025,7.4,20261009_141114_f04-fault49-drop-min
+f04-fault49-drop-red,fault49,drop-red,4,dynamic,redundant,drop,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.00011,7.6,20261009_141132_f04-fault49-drop-red
+f04-fault49-noctl,fault49,noctl,4,dynamic,minimum,none,,on,off,2.033,0,,0.00037,100.0,100.0,0,0,0,,100.0,0.0005,7.6,20261009_141044_f04-fault49-noctl
+f04-fault49-simple-min,fault49,simple-min,4,dynamic,minimum,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,50.0,149,0,149,49,100.0,0.00025,9.8,20261009_141053_f04-fault49-simple-min
+f04-fault49-simple-nobdd,fault49,simple-nobdd,4,dynamic,minimum,fdi-simple,49,off,on,1.4,4,4.266667,0.00037,100.0,100.0,149,149,0,49,100.0,0.00025,10.0,20261009_141054_f04-fault49-simple-nobdd
+f04-fault49-simple-red,fault49,simple-red,4,dynamic,redundant,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,109,0,109,49,100.0,0.00011,13.4,20261009_141116_f04-fault49-simple-red
+f04-fault49-stealthy-min,fault49,stealthy-min,4,dynamic,minimum,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,45 49,100.0,0.00025,8.0,20261009_141104_f04-fault49-stealthy-min
+f04-fault49-stealthy-red,fault49,stealthy-red,4,dynamic,redundant,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,42 45 49 51 66,100.0,0.00011,7.4,20261009_141123_f04-fault49-stealthy-red
+f04-gen80-ctl,gen80,ctl,4,dynamic,minimum,none,,on,on,1.633,2,4.1,0.92649,100.0,100.0,0,0,0,,100.0,0.00026,8.0,20261009_140949_f04-gen80-ctl
+f04-gen80-delay-min,gen80,delay-min,4,dynamic,minimum,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.8,20261009_141008_f04-gen80-delay-min
+f04-gen80-delay-red,gen80,delay-red,4,dynamic,redundant,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.00011,8.2,20261009_141034_f04-gen80-delay-red
+f04-gen80-drop-min,gen80,drop-min,4,dynamic,minimum,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.8,20261009_141016_f04-gen80-drop-min
+f04-gen80-drop-red,gen80,drop-red,4,dynamic,redundant,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.00011,8.0,20261009_141036_f04-gen80-drop-red
+f04-gen80-noctl,gen80,noctl,4,dynamic,minimum,none,,on,off,2.8,0,,0.92649,100.0,100.0,0,0,0,,100.0,0.00026,8.2,20261009_140947_f04-gen80-noctl
+f04-gen80-simple-min,gen80,simple-min,4,dynamic,minimum,fdi-simple,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,8.2,20261009_140957_f04-gen80-simple-min
+f04-gen80-simple-nobdd,gen80,simple-nobdd,4,dynamic,minimum,fdi-simple,76,off,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,7.8,20261009_140958_f04-gen80-simple-nobdd
+f04-gen80-simple-red,gen80,simple-red,4,dynamic,redundant,fdi-simple,76,on,on,1.633,2,4.1,0.92649,100.0,100.0,150,0,150,118,100.0,0.00011,14.9,20261009_141017_f04-gen80-simple-red
+f04-gen80-stealthy-min,gen80,stealthy-min,4,dynamic,minimum,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00025,8.0,20261009_141007_f04-gen80-stealthy-min
+f04-gen80-stealthy-red,gen80,stealthy-red,4,dynamic,redundant,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77 118,100.0,0.00011,8.0,20261009_141026_f04-gen80-stealthy-red
+f04-line7677-ctl,line7677,ctl,4,dynamic,minimum,none,,on,on,2.5,3,4.1,0.90053,100.0,100.0,0,0,0,,100.0,0.00025,8.0,20261009_140853_f04-line7677-ctl
+f04-line7677-delay-min,line7677,delay-min,4,dynamic,minimum,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,7.6,20261009_140912_f04-line7677-delay-min
+f04-line7677-delay-red,line7677,delay-red,4,dynamic,redundant,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.00011,8.2,20261009_140938_f04-line7677-delay-red
+f04-line7677-drop-min,line7677,drop-min,4,dynamic,minimum,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00025,8.0,20261009_140921_f04-line7677-drop-min
+f04-line7677-drop-red,line7677,drop-red,4,dynamic,redundant,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.00011,7.8,20261009_140939_f04-line7677-drop-red
+f04-line7677-noctl,line7677,noctl,4,dynamic,minimum,none,,on,off,5.967,0,,0.90041,100.0,100.0,0,0,0,,100.0,0.00025,8.2,20261009_140852_f04-line7677-noctl
+f04-line7677-simple-min,line7677,simple-min,4,dynamic,minimum,fdi-simple,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,8.0,20261009_140902_f04-line7677-simple-min
+f04-line7677-simple-nobdd,line7677,simple-nobdd,4,dynamic,minimum,fdi-simple,76,off,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,8.2,20261009_140902_f04-line7677-simple-nobdd
+f04-line7677-simple-red,line7677,simple-red,4,dynamic,redundant,fdi-simple,76,on,on,2.5,3,4.1,0.90053,100.0,100.0,150,0,150,118,100.0,0.00011,15.1,20261009_140921_f04-line7677-simple-red
+f04-line7677-stealthy-min,line7677,stealthy-min,4,dynamic,minimum,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00025,7.8,20261009_140911_f04-line7677-stealthy-min
+f04-line7677-stealthy-red,line7677,stealthy-red,4,dynamic,redundant,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77 118,100.0,0.00011,7.0,20261009_140930_f04-line7677-stealthy-red
+f04-load53-ctl,load53,ctl,4,qss,minimum,none,,on,on,3.5,4,4.1,0.91055,100.0,100.0,0,0,0,,100.0,0.00026,4.2,20261009_140813_f04-load53-ctl
+f04-load53-delay-min,load53,delay-min,4,qss,minimum,delay,53,on,on,6.0,1,9.033333,0.91035,49.7,49.7,0,0,0,53,98.43227424749163,0.00026,4.4,20261009_140828_f04-load53-delay-min
+f04-load53-delay-red,load53,delay-red,4,qss,redundant,delay,53,on,on,6.0,1,9.033333,0.91035,49.7,49.7,0,0,0,52 53,98.5244934094039,0.00011,5.7,20261009_140845_f04-load53-delay-red
+f04-load53-drop-min,load53,drop-min,4,qss,minimum,drop,53,on,on,6.0,1,9.033333,0.91035,49.7,49.7,0,0,0,53,98.43227424749163,0.00026,4.4,20261009_140832_f04-load53-drop-min
+f04-load53-drop-red,load53,drop-red,4,qss,redundant,drop,53,on,on,6.0,1,9.033333,0.91035,49.7,49.7,0,0,0,52 53,98.5244934094039,0.00011,5.6,20261009_140845_f04-load53-drop-red
+f04-load53-noctl,load53,noctl,4,qss,minimum,none,,on,off,6.0,0,,0.91035,100.0,100.0,0,0,0,,100.0,0.00026,4.8,20261009_140810_f04-load53-noctl
+f04-load53-simple-min,load53,simple-min,4,qss,minimum,fdi-simple,53,on,on,3.5,4,4.066667,0.91055,100.0,49.7,150,0,150,53,100.0,0.00025,8.2,20261009_140816_f04-load53-simple-min
+f04-load53-simple-nobdd,load53,simple-nobdd,4,qss,minimum,fdi-simple,53,off,on,6.0,1,9.033333,0.91035,100.0,100.0,150,150,0,53,100.0,0.00026,8.0,20261009_140818_f04-load53-simple-nobdd
+f04-load53-simple-red,load53,simple-red,4,qss,redundant,fdi-simple,53,on,on,3.5,4,4.066667,0.91055,100.0,100.0,88,0,88,53,100.0,0.00011,9.9,20261009_140834_f04-load53-simple-red
+f04-load53-stealthy-min,load53,stealthy-min,4,qss,minimum,fdi-stealthy,53,on,on,6.0,2,4.1,0.91055,100.0,100.0,0,0,0,53,100.0,0.00026,4.4,20261009_140826_f04-load53-stealthy-min
+f04-load53-stealthy-red,load53,stealthy-red,4,qss,redundant,fdi-stealthy,53,on,on,6.0,1,9.033333,0.91035,100.0,100.0,0,0,0,52 53,100.0,0.00011,5.8,20261009_140838_f04-load53-stealthy-red
+f05-fault49-ctl,fault49,ctl,5,dynamic,minimum,none,,on,on,1.6,34,4.1,0.00037,100.0,100.0,0,0,0,,100.0,0.0005,7.6,20261009_141416_f05-fault49-ctl
+f05-fault49-delay-min,fault49,delay-min,5,dynamic,minimum,delay,49,on,on,1.6,33,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,8.4,20261009_141436_f05-fault49-delay-min
+f05-fault49-delay-red,fault49,delay-red,5,dynamic,redundant,delay,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,8.1,20261009_141500_f05-fault49-delay-red
+f05-fault49-drop-min,fault49,drop-min,5,dynamic,minimum,drop,49,on,on,1.6,33,4.1,0.00037,49.7,49.7,0,0,0,45 49,96.86454849498328,0.00024,8.0,20261009_141446_f05-fault49-drop-min
+f05-fault49-drop-red,fault49,drop-red,5,dynamic,redundant,drop,49,on,on,1.6,35,4.1,0.00037,49.7,49.7,0,0,0,42 45 49 51 66,96.31123352350974,0.0001,6.9,20261009_141504_f05-fault49-drop-red
+f05-fault49-noctl,fault49,noctl,5,dynamic,minimum,none,,on,off,2.033,0,,0.00037,100.0,100.0,0,0,0,,100.0,0.00049,7.6,20261009_141416_f05-fault49-noctl
+f05-fault49-simple-min,fault49,simple-min,5,dynamic,minimum,fdi-simple,49,on,on,1.6,34,4.1,0.00037,100.0,50.0,149,0,149,49,100.0,0.00024,9.8,20261009_141425_f05-fault49-simple-min
+f05-fault49-simple-nobdd,fault49,simple-nobdd,5,dynamic,minimum,fdi-simple,49,off,on,1.4,4,4.266667,0.00037,100.0,100.0,149,149,0,49,100.0,0.00024,9.6,20261009_141425_f05-fault49-simple-nobdd
+f05-fault49-simple-red,fault49,simple-red,5,dynamic,redundant,fdi-simple,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,109,0,109,49,100.0,0.0001,12.7,20261009_141446_f05-fault49-simple-red
+f05-fault49-stealthy-min,fault49,stealthy-min,5,dynamic,minimum,fdi-stealthy,49,on,on,1.6,34,4.1,0.00037,100.0,100.0,0,0,0,45 49,100.0,0.00024,8.6,20261009_141436_f05-fault49-stealthy-min
+f05-fault49-stealthy-red,fault49,stealthy-red,5,dynamic,redundant,fdi-stealthy,49,on,on,1.6,35,4.1,0.00037,100.0,100.0,0,0,0,42 45 49 51 66,100.0,0.0001,7.0,20261009_141455_f05-fault49-stealthy-red
+f05-gen80-ctl,gen80,ctl,5,dynamic,minimum,none,,on,on,1.633,2,4.1,0.92649,100.0,100.0,0,0,0,,100.0,0.00027,8.0,20261009_141319_f05-gen80-ctl
+f05-gen80-delay-min,gen80,delay-min,5,dynamic,minimum,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,8.1,20261009_141338_f05-gen80-delay-min
+f05-gen80-delay-red,gen80,delay-red,5,dynamic,redundant,delay,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.6,20261009_141405_f05-gen80-delay-red
+f05-gen80-drop-min,gen80,drop-min,5,dynamic,minimum,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,8.0,20261009_141347_f05-gen80-drop-min
+f05-gen80-drop-red,gen80,drop-red,5,dynamic,redundant,drop,76,on,on,1.8,1,4.1,0.92649,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.6,20261009_141406_f05-gen80-drop-red
+f05-gen80-noctl,gen80,noctl,5,dynamic,minimum,none,,on,off,2.8,0,,0.92649,100.0,100.0,0,0,0,,100.0,0.00027,7.6,20261009_141318_f05-gen80-noctl
+f05-gen80-simple-min,gen80,simple-min,5,dynamic,minimum,fdi-simple,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.2,20261009_141328_f05-gen80-simple-min
+f05-gen80-simple-nobdd,gen80,simple-nobdd,5,dynamic,minimum,fdi-simple,76,off,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.0,20261009_141329_f05-gen80-simple-nobdd
+f05-gen80-simple-red,gen80,simple-red,5,dynamic,redundant,fdi-simple,76,on,on,1.633,2,4.1,0.92649,100.0,100.0,150,0,150,118,100.0,0.0001,15.7,20261009_141348_f05-gen80-simple-red
+f05-gen80-stealthy-min,gen80,stealthy-min,5,dynamic,minimum,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77,100.0,0.00024,8.4,20261009_141337_f05-gen80-stealthy-min
+f05-gen80-stealthy-red,gen80,stealthy-red,5,dynamic,redundant,fdi-stealthy,76,on,on,1.667,3,4.1,0.92649,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.8,20261009_141357_f05-gen80-stealthy-red
+f05-line7677-ctl,line7677,ctl,5,dynamic,minimum,none,,on,on,2.5,3,4.1,0.90053,100.0,100.0,0,0,0,,100.0,0.00025,8.0,20261009_141224_f05-line7677-ctl
+f05-line7677-delay-min,line7677,delay-min,5,dynamic,minimum,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,8.2,20261009_141243_f05-line7677-delay-min
+f05-line7677-delay-red,line7677,delay-red,5,dynamic,redundant,delay,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,8.2,20261009_141309_f05-line7677-delay-red
+f05-line7677-drop-min,line7677,drop-min,5,dynamic,minimum,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77,98.43227424749163,0.00024,7.2,20261009_141252_f05-line7677-drop-min
+f05-line7677-drop-red,line7677,drop-red,5,dynamic,redundant,drop,76,on,on,2.633,2,4.1,0.90053,49.7,49.7,0,0,0,77 118,98.5244934094039,0.0001,7.8,20261009_141310_f05-line7677-drop-red
+f05-line7677-noctl,line7677,noctl,5,dynamic,minimum,none,,on,off,5.967,0,,0.90041,100.0,100.0,0,0,0,,100.0,0.00025,7.8,20261009_141223_f05-line7677-noctl
+f05-line7677-simple-min,line7677,simple-min,5,dynamic,minimum,fdi-simple,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.2,20261009_141232_f05-line7677-simple-min
+f05-line7677-simple-nobdd,line7677,simple-nobdd,5,dynamic,minimum,fdi-simple,76,off,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,7.8,20261009_141233_f05-line7677-simple-nobdd
+f05-line7677-simple-red,line7677,simple-red,5,dynamic,redundant,fdi-simple,76,on,on,2.5,3,4.1,0.90053,100.0,100.0,150,0,150,118,100.0,0.0001,14.5,20261009_141252_f05-line7677-simple-red
+f05-line7677-stealthy-min,line7677,stealthy-min,5,dynamic,minimum,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77,100.0,0.00024,8.6,20261009_141242_f05-line7677-stealthy-min
+f05-line7677-stealthy-red,line7677,stealthy-red,5,dynamic,redundant,fdi-stealthy,76,on,on,2.633,2,4.1,0.90053,100.0,100.0,0,0,0,77 118,100.0,0.0001,7.4,20261009_141301_f05-line7677-stealthy-red
+f05-load53-ctl,load53,ctl,5,qss,minimum,none,,on,on,3.5,4,4.066667,0.91033,100.0,100.0,0,0,0,,100.0,0.00026,4.6,20261009_141141_f05-load53-ctl
+f05-load53-delay-min,load53,delay-min,5,qss,minimum,delay,53,on,on,6.0,1,9.033333,0.91014,49.7,49.7,0,0,0,53,98.43227424749163,0.00024,4.8,20261009_141158_f05-load53-delay-min
+f05-load53-delay-red,load53,delay-red,5,qss,redundant,delay,53,on,on,6.0,1,9.033333,0.91014,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.8,20261009_141216_f05-load53-delay-red
+f05-load53-drop-min,load53,drop-min,5,qss,minimum,drop,53,on,on,6.0,1,9.033333,0.91014,49.7,49.7,0,0,0,53,98.43227424749163,0.00024,4.8,20261009_141203_f05-load53-drop-min
+f05-load53-drop-red,load53,drop-red,5,qss,redundant,drop,53,on,on,6.0,1,9.033333,0.91014,49.7,49.7,0,0,0,52 53,98.5244934094039,0.0001,5.8,20261009_141216_f05-load53-drop-red
+f05-load53-noctl,load53,noctl,5,qss,minimum,none,,on,off,6.0,0,,0.91014,100.0,100.0,0,0,0,,100.0,0.00026,4.8,20261009_141140_f05-load53-noctl
+f05-load53-simple-min,load53,simple-min,5,qss,minimum,fdi-simple,53,on,on,3.5,4,4.066667,0.91033,100.0,49.7,150,0,150,53,100.0,0.00024,9.3,20261009_141146_f05-load53-simple-min
+f05-load53-simple-nobdd,load53,simple-nobdd,5,qss,minimum,fdi-simple,53,off,on,6.0,1,9.033333,0.91014,100.0,100.0,150,150,0,53,100.0,0.00024,8.9,20261009_141147_f05-load53-simple-nobdd
+f05-load53-simple-red,load53,simple-red,5,qss,redundant,fdi-simple,53,on,on,3.5,4,4.066667,0.91033,100.0,100.0,91,0,91,53,100.0,0.0001,10.0,20261009_141204_f05-load53-simple-red
+f05-load53-stealthy-min,load53,stealthy-min,5,qss,minimum,fdi-stealthy,53,on,on,6.0,2,4.6,0.91023,100.0,100.0,0,0,0,53,100.0,0.00024,4.8,20261009_141157_f05-load53-stealthy-min
+f05-load53-stealthy-red,load53,stealthy-red,5,qss,redundant,fdi-stealthy,53,on,on,6.0,1,9.033333,0.91014,100.0,100.0,0,0,0,52 53,100.0,0.0001,5.0,20261009_141210_f05-load53-stealthy-red

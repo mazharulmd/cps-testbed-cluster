@@ -1,0 +1,35 @@
+ctl: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.3 pdc=17.9 mae=0.28 Jn=25.5 wall=6.3 wall_range=4.2-20.3
+delay-min: n=10 viol=5.50 complete=49.7+-0.0 obs=49.7 frames=96.9 p50=12.7 p95=17.3 pdc=22.9 mae=0.28 Jn=25.5 wall=4.6 wall_range=4.0-5.2
+delay-red: n=10 viol=0.50 complete=49.7+-0.0 obs=49.7 frames=96.3 p50=12.8 p95=17.1 pdc=22.8 mae=0.10 Jn=98.4 wall=5.0 wall_range=4.6-5.4
+drop-min: n=10 viol=5.50 complete=49.7+-0.0 obs=49.7 frames=96.9 p50=12.7 p95=17.3 pdc=22.9 mae=0.28 Jn=25.5 wall=4.5 wall_range=4.0-5.0
+drop-red: n=10 viol=0.50 complete=49.7+-0.0 obs=49.7 frames=96.3 p50=12.8 p95=17.1 pdc=22.8 mae=0.10 Jn=98.4 wall=5.1 wall_range=4.6-5.5
+lat20: n=10 viol=0.50 complete=67.8+-19.2 obs=67.8 frames=98.6 p50=22.8 p95=31.5 pdc=32.5 mae=0.29 Jn=25.6 wall=4.6 wall_range=4.0-5.2
+lat40: n=10 viol=3.80 complete=0.0+-0.0 obs=0.0 frames=53.1 p50=34.2 p95=42.7 pdc=44.0 mae=9.07 Jn=nan wall=4.6 wall_range=4.2-5.2
+lat40-w10: n=10 viol=5.45 complete=0.0+-0.0 obs=0.0 frames=25.8 p50=28.3 p95=32.5 pdc=34.0 mae=15.99 Jn=nan wall=4.5 wall_range=4.2-4.8
+lat40-w40: n=10 viol=0.50 complete=85.5+-13.8 obs=85.5 frames=99.1 p50=43.2 p95=60.7 pdc=62.2 mae=0.29 Jn=25.5 wall=4.7 wall_range=4.2-5.2
+lat40-w60: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=99.7 p50=43.3 p95=60.9 pdc=62.2 mae=0.28 Jn=25.5 wall=4.8 wall_range=4.2-5.2
+lat40-w80: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=99.7 p50=43.3 p95=60.9 pdc=62.2 mae=0.28 Jn=25.5 wall=4.7 wall_range=4.2-5.4
+lat5: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=7.8 p95=10.2 pdc=10.5 mae=0.28 Jn=25.5 wall=4.6 wall_range=4.4-4.8
+lat80: n=10 viol=5.45 complete=0.0+-0.0 obs=0.0 frames=25.7 p50=53.9 p95=62.1 pdc=65.4 mae=16.33 Jn=nan wall=4.5 wall_range=4.0-5.0
+loss5-min: n=10 viol=0.50 complete=20.5+-1.1 obs=20.5 frames=95.1 p50=12.8 p95=17.3 pdc=25.8 mae=0.31 Jn=25.4 wall=4.9 wall_range=4.4-5.4
+loss5-red: n=10 viol=0.50 complete=3.0+-0.6 obs=85.3 frames=95.1 p50=12.8 p95=17.1 pdc=27.3 mae=0.14 Jn=91.1 wall=5.3 wall_range=5.0-5.6
+mpi1: n=5 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.6 p95=17.4 pdc=17.9 mae=0.28 Jn=25.6 wall=4.8 wall_range=4.1-5.2
+mpi2: n=5 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.6 p95=17.4 pdc=17.9 mae=0.28 Jn=25.6 wall=6.1 wall_range=5.2-6.6
+mpi4: n=5 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.6 p95=17.4 pdc=17.9 mae=0.28 Jn=25.6 wall=7.3 wall_range=7.0-7.8
+noctl: n=10 viol=6.00 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.3 pdc=17.9 mae=0.27 Jn=25.5 wall=6.2 wall_range=4.4-20.3
+simple-min: n=10 viol=0.50 complete=100.0+-0.0 obs=95.0 frames=100.0 p50=12.8 p95=17.3 pdc=17.9 mae=0.25 Jn=25.5 wall=5.2 wall_range=4.8-5.8
+simple-nobdd: n=10 viol=5.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.3 pdc=17.9 mae=0.28 Jn=25.5 wall=8.3 wall_range=7.6-9.0
+simple-red: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.1 pdc=17.9 mae=0.10 Jn=98.4 wall=5.9 wall_range=5.4-7.0
+stealthy-min: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.3 pdc=17.9 mae=0.25 Jn=25.5 wall=4.7 wall_range=4.0-5.0
+stealthy-red: n=10 viol=0.50 complete=100.0+-0.0 obs=100.0 frames=100.0 p50=12.8 p95=17.1 pdc=17.9 mae=0.10 Jn=98.4 wall=5.0 wall_range=4.4-5.6
+TEST Control (A) vs.\ no control (B): meanA=0.50 d=5.50 ci=0.00 p=1.08e-05
+TEST Simple FDI, 32 PMUs: removal (A) vs.\ no removal (B): meanA=0.50 d=5.00 ci=0.00 p=1.08e-05
+TEST No attack (A) vs.\ simple FDI with removal (B): meanA=0.50 d=0.00 ci=0.00 p=1
+TEST No attack (A) vs.\ stealthy FDI (B), 32 PMUs: meanA=0.50 d=0.00 ci=0.00 p=1
+TEST Delay: 68 PMUs (A) vs.\ 32 PMUs (B): meanA=0.50 d=5.00 ci=0.00 p=1.08e-05
+TEST Drop: 68 PMUs (A) vs.\ 32 PMUs (B): meanA=0.50 d=5.00 ci=0.00 p=1.08e-05
+TEST 5\% loss, observable sets: 68 PMUs (A) vs.\ 32 PMUs (B): meanA=85.29 d=-64.79 ci=1.64 p=1.08e-05
+TEST Complete sets: $L$ = 10\,ms (A) vs.\ 20\,ms (B): meanA=100.00 d=-32.17 ci=17.87 p=0.0031
+TEST Complete sets at $L$ = 40\,ms: $w$ = 40\,ms (A) vs.\ 20\,ms (B): meanA=85.49 d=-85.49 ci=12.82 p=1.08e-05
+TEST Violation at $L$ = 40\,ms: $w$ = 40\,ms (A) vs.\ 10\,ms (B): meanA=0.50 d=4.95 ci=1.16 p=0.000119
+TEST Violation: $L$ = 10\,ms (A) vs.\ 80\,ms (B): meanA=0.50 d=4.95 ci=1.16 p=0.000119

@@ -1,0 +1,29 @@
+\begin{table*}[t]
+\caption{Attacks and PMU Placement, IEEE 118-Bus System, AVR Fault at Generator 49 at 4\,s, Attacks on Bus 49 From 4 to 9\,s. Mean $\pm$ Standard Deviation Over Ten Seeds; a Single Value Means All Seeds Gave the Same Result}
+\label{tab:attacks}
+\centering
+\footnotesize
+\begin{tabular}{@{}llcccccc@{}}
+\toprule
+Case & Attacked PMUs (bus) & Complete & Observable & Alarm sets & Alarm sets & First command & Violation \\
+ & & sets (\%) & sets (\%) & (first test) & (after removal) & issued (s) & time (s) \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Minimum placement, 32 PMUs}} \\
+No control (baseline) & -- & 100.0 & 100.0 & 0 & 0 & -- & 6.0 \\
+Control, no attack (baseline) & -- & 100.0 & 100.0 & 0 & 0 & 4.067 & 0.5 \\
+Simple FDI & 49 & 100.0 & 95.0 & 15 & 0 & 4.067 & 0.5 \\
+Simple FDI, no removal & 49 & 100.0 & 100.0 & 149 & 149 & 9.033 & 5.5 \\
+Stealthy FDI & 45, 49 & 100.0 & 100.0 & 0 & 0 & 4.067 & 0.5 \\
+Delay 100\,ms & 45, 49 & 49.7 & 49.7 & 0 & 0 & 9.033 & 5.5 \\
+Drop & 45, 49 & 49.7 & 49.7 & 0 & 0 & 9.033 & 5.5 \\
+5\% frame loss & -- & 20.5\,$\pm$\,1.5 & 20.5\,$\pm$\,1.5 & 0 & 0 & 4.067 & 0.5 \\
+\midrule
+\multicolumn{8}{@{}l}{\emph{Redundant placement, 68 PMUs}} \\
+Simple FDI & 49 & 100.0 & 100.0 & 15 & 0 & 4.067 & 0.5 \\
+Stealthy FDI & 42, 45, 49, 51, 66 & 100.0 & 100.0 & 0 & 0 & 4.067 & 0.5 \\
+Delay 100\,ms & 42, 45, 49, 51, 66 & 49.7 & 49.7 & 0 & 0 & 4.067 & 0.5 \\
+Drop & 42, 45, 49, 51, 66 & 49.7 & 49.7 & 0 & 0 & 4.067 & 0.5 \\
+5\% frame loss & -- & 3.0\,$\pm$\,0.8 & 85.3\,$\pm$\,2.0 & 0 & 0 & 4.067 & 0.5 \\
+\bottomrule
+\end{tabular}
+\end{table*}

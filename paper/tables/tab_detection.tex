@@ -1,0 +1,19 @@
+\begin{table*}[t]
+\caption{Bad Data Detection Without a Fault, Simple FDI on Bus 49 From 2 to 9\,s, Five Seeds per Cell. Estimator $\sigma$ = 0.002 (Default) or 0.001 (Matched to the Simulated Noise)}
+\label{tab:detection}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llcccccccc@{}}
+\toprule
+$\sigma$ & PMUs & Mean $J$ & False alarms & \multicolumn{5}{c}{Detected sets (\%) for an offset of} & PMU 49 removed \\
+\cmidrule(lr){5-9}
+ & & no attack & (\% of sets) & 0.002\,pu & 0.005\,pu & 0.010\,pu & 0.020\,pu & 0.050\,pu & first (\%) \\
+\midrule
+0.002 & 32 & 25.5 & 0.00 & 0.0 & 0.0 & 0.0 & 4.0 & 99.5 & 100.0 \\
+0.002 & 68 & 98.4 & 0.00 & 0.0 & 0.0 & 0.0 & 0.0 & 99.5 & 100.0 \\
+0.001 & 32 & 101.5 & 0.81 & 1.5 & 20.1 & 98.7 & 99.5 & 99.5 & 99.7 \\
+0.001 & 68 & 391.3 & 0.67 & 1.0 & 5.7 & 74.9 & 99.5 & 99.5 & 99.5 \\
+\bottomrule
+\end{tabular}
+\end{table*}

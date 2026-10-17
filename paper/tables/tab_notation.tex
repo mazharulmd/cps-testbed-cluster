@@ -1,0 +1,49 @@
+\begin{table*}[t]
+\caption{Notation}
+\label{tab:notation}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}p{1.75cm}p{6.6cm}p{2.35cm}p{5.6cm}@{}}
+\toprule
+Symbol & Meaning & Symbol & Meaning \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Grid, measurements and estimation}} & \multicolumn{2}{l}{\textit{PMUs, network and time}} \\
+$n$ & number of buses & $T$ & PMU frame period, $1/30$\,s \\
+$m$ & number of received phasor channels & $\nu$ & frame index; frame $\nu$ is stamped $\nu T$ \\
+$V,\ V_i$ & complex bus voltages, voltage of bus $i$ & $\Delta$ & grid step, 0.5\,s (QSS) or $T$ (dynamic) \\
+$\hat V$ & estimated bus voltages & $\ell$ & grid step index \\
+$z,\ z_k$ & received channels, channel $k$ & $s,\ s_i$ & true phasor, true phasors of PMU $i$ \\
+$H,\ h_k$ & measurement matrix, its row $k$ & $p$ & reported phasor after noise (\ref{eq:noise}) \\
+$h_{kb}$ & entry of $H$ for channel $k$ and bus $b$ & $\epsilon_1, \epsilon_2$ & standard normal noise samples \\
+$e$ & measurement error & $L$ & mean one-way link latency \\
+$e_b$ & unit vector of bus $b$ & $d_i,\ u_i$ & delay of link $i$, its random factor \\
+$W,\ R$ & weight matrix, $R = W^{-1}$ & $d_g$ & delay of the link to generator $g$ \\
+$\sigma$ & relative noise level assumed by the estimator & $d_p$ & processing and jitter delay of a frame \\
+$\sigma_k$ & standard deviation of channel $k$ & $w$ & PDC wait window \\
+$G$ & gain matrix $H^{\mathsf H} W H$ & $\rho$ & release delay of a PDC set after its time stamp \\
+$r_k$ & residual $z_k - h_k \hat V$ & $t_0$ & time of the grid event \\
+$\Omega$ & residual covariance matrix & $t_{\mathrm{apply}}$ & time the first command takes effect \\
+$r^N_k$ & normalized residual of channel $k$ & \multicolumn{2}{l}{\textit{Attacks}} \\[1.5pt]
+$J$ & weighted sum of squared residuals & $b$ & target bus \\
+$\alpha$ & significance level of the test & $v_f$ & voltage magnitude the attacker wants shown \\
+$\tau$ & alarm threshold $\chi^2_{2m-2n}(1-\alpha)$ & $\theta_b$ & angle of $V_b$ \\
+$S$ & set of PMUs received in a PDC set & $c$ & complex offset $(v_f - |V_b|)\,e^{j\theta_b}$ \\
+$\mathcal{R}$ & set of PMUs removed by the detector & $\Delta V,\ a$ & state change $c\,e_b$, injection $H\Delta V$ \\
+$i^\star$ & PMU with the largest normalized residual & $s_{b,0}$ & true voltage phasor of the PMU at bus $b$ \\
+\multicolumn{2}{@{}l}{\textit{PMU placement}} & $d_a$ & extra delay of the delay attack \\
+$x$ & placement vector, $x_i = 1$ if bus $i$ has a PMU & $\mathit{att},\ \eta$ & attack flag, extra delay of a frame (Alg.~\ref{alg:ns3}) \\
+$A$ & bus connectivity matrix with unit diagonal & \multicolumn{2}{l}{\textit{Operators}} \\
+$\kappa_i$ & number of PMUs required to observe bus $i$ & $j$ & imaginary unit \\
+$q$ & coverage level, 1 minimum and 2 redundant & $(\cdot)^{\mathsf H}$ & conjugate transpose \\
+$\deg(i)$ & number of in-service branches at bus $i$ & $\mathcal{U}(\cdot,\cdot),\ \mathcal{N}(0,1)$ & uniform, standard normal distribution \\
+$\mathbf{1}$ & vector of ones & $\lceil\cdot\rceil$ & ceiling \\
+\multicolumn{2}{@{}l}{\textit{Control}} & $p$ (Section~\ref{sec:results}) & p-value of a statistical test \\
+$v_{\min}, v_{\max}$ & voltage limits &  &  \\
+$\delta$ & dead band &  &  \\
+$\Delta v$ & setpoint step &  &  \\
+$g,\ v_g$ & generator, its voltage setpoint &  &  \\
+\bottomrule
+\end{tabular}
+\end{table*}

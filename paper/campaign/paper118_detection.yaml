@@ -1,0 +1,721 @@
+# Detection campaign: simple FDI of several sizes on bus 49 without a fault, estimator sigma 0.002 (default)
+# and 0.001 (matched to the simulated noise), both placements, seeds 1-5; plus the AVR-fault attacks at bus 49
+# with matched sigma (145 runs).
+grid: ieee118
+duration: 10
+mpi_np: 1
+seed: 1
+pmu: {placement: minimum}
+network: {latency_ms: 10, loss: 0, pdc_wait_ms: 20}
+control: {bdd: true, voltage_control: true}
+scenarios:
+- name: d-s2-min-none-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-min-o002-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-min-o005-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-min-o010-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-min-o020-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-min-o050-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-min-none-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-min-o002-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-min-o005-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-min-o010-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-min-o020-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-min-o050-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-min-none-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-min-o002-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-min-o005-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-min-o010-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-min-o020-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-min-o050-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-min-none-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-min-o002-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-min-o005-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-min-o010-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-min-o020-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-min-o050-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-min-none-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-min-o002-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-min-o005-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-min-o010-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-min-o020-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-min-o050-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-red-none-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-red-o002-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-red-o005-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-red-o010-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-red-o020-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-red-o050-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-red-none-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-red-o002-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-red-o005-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-red-o010-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-red-o020-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-red-o050-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-red-none-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-red-o002-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-red-o005-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-red-o010-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-red-o020-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-red-o050-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-red-none-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-red-o002-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-red-o005-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-red-o010-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-red-o020-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-red-o050-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s2-red-none-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+- name: d-s2-red-o002-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s2-red-o005-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s2-red-o010-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s2-red-o020-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s2-red-o050-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.002}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-min-none-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-min-o002-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-min-o005-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-min-o010-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-min-o020-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-min-o050-1
+  seed: 1
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-min-none-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-min-o002-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-min-o005-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-min-o010-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-min-o020-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-min-o050-2
+  seed: 2
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-min-none-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-min-o002-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-min-o005-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-min-o010-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-min-o020-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-min-o050-3
+  seed: 3
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-min-none-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-min-o002-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-min-o005-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-min-o010-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-min-o020-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-min-o050-4
+  seed: 4
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-min-none-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-min-o002-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-min-o005-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-min-o010-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-min-o020-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-min-o050-5
+  seed: 5
+  pmu: {placement: minimum}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-red-none-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-red-o002-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-red-o005-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-red-o010-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-red-o020-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-red-o050-1
+  seed: 1
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-red-none-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-red-o002-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-red-o005-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-red-o010-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-red-o020-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-red-o050-2
+  seed: 2
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-red-none-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-red-o002-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-red-o005-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-red-o010-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-red-o020-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-red-o050-3
+  seed: 3
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-red-none-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-red-o002-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-red-o005-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-red-o010-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-red-o020-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-red-o050-4
+  seed: 4
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: d-s1-red-none-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: d-s1-red-o002-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.023, start: 2, end: 9}
+- name: d-s1-red-o005-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 2, end: 9}
+- name: d-s1-red-o010-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.015, start: 2, end: 9}
+- name: d-s1-red-o020-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.005, start: 2, end: 9}
+- name: d-s1-red-o050-5
+  seed: 5
+  pmu: {placement: redundant}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 0.975, start: 2, end: 9}
+- name: m-ctl-1
+  seed: 1
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: m-simple-min-1
+  seed: 1
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-simple-red-1
+  seed: 1
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-min-1
+  seed: 1
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-red-1
+  seed: 1
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-ctl-2
+  seed: 2
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: m-simple-min-2
+  seed: 2
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-simple-red-2
+  seed: 2
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-min-2
+  seed: 2
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-red-2
+  seed: 2
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-ctl-3
+  seed: 3
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: m-simple-min-3
+  seed: 3
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-simple-red-3
+  seed: 3
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-min-3
+  seed: 3
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-red-3
+  seed: 3
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-ctl-4
+  seed: 4
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: m-simple-min-4
+  seed: 4
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-simple-red-4
+  seed: 4
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-min-4
+  seed: 4
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-red-4
+  seed: 4
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-ctl-5
+  seed: 5
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+- name: m-simple-min-5
+  seed: 5
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-simple-red-5
+  seed: 5
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-simple, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-min-5
+  seed: 5
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
+- name: m-stealthy-red-5
+  seed: 5
+  event: {type: avr_fault, bus: 49, vset: 1.12, t: 4}
+  control: {bdd: true, voltage_control: true, estimator_sigma: 0.001}
+  pmu: {placement: redundant}
+  attack: {type: fdi-stealthy, target: 49, fake: 1.02, start: 4, end: 9, delay_ms: 100}
